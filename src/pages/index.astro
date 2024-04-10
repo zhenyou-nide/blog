@@ -13,17 +13,20 @@ import { SOCIALS } from "@config";
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const words = ['spray', 'elite', 'exuberant', 'destruction', 'present'];
 
-const socialCount = SOCIALS.filter(social => social.active).length;
+const names: (string | null)[]= ["John", "Ray", null ,"Nancy"]
+const featuredPosts = sortedPosts.filter((item): item is any => !!item.data.featured);
+const recentPosts = sortedPosts.filter((item): item is any => !item.data.featured);
+
+const socialCount = SOCIALS.filter((social): social is any => social.active).length;
 ---
 
 <Layout>
   <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>Mingalaba</h1>
+      <h1>Web Developer Blog</h1>
       <a
         target="_blank"
         href="/rss.xml"
@@ -42,19 +45,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </a>
 
       <p>
-        AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro
-        blog theme. This theme follows best practices and provides accessibility
-        out of the box. Light and dark mode are supported by default. Moreover,
-        additional color schemes can also be configured.
-      </p>
-      <p>
-        Read the blog posts or check
-        <LinkButton
-          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
-          href="https://github.com/satnaing/astro-paper#readme"
-        >
-          README
-        </LinkButton> for more info.
+        欢迎来到我的博客！在这里我将分享我的想法和经验。希望你能在这里找到有用的东西。
       </p>
       {
         // only display if at least one social link is enabled

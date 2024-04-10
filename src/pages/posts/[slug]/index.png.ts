@@ -5,7 +5,7 @@ import { slugifyStr } from "@utils/slugify";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog").then(p =>
-    p.filter(({ data }) => !data.draft && !data.ogImage)
+    p.filter((item): item is any => !item.data.draft && !item.data.ogImage)
   );
 
   return posts.map(post => ({

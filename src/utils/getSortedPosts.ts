@@ -3,7 +3,7 @@ import postFilter from "./postFilter";
 
 const getSortedPosts = (posts: CollectionEntry<"blog">[]) => {
   return posts
-    .filter(postFilter)
+    .filter(postFilter as any)
     .sort(
       (a, b) =>
         Math.floor(

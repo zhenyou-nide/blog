@@ -9,11 +9,11 @@ interface Tag {
 
 const getUniqueTags = (posts: CollectionEntry<"blog">[]) => {
   const tags: Tag[] = posts
-    .filter(postFilter)
+    .filter(postFilter as any)
     .flatMap(post => post.data.tags)
     .map(tag => ({ tag: slugifyStr(tag), tagName: tag }))
     .filter(
-      (value, index, self) =>
+      (value, index, self): value is any =>
         self.findIndex(tag => tag.tag === value.tag) === index
     )
     .sort((tagA, tagB) => tagA.tag.localeCompare(tagB.tag));
