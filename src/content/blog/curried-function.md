@@ -1,5 +1,5 @@
 ---
-title: curried function
+title: curried function - 实现多参函数提供了一个递归降解的实现思路
 author: zhenyounide
 pubDatetime: 2021-08-16T04:06:31Z
 slug: curried-function

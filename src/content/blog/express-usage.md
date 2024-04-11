@@ -1,5 +1,5 @@
 ---
-title: Express Usage
+title: Express Usage - Fast, unopinionated, minimalist web framework for Node.js.
 author: zhenyounide
 pubDatetime: 2022-10-02T04:06:31Z
 slug: express-usage
@@ -8,7 +8,7 @@ draft: false
 tags:
   - summary
   - nodejs
-description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们快速的搭建 Web 服务器
+description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们快速的搭建 Web 服务器，Fast, unopinionated, minimalist
 ---
 
 ### Express 介绍

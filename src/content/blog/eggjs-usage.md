@@ -1,5 +1,5 @@
 ---
-title: Eggjs Usage
+title: Eggjs Usage - better enterprise frameworks and apps with Node.js & Koa
 author: zhenyounide
 pubDatetime: 2022-10-04T04:06:31Z
 slug: eggjs-usage
@@ -8,7 +8,7 @@ draft: false
 tags:
   - summary
   - nodejs
-description: 一个是基于 Koa 的有约束和规范的企业级 web 开发框架
+description: better enterprise frameworks and apps with Node.js & Koa
 ---
 
 ### 开篇

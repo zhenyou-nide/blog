@@ -1,5 +1,5 @@
 ---
-title: 数据结构回顾
+title: 数据结构回顾 - 手写版(持续更新中...)
 author: zhenyounide
 pubDatetime: 2023-01-02T04:06:31Z
 slug: data-structural

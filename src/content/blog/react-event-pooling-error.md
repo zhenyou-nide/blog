@@ -1,5 +1,5 @@
 ---
-title: React < 17 合成事件的 bug
+title: react event pooling error （react version < 17)
 author: zhenyounide
 pubDatetime: 2021-05-20T04:06:31Z
 slug: react-event-pooling-error

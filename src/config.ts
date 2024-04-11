@@ -1,4 +1,4 @@
-import type { Site, SocialObjects,SocialItem } from "./types";
+import type { Site, SocialObjects, SocialItem } from "./types";
 
 export const SITE: Site = {
   website: "https://zhenyounide.pages.dev/", // replace this with your deployed domain

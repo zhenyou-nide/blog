@@ -1,7 +1,7 @@
 ---
-title: 回顾前端模块化的发展
+title: 回顾前端模块化的发展历程
 author: zhenyounide
-pubDatetime: 2021-06-06T04:06:31Z
+pubDatetime: 2021-06-10T04:06:31Z
 slug: modules-history
 featured: true
 draft: false

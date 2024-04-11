@@ -13,13 +13,17 @@ import { SOCIALS } from "@config";
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
-const words = ['spray', 'elite', 'exuberant', 'destruction', 'present'];
 
-const names: (string | null)[]= ["John", "Ray", null ,"Nancy"]
-const featuredPosts = sortedPosts.filter((item): item is any => !!item.data.featured);
-const recentPosts = sortedPosts.filter((item): item is any => !item.data.featured);
+const featuredPosts = sortedPosts.filter(
+  (item): item is any => !!item.data.featured
+);
+const recentPosts = sortedPosts.filter(
+  (item): item is any => !item.data.featured
+);
 
-const socialCount = SOCIALS.filter((social): social is any => social.active).length;
+const socialCount = SOCIALS.filter(
+  (social): social is any => social.active
+).length;
 ---
 
 <Layout>

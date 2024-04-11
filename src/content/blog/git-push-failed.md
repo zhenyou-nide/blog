@@ -1,7 +1,7 @@
 ---
-title: 记录一次 git push 失败
+title: "fix: ssh: connect to host github.com port 22: Connection refused"
 author: zhenyounide
-pubDatetime: 2022-08-06T04:06:31Z
+pubDatetime: 2022-05-30T04:06:31Z
 slug: git-push-failed
 featured: false
 draft: false

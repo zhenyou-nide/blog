@@ -1,14 +1,14 @@
 ---
-title: react native 雷点集合
+title: react native 雷点集合, 一步一步踩的血泪坑
 author: zhenyounide
-pubDatetime: 2022-06-06T04:06:31Z
+pubDatetime: 2022-06-18T04:06:31Z
 slug: react-native-bugs
 featured: false
 draft: false
 tags:
   - react-native
   - problems
-description: 使用 rn 过程中踩的血泪坑,
+description: 使用 rn 过程中踩的血泪坑
 ---
 
 ### react native

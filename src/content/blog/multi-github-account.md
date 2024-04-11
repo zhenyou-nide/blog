@@ -1,5 +1,5 @@
 ---
-title: 一台电脑配置多个 github 账号
+title: 一台电脑如何配置多个 github 账号
 author: zhenyounide
 pubDatetime: 2024-04-09T10:16:11Z
 slug: multi-github-account
@@ -18,11 +18,13 @@ description: 如何实现在一台电脑上同时使用多个 github 账号
 ## 解决
 
 ### generate ssh key
+
 1. `ssh-keygen -t ed25519 -C "your_email@work.com"` 一路回车（如需要自定义请自行自定义, 不是废话..
 2. confirm：`ls  ~/.ssh`, 存在 id_ed25519 id_ed25519.pub id_rsa id_rsa.pub...
 3. copy: `clip < ~/.ssh/id_ed25519.pub`
 
 ### add ssh key to your github SSH setting
+
 [setting 指路](https://github.com/settings/keys) => new SSH Key => paste
 
 ### edit ~/.ssh/config file
@@ -44,6 +46,7 @@ Host my.com
 ```
 
 ### how to use
+
 - work: `git clone git@github.com:workUsername/project.git`
 - my: `git clone git@my.com:myUsername/project.git`
 
