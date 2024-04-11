@@ -13,7 +13,7 @@ description: 一行代码实现日常 code 使用频率较高的逻辑
 
 一行只是噱头...
 
-### create
+# create
 
 ```js
 /**
@@ -34,7 +34,7 @@ const create = obj => {
 };
 ```
 
-### curried
+# curried
 
 ```js
 const curried = (fn, ...args) => {
@@ -52,7 +52,7 @@ const add = (a, b, c, d) => {
 };
 ```
 
-### debounce
+# debounce
 
 ```js
 const debounce = (fn, delay = 3000) => {
@@ -78,7 +78,7 @@ const debounce = (fn, delay = 3000) => {
 };
 ```
 
-### new
+# new
 
 ```js
 /**
@@ -97,7 +97,7 @@ const newObject = (Con, ...arg) => {
 };
 ```
 
-### sleep
+# sleep
 
 ```js
 const sleep = async time => {
@@ -115,7 +115,7 @@ const test = async () => {
 test();
 ```
 
-### throttle
+# throttle
 
 ```js
 const throttle = (fn, delay = 2000) => {
@@ -143,7 +143,7 @@ const handleConsoleLog = myDebounce(v => {
 });
 ```
 
-### new Date get next month
+# new Date get next month
 
 ```js
 const nextMonth = new Date(
@@ -151,7 +151,7 @@ const nextMonth = new Date(
 );
 ```
 
-### number format
+# number format
 
 ```js
 // to percentage
@@ -167,13 +167,13 @@ const formatted = (12345.6789).toLocaleString([navigator.language, "en"], {
 });
 ```
 
-### get url query
+# get url query
 
 ```js
 Object.fromEntries(new URLSearchParams(window.location.search));
 ```
 
-### ~~ 代替 parseInt
+# ~~ 代替 parseInt
 
 ```js
 ~~1.2; // 1
@@ -183,7 +183,7 @@ Object.fromEntries(new URLSearchParams(window.location.search));
 ~~true; // 1
 ```
 
-### deep clone
+# deep clone
 
 ```js
 const obj = {
@@ -195,7 +195,7 @@ const obj = {
 const copied = structuredClone(obj);
 ```
 
-### 格式化时间差
+# 格式化时间差
 
 ```ts
 const formatDateDiff = (diff: number) => {

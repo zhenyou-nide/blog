@@ -13,7 +13,7 @@ description: bff 整理
 
 backend for frontend
 
-### for
+# for
 
 服务端的单一业务功能和端的差异性诉求之间的矛盾
 

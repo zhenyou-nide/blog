@@ -11,7 +11,7 @@ tags:
 description: ""
 ---
 
-### 开篇
+# 开篇
 
 1. 什么是 Hook?
    Hook 是 React 16.8 的新增特性，它可以**让函数式组件拥有类组件特性**
@@ -24,7 +24,7 @@ description: ""
    Hook 的使用我们无需额外安装任何第三方库，因为它就是 React 的一部分。Hook 只能在函数组件中使用，不能在类组件，或者函数组件之外的地方使用；Hook 只能在函数最外层调用，不要在循环、条件判断或者子函数中调用
    [官方文档](https://react.docschina.org/docs/hooks-intro.html)
 
-### useState
+# useState
 
 可以让函数式组件保存自己状态的函数
 
@@ -62,7 +62,7 @@ function App() {
 export default App;
 ```
 
-### useEffect
+# useEffect
 
 可以把 `useEffect Hook` 看做`componentDidMount`，`componentDidUpdate` 和 `componentWillUnmount`这三个生命周期函数的组合；可以设置依赖，只有依赖发生变化的时候才执行。
 **对比类组件生命周期方法优势：易于拆分**
@@ -129,45 +129,45 @@ function App() {
 export default App;
 ```
 
-### useContext
+# useContext
 
 `useContext` 相当于 类组件中的
 `static contextType = Context`
 
-### useReducer
+# useReducer
 
 从名称来看，很多人会误以为 useReducer 是用来替代 Redux 的，但是其实不是
 useReducer 是 useState 的一种替代方案，可以让我们很好的复用操作数据的逻辑代码
 
-###### 参数：
+## 参数：
 
 第一个参数：处理数据的函数
 第二个参数：保存的默认值
 
-###### useReducer 返回值：
+## useReducer 返回值：
 
 会返回一个数组，这个数组中有两个元素
 第一个元素：保存的数据
 第二个元素：dispatch 函数
 
-### useCallback
+# useCallback
 
 `useCallback` 用于优化代码，可以让对应的函数只有在依赖发生变化时才重新定义
 
-### useMemo
+# useMemo
 
 `useMemo` 用于优化代码，可以让对应的函数只有在依赖发生变化时才返回新的值
 
-###### 区别
+## 区别
 
 - useCallback 返回的永远是一个函数
 - useMemo 返回的是 return 返回的内容
 
-### useRef
+# useRef
 
 `useRef`就是`createRef`的 Hook 版本，只不过比`createRef`更强大一点
 
-###### 区别
+## 区别
 
 - useRef 除了可以用来获取元素以外，还可以用来保存数据
 
@@ -181,11 +181,11 @@ function btnClick() {
 
 - useRef 中保存的数据，除非手动修改，否则永远都不会发生变化
 
-### useImperativeHandle
+# useImperativeHandle
 
 `useImperativeHandle`可以让你在使用 `ref `时自定义暴露给父组件的实例值
 
-### useLayoutEffect
+# useLayoutEffect
 
 1. 什么是`useLayoutEffect Hook`?
    大部分情况下`useLayoutEffect`和`useEffect`没太大区别（用法格式都相同）
@@ -195,7 +195,7 @@ function btnClick() {
    `useEffect `函数会在组件渲染到屏幕之后才执行，所以会可能会出现闪屏情况
    `useLayoutEffect `函数是在组件渲染到屏幕之前执行，所以不会出现闪屏情况
 
-###### 区别
+## 区别
 
 - 执行时机不同
   如果是挂载或者更新组件，那么`useLayoutEffect`会比`useEffect`先执行
@@ -203,22 +203,22 @@ function btnClick() {
   useEffect: 同步
   useLayoutEffect: 异步
 
-###### 什么时候使用 useEffect?
+## 什么时候使用 useEffect?
 
 在绝大多数的情况下能用`useEffect`, 就用`useEffect`
 
-###### 什么时候用 useLayoutEffect?
+## 什么时候用 useLayoutEffect?
 
 只有在需要组件挂载之后更新 DOM 的布局和样式的时候才使用`useLayoutEffect`
 
-###### 为什么要使用 useLayoutEffect 来更新 DOM 布局和样式？
+## 为什么要使用 useLayoutEffect 来更新 DOM 布局和样式？
 
 1. `useEffect`是组件已经渲染到屏幕上了才执行
 2. `useLayoutEffect`是组件还没有渲染到屏幕上就会执行
    所以如果在组件已经渲染到屏幕上了，才去更新 DOM 的布局和样式，那么用户体验不好，会看到闪屏的情况
    而如果是在组件还没有渲染到屏幕上，就去更新 DOM 的布局和样式，那么用户体验更好，看不到闪屏情况
 
-### 自定义 hook
+# 自定义 hook
 
 通过自定义 Hook，可以对其它 Hook 的代码进行复用
 

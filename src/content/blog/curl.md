@@ -10,9 +10,9 @@ tags:
 description: 暂不公开
 ---
 
-## [curl](https://curl.se/docs/manual.html) common usage
+# [curl](https://curl.se/docs/manual.html) common usage
 
-### Simple Usage
+## Simple Usage
 
 - Get the main page from a web-server:
   `curl https://www.baidu.com/`
@@ -29,7 +29,7 @@ description: 暂不公开
 - Fetch two documents at once:
   `curl ftp://ftp.funet.fi/ http://www.weirdserver.com:8000/`
 
-### Download to a File
+## Download to a File
 
 - Get a web page and store in a local file with a specific name:
   `curl -o thatpage.html http://www.example.com/`
@@ -39,7 +39,7 @@ description: 暂不公开
 - Fetch two files and store them with their remote names:
   `curl -O www.haxx.se/index.html -O curl.se/download.html`
 
-### POST (HTTP)
+## POST (HTTP)
 
 It is easy to post data using curl. This is done using the -d <data> option. The post data must be urlencoded.
 
@@ -49,7 +49,7 @@ It is easy to post data using curl. This is done using the -d <data> option. The
 - Or automatically URL encode the data.
   `curl --data-urlencode "name=Rafael Sagula&phone=3320780" http://www.where.com/guest.cgi`
 
-### Extra Headers
+## Extra Headers
 
 When using curl in your own programs, you may end up needing to pass on your own custom headers when getting a web page. You can do this by using the -H flag.
 
@@ -58,7 +58,7 @@ When using curl in your own programs, you may end up needing to pass on your own
 - This can also be useful in case you want curl to send a different text in a header than it normally does. The -H header you specify then replaces the header curl would normally send. If you replace an internal header with an empty one, you prevent that header from being sent. To prevent the Host: header from being used:
   `curl -H "Host:" www.server.com`
 
-### Cookies
+## Cookies
 
 Cookies are generally used by web servers to keep state information at the client's side. The server sets cookies by sending a response line in the headers that looks like Set-Cookie: <data> where the data part then typically contains a set of NAME=VALUE pairs (separated by semicolons ; like NAME1=VALUE1; NAME2=VALUE2;). The server can also specify for what path the cookie should be used for (by specifying path=value), when the cookie should expire (expire=DATE), for what domain to use it (domain=NAME) and if it should be used on secure connections only (secure).
 
@@ -87,7 +87,7 @@ The file to read cookies from must be formatted using plain HTTP headers OR as N
 - To read and write cookies from a Netscape cookie file, you can set both -b and -c to use the same file:
   `curl -b cookies.txt -c cookies.txt www.example.com`
 
-### Verbose / Debug
+## Verbose / Debug
 
 - If curl fails where it is not supposed to, if the servers do not let you in, if you cannot understand the responses: use the -v flag to get verbose fetching. Curl will output lots of info and what it sends and receives in order to let the user see all client-server interaction (but it will not show you the actual data).
   `curl -v ftp://ftp.upload.com/`

@@ -13,7 +13,7 @@ description: 回顾前端模块化的发展历程， 持续更新中...
 
 本文是基于自己对前端模块化发展历程的总结
 
-### 基于封装性的探索
+# 基于封装性的探索
 
 1. global 污染，命名冲突 👎👎
    最早 code:
@@ -86,26 +86,26 @@ script tag 引入 js 的问题有：
 
 因此 仅仅优化封装还不够，还需要按需加载
 
-### [LABjs](https://github.com/getify/LABjs)
+# [LABjs](https://github.com/getify/LABjs)
 
 **L**oading **A**nd **B**locking
 
-### [YUI3](https://github.com/yui/yui3)
+# [YUI3](https://github.com/yui/yui3)
 
 YUI's lightweight core and modular architecture,make it scalable, fast, and robust.
 
 1. 基于模块的依赖管理
 2. Cambo 功能解决 太多 HTTP 请求问题
 
-### 几种模块化标准
+# 几种模块化标准
 
-#### 1. Commonjs（2009.08）
+## 1. Commonjs（2009.08）
 
 该规范最初是用在服务器端的 node 的
 
 **FLAG**: 跳出浏览器! FLAG 倒
 
-##### 模块的定义与引用
+### 模块的定义与引用
 
 ```
 // math.js
@@ -118,17 +118,17 @@ var math = require('math'); // ./math in node
 console.log(math.add(1, 3)); // 4
 ```
 
-##### 特点
+### 特点
 
 - 优点：解决了依赖、全局变量污染的问题
 - 缺点：同步/阻塞性加载（对于 服务器/本地环境 无所谓，但对 浏览器 来说是个问题）
   CommonJS 用同步的方式加载模块。在服务端，模块文件都存在本地磁盘，读取非常快，所以这样做不会有问题。但是在浏览器端，限于网络原因，CommonJS 不适合浏览器端模块加载，更合理的方案是使用异步加载
 
-#### 2. AMD VS CMD
+## 2. AMD VS CMD
 
 AMD 是由 RequireJS 提出的，CMD 由 SeaJS 提出
 
-##### AMD （2011）
+### AMD （2011）
 
 JavaScript file and module loader. It is optimized for in-browser use
 
@@ -202,7 +202,7 @@ AMD: Early Download, Early Executing
 优点：适合在浏览器环境中异步加载模块、并行加载多个模块
 缺点：不能按需加载、开发成本大
 
-##### CMD (2011)
+### CMD (2011)
 
 Extremely simple experience of modular development
 
@@ -246,28 +246,28 @@ Extremely simple experience of modular development
 
 CMD: Early Download, Lazy Executing
 
-#### 3. UMD
+## 3. UMD
 
 此外同一时期还出现了一个 UMD 的方案，其实它就是 AMD 与 CommonJS 的集合体
 
-#### 4. browserify VS webpack
+## 4. browserify VS webpack
 
 - Browserify 是 CommonJS 在浏览器中的一种实现；
 - webpack 对 CommonJS 的支持和转换；也就是前端应用也可以在编译之前，尽情使用 CommonJS 进行开发。
 
-##### browserify
+### browserify
 
 require('modules') in the browser by bundling up all of your dependencies
 
-##### webpack
+### webpack
 
 transforming, bundling, or packaging just about any resource or asset
 
-#### 5. ES Module
+## 5. ES Module
 
 CommonJS 输出值的拷贝，ES Module 输出值的引用
 
-##### 特性
+### 特性
 
 1. 静态方法
    ES6 module 的引入和导出是静态的，import 会自动提升到代码的顶层。

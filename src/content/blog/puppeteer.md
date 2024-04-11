@@ -11,7 +11,7 @@ tags:
 description: Puppeteer 是一个 Node 库，它提供了高级 API 来通过 DevTools 协议控制 Chromium 或 Chrome
 ---
 
-### 如何创建一个 Browser 实例
+# 如何创建一个 Browser 实例
 
 puppeteer 提供了两种方法用于创建一个 Browser 实例：
 
@@ -62,7 +62,7 @@ puppeteer 提供了两种方法用于创建一个 Browser 实例：
 - 通过 puppeteer.connect 我们可以远程连接一个 Chrome 实例，部署在不同的机器上
 - puppeteer.connect 多个页面共用一个 chrome 实例，偶尔会出现 Page Crash 现象，需要进行并发控制，并定时重启 Chrome 实例
 
-### 加载导航页面
+# 加载导航页面
 
 - page.goto：打开新页面
 - page.goBack ：回退到上一个页面
@@ -86,7 +86,7 @@ await page.goto("https://www.baidu.com", {
 
 以上 waitUtil 有四个事件，业务可以根据需求来设置其中一个或者多个触发才以为结束，networkidle0 和 networkidle2 中的 500ms 对时间性能要求高的用户来说，还是有点长的
 
-### 等待元素、请求、响应
+# 等待元素、请求、响应
 
 - page.waitForXPath：等待 xPath 对应的元素出现，返回对应的 ElementHandle 实例
 - page.waitForSelector ：等待选择器对应的元素出现，返回对应的 ElementHandle 实例
@@ -100,7 +100,7 @@ await page.waitForResponse("https://d.youdata.netease.com/api/dash/hello");
 await page.waitForRequest("https://d.youdata.netease.com/api/dash/hello");
 ```
 
-### case1：截图
+# case1：截图
 
 我们使用 Puppeteer 既可以对某个页面进行截图，也可以对页面中的某个元素进行截图：
 
@@ -136,7 +136,7 @@ await page.waitForRequest("https://d.youdata.netease.com/api/dash/hello");
 - page.waitForXPath('//img')：等待某个 xPath 对应的元素出现
 - page.waitForSelector('#uniqueId')：等待某个选择器对应的元素出现
 
-### case2: 模拟用户登录
+# case2: 模拟用户登录
 
 ```js
 (async () => {
@@ -172,7 +172,7 @@ await page.waitForRequest("https://d.youdata.netease.com/api/dash/hello");
 - elementHandle.hover()：鼠标 hover 到某个元素上
 - elementHandle.type('hello')：在输入框输入文本
 
-### case3：请求拦截
+# case3：请求拦截
 
 请求在有些场景下很有必要，拦截一下没必要的请求提高性能，我们可以在监听 Page 的 request 事件，并进行请求拦截，前提是要开启请求拦截 page.setRequestInterception(true)。
 
@@ -217,7 +217,7 @@ await page.waitForRequest("https://d.youdata.netease.com/api/dash/hello");
 - page.on('workercreated') 创建 webWorker
 - page.on('workerdestroyed') 销毁 webWorker
 
-### case4：植入 javascript 代码
+# case4：植入 javascript 代码
 
 Puppeteer 最强大的功能是，你可以在浏览器里执行任何你想要运行的 javascript 代码，下面是我在爬 188 邮箱的收件箱用户列表时，发现每次打开收件箱再关掉都会多处一个 iframe 来，随着打开收件箱的增多，iframe 增多到浏览器卡到无法运行，所以我在爬虫代码里加了删除无用 iframe 的脚本：
 
@@ -395,7 +395,7 @@ const dragAndDrop = async (
 };
 ```
 
-### case5: 如何抓取 iframe 中的元素
+# case5: 如何抓取 iframe 中的元素
 
 一个 Frame 包含了一个执行上下文（Execution Context），我们不能跨 Frame 执行函数，一个页面中可以有多个 Frame，主要是通过 iframe 标签嵌入的生成的。其中在页面上的大部分函数其实是 page.mainFrame().xx 的一个简写，Frame 是树状结构，我们可以通过 frame.childFrames() 遍历到所有的 Frame，如果想在其它 Frame 中执行函数必须获取到对应的 Frame 才能进行相应的处理
 
@@ -423,7 +423,7 @@ const dragAndDrop = async (
 })();
 ```
 
-### case7: 文件的上传和下载
+# case7: 文件的上传和下载
 
 在自动化测试中，经常会遇到对于文件的上传和下载的需求，那么在 Puppeteer 中如何实现呢？
 
@@ -451,7 +451,7 @@ const dragAndDrop = async (
 })();
 ```
 
-### case8：跳转新 tab 页处理
+# case8：跳转新 tab 页处理
 
 在点击一个按钮跳转到新的 Tab 页时会新开一个页面，这个时候我们如何获取改页面对应的 Page 实例呢？可以通过监听 Browser 上的 targetcreated 事件来实现，表示有新的页面创建：
 
@@ -468,7 +468,7 @@ await btn.click();
 let newPage = await newPagePromise;
 ```
 
-### case9: 模拟不同的设备
+# case9: 模拟不同的设备
 
 Puppeteer 提供了模拟不同设备的功能，其中 puppeteer.devices 对象上定义很多设备的配置信息，这些配置信息主要包含 viewport 和 userAgent，然后通过函数 page.emulate 实现不同设备的模拟
 

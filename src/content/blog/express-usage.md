@@ -11,7 +11,7 @@ tags:
 description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们快速的搭建 Web 服务器，Fast, unopinionated, minimalist
 ---
 
-### Express 介绍
+# Express 介绍
 
 1. 什么是 Express?
 
@@ -50,7 +50,7 @@ description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们
      - 学会 Express 能够帮助你很好的维护公司的老项目
      - 学会 Express 能够帮助你更快的学习 KOA 和 EggJS
 
-### 基本使用
+# 基本使用
 
 1. 如何使用 Express?
 
@@ -62,9 +62,9 @@ description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们
 
    https://www.npmjs.com/package/express
 
-#### 手动安装手动配置
+## 手动安装手动配置
 
-##### 基本使用
+### 基本使用
 
 1. `npm init && npm install express`
 
@@ -91,7 +91,7 @@ description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们
 
 3. 访问`localhost:3000`
 
-##### 处理静态网页
+### 处理静态网页
 
 1. 将静态资源 public 文件夹复制到项目目录下
 
@@ -123,7 +123,7 @@ description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们
 
 3. 访问`localhost:3000/login.html`
 
-##### 处理动态网页
+### 处理动态网页
 
 1. 讲动态网页 views 文件夹复制到项目目录下
 
@@ -169,7 +169,7 @@ description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们
 
    删除 node_module,重新安包
 
-##### 处理路由
+### 处理路由
 
 - 方式一
 
@@ -245,7 +245,7 @@ description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们
      app.use('/api/user', userRouter);
      ```
 
-##### 处理请求参数
+### 处理请求参数
 
 1. get 请求：express 会将 get 的请求参数转换成对象之后, 放到请求对象的 query 属性中
 
@@ -269,7 +269,7 @@ description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们
    });
    ```
 
-##### 处理 cookie
+### 处理 cookie
 
 1. 设置 cookie
 
@@ -297,7 +297,7 @@ description: 一个基于 NodeJS 的 Web Server 开发框架, 能够帮助我们
    });
    ```
 
-##### next 方法
+### next 方法
 
 默认情况下会从上至下的匹配路由处理方法, 一旦匹配到了就会执行,
 
@@ -322,7 +322,7 @@ app.get(
 );
 ```
 
-##### 处理错误
+### 处理错误
 
 1. 安装 createError
 
@@ -355,7 +355,7 @@ app.get(
    });
    ```
 
-##### 中间件
+### 中间件
 
 1. 什么是中间件?
 
@@ -394,7 +394,7 @@ app.get(
 
      cookie-parser、...
 
-#### 脚手架使用
+## 脚手架使用
 
 1. 全局安装 express-generator
 

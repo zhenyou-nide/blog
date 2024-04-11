@@ -16,7 +16,7 @@ Electron 是一个能让你使用 JavaScript, HTML 和 CSS 来创建桌面应用
 
 Electron = Chromium + Node.js + Native API
 
-### 安装 Electron
+# 安装 Electron
 
 为您的项目创建一个文件夹并安装 Electron：
 
@@ -26,7 +26,7 @@ npm init -y
 npm i --save-dev electron
 ```
 
-### electron 热更新/热加载
+# electron 热更新/热加载
 
 1. 安装 `electron-reloader`
 
@@ -42,7 +42,7 @@ try {
 
 3. 重启测试，更改 js css html 等文件都能自动加载更新 electron
 
-### 第一个 hello world
+# 第一个 hello world
 
 1. 新建一个 index.html
 
@@ -106,7 +106,7 @@ npm install
 npm start
 ```
 
-### 读取文件栗子
+# 读取文件栗子
 
 1. 新建一个 data.md
 
@@ -179,7 +179,7 @@ app.on("ready", () => {
 - package.json
 - package-lock.json
 
-### remote 模块
+# remote 模块
 
 Electron 有主进程和渲染进程，Electron 的 API 方法和模块也是分为可以在主进程和渲染进程中使用。那如果我们想在渲染进程中使用主进程中的模块方法时，可以使用 Electron Remote 解决在渲染和主进程间的通讯。
 
@@ -276,7 +276,7 @@ app.whenReady().then(() => {
 - package.json
 - package-lock.json
 
-### 菜单基本使用
+# 菜单基本使用
 
 1. 新建 main 文件夹，将 main.js 移至 main 文件夹下，主进程中用到的代码我们都写到这里
    新建 menu.js
@@ -373,7 +373,7 @@ app.whenReady().then(() => {
 - package.json （注意将主进程文件路径修改为 main/main.js)
 - package-lock.json
 
-### 右键菜单
+# 右键菜单
 
 右键菜单的响应事件是写在渲染进程中的，也就是写在 index.html 中的，所以要是使用，就用到到 remote 模块进行操作了。
 

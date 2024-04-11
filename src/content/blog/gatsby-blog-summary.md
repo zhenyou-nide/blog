@@ -11,7 +11,7 @@ tags:
 description: ""
 ---
 
-### 注册 gatsby cloud 账户
+# 注册 gatsby cloud 账户
 
 首先，需要一个带有版本控制系统的帐户。 目前已支持 GitHub 和 Gitlab。
 
@@ -27,7 +27,7 @@ description: ""
 4. 进入 dashborder
    ![image](../../assets/images/gatsby-blog/dashborder.png)
 
-### 已有仓库创建站点
+# 已有仓库创建站点
 
 添加新的 Gatsby Cloud 站点有两种流程：
 
@@ -56,14 +56,14 @@ description: ""
 接下来的设置非必需
 至此你就得到了一个默认域名 `xxx.gatsbyjs.io`,每一次 push 都会自动部署 `xxx.gatsbyjs.io`
 
-### 使用Netlify CMS 添加博客文章
+# 使用Netlify CMS 添加博客文章
 
 如果您不熟悉Netlify CMS，您要做的第一件事就是熟悉它。(Netlify CMS) (https://www.netlifycms.org/)
 
 首先需要安装`gatsby-plugin-netlify-cms` 插件和 `netlify-cms-app `
 您所需要做的就是设置您的站点，以便使用[Netlify](https://www.netlify.com/)这样的平台进行持续部署，并通过以下步骤将Netlify CMS连接到您的GitHub仓库
 
-#### Netlify CMS连接到您的GitHub仓库
+## Netlify CMS连接到您的GitHub仓库
 
 1. 进入 dashborder，点击 New site from git
    ![image](../../assets/images/gatsby-blog/newSite.png)
@@ -72,7 +72,7 @@ description: ""
    ![image](../../assets/images/gatsby-blog/selectgit.png)
    不用修改默认设置，点击 Deploy site 即可
 
-#### 设置 Netlify 的 identity 和 Git Gateway 来管理站点的CMS管理员用户
+## 设置 Netlify 的 identity 和 Git Gateway 来管理站点的CMS管理员用户
 
 1. 进入 site settings / identity，点击 enable identity。
 
@@ -94,14 +94,14 @@ description: ""
 至此你就得到了一个默认域名 `https://xxx.netlify.app/`,每一次 push 都会自动部署 `https://xxx.netlify.app/`；且进入`https://xxx.netlify.app/admin` 可以对博客进行增删改；
 ![image](../../assets/images/gatsby-blog/success.png)
 
-### 遇到的坑
+# 遇到的坑
 
-##### mermaid 语法无法使用
+## mermaid 语法无法使用
 
 ![image](../../assets/images/gatsby-blog/mermaid-error.png)
 警告：`warn unable to find prism language 'mermaid' for highlighting. applying generic code block`
 
-###### 解决：安装 `gatsby-remark-mermaid`,在 Markdown 文件中创建 mermaid 图形和图表。
+## 解决：安装 `gatsby-remark-mermaid`,在 Markdown 文件中创建 mermaid 图形和图表。
 
 1. 安装
    `yarn add gatsby-remark-mermaid gatsby-transformer-remark puppeteer`
@@ -127,7 +127,7 @@ description: ""
 效果如图
 ![image](../../assets/images/gatsby-blog/mermaid-success.png)
 
-###### gatsby-remark-mermaid 踩坑
+## gatsby-remark-mermaid 踩坑
 
 插件依赖 puppeteer，当要把站点部署至 gatsbyjs.io 时，流水线环境报错如下
 ![image](../../assets/images/gatsby-blog/cici-error.png)

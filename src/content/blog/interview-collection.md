@@ -10,13 +10,13 @@ tags:
 description: ""
 ---
 
-## 渲染方式
+# 渲染方式
 
-### 单页 Web 应用（SPA - Single Page web Application）
+## 单页 Web 应用（SPA - Single Page web Application）
 
 理解：只有一个 HTML 文件的 Web 应用, 我们就称之为单页 Web 应用, 就称之为 SPA 应用
 
-#### SPA 的特点
+### SPA 的特点
 
 1. SPA 应用只有一个 HTML 文件, 所有的内容其实都在这个页面中呈现的
 
@@ -24,7 +24,7 @@ description: ""
 
 3. 当用户与应用程序交互时, 是通过动态更新页面内容的方式来呈现不同的内容
 
-#### SPA 优点
+### SPA 优点
 
 1. 有良好的交互体验
 
@@ -40,7 +40,7 @@ description: ""
 
 4. 共用一套后端程序代码
 
-#### SPA 缺点
+### SPA 缺点
 
 1. SEO 难度较高
 
@@ -50,7 +50,7 @@ description: ""
 
    为实现单页 Web 应用功能及显示效果，需要在加载页面的时候将所有 JavaScript、CSS 统一加载，
 
-### 如何解决单页面应用的 SEO 困难问题?
+## 如何解决单页面应用的 SEO 困难问题?
 
 解决这个问题之前首先我们需要了解常见的三种网页渲染方式
 
@@ -140,23 +140,23 @@ description: ""
 
 3. 两者之间, 只需改善少数页面的 SEO，采用预渲染
 
-## 页面性能优化
+# 页面性能优化
 
 浏览器有一个重要的对象 performance，很多的和时间节点有关的数据都可以从这个对象上去获取
 我们直接写出来的是 module，webpack 处理时是 chunk，最后生成浏览器可以直接运行的 bundle。
 
-### 渲染优化
+## 渲染优化
 
-#### 布局和绘制
+### 布局和绘制
 
 动画可以走复合的过程，不会触发回流和重绘；
 复合是关键渲染路径中最后一个环节，主要的作用就是把页面拆解成不同的图层；使用 transform 和 opacity 可以把涉及到的元素提取到一个图层，那么这些元素的发生视觉上变化的时候就只会触发复合，而不会触发布局和重绘。
 
-#### 高频事件防抖
+### 高频事件防抖
 
 比如滚动，这类事件在一帧里会触发多次，我们只关心滚动到哪里，解决页面卡顿大利器 requestAnimationFrame（每一帧的布局和绘制之前）。
 
-#### 代码优化
+### 代码优化
 
 1. js 优化
    同时 100kb 的文件，js 和图片加载时间相同，但是 js 之后要经过编译，解析，执行等等更耗时，虽然这个过程是跟浏览器处理引擎有关，但如果再代码层面进行配合，实际上可以优化这个过程
@@ -164,9 +164,9 @@ description: ""
 2. html 优化
    减少 iframes 使用；避免节点深层次嵌套；避免 table 布局，开销很大；css js 尽量外链
 
-### 资源优化
+## 资源优化
 
-#### 压缩与合并
+### 压缩与合并
 
 减少 http 请求数，减少请求资源大小
 html 压缩：使用 HtmlWebpackPlugin 的时候配置 minify
@@ -178,7 +178,7 @@ terser-webpack-plugin：w4 并行处理
 TerserPlugin：w5
 预计算：const day = 7 - 5；线上的话直接变成 const day = 2; 在编译器把一些能计算出结果的代码先计算出来，这样子就不会在运行时进行计算（terse 自动帮你做）
 
-#### 图片优化
+### 图片优化
 
 选择合适的图片格式
 JPEG/JPG：首屏轮播图
@@ -189,7 +189,7 @@ webp：不是标准 google
 图片资源优先级：重要的图片（首屏图片）先进行加载
 懒加载
 
-###### 小 tips
+##### 小 tips
 
 需求是能够根据前端页面的相应使用需求和相应的请求来获取相应尺寸的图片，以及能够转换成 webp
 边缘计算：是指的在靠近物或源的一测，采用网络，计算，存储等能力为一体的开放平台，就近提供最近端的计算和服务
@@ -205,46 +205,46 @@ webp：不是标准 google
 cloudflare 国外有名的 cdn 和边缘计算运营商
 通过新建 worker 服务开放边缘计算的能力
 
-### 构建优化
+## 构建优化
 
-#### webpack 的优化配置
+### webpack 的优化配置
 
 ####Tree-shaking（前提是模块化）
 w4 里设置 mode：production 会开启 tersePlugin
 其简单的工作原理是找到入口文件，入口相当于树的根节点，去看入口文件引用了什么东西。又会进一步去分析这些应用的包或者模块里面又引用了什么模块。不断地进行分析之后把所有需要的东西保留下来，把那些引入了但是没有用到的 shaking 下去，最后打包生成的 bundle 只包含运行时真正需要的代码
 但是有时候会涉及到在全局作用域上添加或者修改属性，export 是体现不出来的，就会被 shaking 掉，把所有不需要被 shaking 掉的文件放在 sideEffect 数组里
 
-##### webpack 依赖优化
+#### webpack 依赖优化
 
 第一种是利用 noParse 参数提高构建速度。noParse 的意思就是不解析，直接通知 webpack 忽略较大的库
 第二种方式通过 DllPlugin 插件，避免打包时对不变的库重复构建提高构建速度。比如项目中引入的 react,react-dom
 
-##### webpack 代码拆分
+#### webpack 代码拆分
 
 对于大型的 web 应用，如果我们把所有的东西都打包到一起是十分低效和不可接受的。需要把 bundle 拆分成若干个小的 bundles/chunks。把大的文件拆分成小的文件分散进行加载，先加载更重要的文件以缩短首屏加载时间，可提升用户体验。第一种方式在 entry 中添加其他入口，这样工程就会被拆分成多个不同的 bundle。这种方式比较直接，但是需要手工去添加和维护。第二种方式通过 splitChunks 插件提取公有代码，拆分业务代码与第三方库。react 相关的单独提取；cra 的分包策略第一步把 webpack 运行时（runtimeChunks）的东西抽离出来，第二步就是把所有 react 相关的都给分离出来，他有个 chunks 写的是 all 是什么意思： initialChunk asyncChunk（异步 import 的那些东西，懒加载的那些）
 
-#### webpack 持久缓存
+### webpack 持久缓存
 
 w5：cache，w4：cache-loader
 
-### 传输加载优化
+## 传输加载优化
 
-#### 启用 Gzip
+### 启用 Gzip
 
 Gzip 是用来进行网络资源压缩，减少资源文件在网络传输大小的技术
 插曲：Compression-webpack-plugin 不要使用，前端这边不需要做 gzip，如果前端做了 gzip，服务端那边也把 gzip 打开，他去和浏览器商量，浏览器在请求头中会带上 Accept-Encoding 这个参数来说明自己支持哪些内容编码方式，服务端返回的 Response Headers 中则存在一个 Content-Encoding，用来说明数据的压缩方法，问浏览器支不支持 gzip，浏览器说我不支持，那代码就不能用了；所以前端不需要做 gzip，只要把没做过 gzip 的代码送到去送到服务器或者 proxy，然后这个代理去和浏览器商量，gzip 这部分应该在 nginx 那边去做，或者在 cdn 或者 oss 这边去做，前端做会有协商失败的情况
 
-#### 启用 Keep Alive
+### 启用 Keep Alive
 
 对 TCP 连接进行复用，http 1.1 开始这个参数就是默认开启的
 
-#### http 资源缓存
+### http 资源缓存
 
 index.html 走强缓存 现在流行的方式是文件 hash+强缓存的一个方案。比如 hash+ cache control: max-age=1 年。
 css js 文件走强缓存或者协商缓存
 http 1.0 没有实现 Cache-Control，需要写上 pragma
 
-### 高阶
+## 高阶
 
 服务端渲染：在服务端完成页面插值/数据组装，直接返回包含有数据的页面
 客户端渲染：客户端分别请求页面静态资源和接口数据，然后操作 DOM 赋值到页面。
@@ -285,7 +285,7 @@ SSR：
 
 缺点：1. 需要额外的开发构建成本 2. 对服务器有一定负载
 
-## 从输入 url 到页面呈现的过程
+# 从输入 url 到页面呈现的过程
 
 URL 解析：
 判断输入的是一个合法的 URL 还是一个待搜索的关键词，并且根据你输入的内容进行自动完成、字符编码等操作
@@ -351,7 +351,7 @@ DOM 节点中的各个元素都是以盒模型的形式存在，这些都需要�
 在 **数据链路层** 封装成对应的 帧
 在 **物理层** 中进行传输
 
-### 构建请求的过程
+## 构建请求的过程
 
 1. DNS 解析：找到目标服务器（通过 ip 的方式寻址）
    浏览器缓存 =》系统缓存（host）=》路由器缓存 =》运营商缓存（联通，电信。..) =》域名服务器
@@ -365,13 +365,13 @@ DOM 节点中的各个元素都是以盒模型的形式存在，这些都需要�
    - 物理层：转化为二进制比特流
      > 网络层，数据链路层，物理层不用关心
 
-### 网络传输的过程
+## 网络传输的过程
 
 建立物理设备的连接 =》去做数据的传输
 
-### 浏览器渲染过程
+## 浏览器渲染过程
 
-#### 解析 html 的过程
+### 解析 html 的过程
 
 1. 解码：转为 unicode 的过程
 2. 分词：把字节流 =》短语
@@ -383,11 +383,11 @@ DOM 节点中的各个元素都是以盒模型的形式存在，这些都需要�
    动态修改 dom 树
 7. 回流和重绘
 
-## webpack
+# webpack
 
 webpack 中的这种万物皆模块的理念实际上的蛮值得我们思考的，因为他确实打破了我们传统中在页面去引入各种各样资源的这种固化思维，让我们可以在业务代码中去载入一切所需资源，这样真正意义上让 js 去驱动一切，那如果之前保守饱受维护这些资源的痛苦，那你一定要去尝试这种方式；
 
-### 1. webpack 的构建流程？
+## 1. webpack 的构建流程？
 
 从入口文件出发，根据代码中出现的 import 或者 require 之类的语句解析，推断出来这个文件所依赖的一些资源模块，再分别去解析每个资源模块的依赖，最终形成整个项目中所有用到的文件之间的一个依赖关系树
 webpack 会递归的遍历这个依赖树，读到每个文件，需要交给 loader 的就交给 loader 翻译，最后输出；
@@ -433,7 +433,7 @@ build 完成之后通过 acorn 库生成模块代码的 ast 语法树
 所有依赖解析完成，build 阶段结束
 最后合并生成需要输出到 bundle.js 写入 dist 目录
 
-### 2. 是否写过 Loader？简单描述一下编写 loader 的思路？
+## 2. 是否写过 Loader？简单描述一下编写 loader 的思路？
 
 loader 支持链式调用，所以开发上需要严格遵循‘单一职责’，每个 loader 只负责自己需要负责的模块
 
@@ -457,7 +457,7 @@ module.exports = source => {
 5. 使用 loader-utils 和 schema-utils 为我们提供的 实用工具
 6. 加载本地的 loader 方法：npm link 和 resolveLoader
 
-### 3. 是否写过 Plugin？简单描述一下编写 Plugin 的思路？
+## 3. 是否写过 Plugin？简单描述一下编写 Plugin 的思路？
 
 webpack 在运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在特定的阶段钩入想要添加的自定义功能。Webpack 的 Tapable 事件流机制保证了插件的有序性，使得整个系统扩展性良好。
 webpack 几乎为每一个环节都埋下了一个钩子，开发插件的时候就可以往这些不同的钩子上去挂载不同的任务
@@ -491,7 +491,7 @@ class RemoveCommentsPlugin {
 }
 ```
 
-### 4. source map 是什么，生产环境咋用？
+## 4. source map 是什么，生产环境咋用？
 
 source map 是将编译、打包。压缩后的代码映射回源代码的过程。打包压缩的代码不具备良好的可读性，想要调试源码就需要 source map
 map 文件只要不打开开发者工具，就蓝旗是不会加载的
@@ -501,11 +501,11 @@ map 文件只要不打开开发者工具，就蓝旗是不会加载的
 2. nosources-source-map：只会显示具体行数及查看源代码的错误栈。安全性比 sourcemap 高
 3. sourcemap：通过 nginx 将 .map 文件只对白名单开放
 
-### 5. 模块打包原理？
+## 5. 模块打包原理？
 
 webpack 实际上为，每个模块创造了一个可以导入和导出的环境，本质上并没有修改代码的执行逻辑，代码执行顺序与模块加载顺序也完全一致
 
-### 6. 文件监听原理？
+## 6. 文件监听原理？
 
 在发现源代码发生改变时，自动重新构建出新的输出文件
 webpack 开启监听模式，有两种方式：
@@ -513,24 +513,24 @@ webpack 开启监听模式，有两种方式：
 缺点：每次需要手动刷新浏览器
 原理：轮询判断文件的最后编辑时间是否变化，如果变化，并不会立刻告诉监听者，而是先缓存起来，等 aggregateTimeout  后再执行
 
-### 7. 说一下 webpack 热更新原理？
+## 7. 说一下 webpack 热更新原理？
 
 又称为热替换，不用刷新浏览器而将新变更的模块替换掉旧的模块
 HMR 的核心是客户端去服务端拉取更新后的文件，准确来说的 chunk diff（需要更新的 chunk），实际上，WDS 与浏览器之间维护了一个 websocket，当本地资源变更时，WDS 会向刘浏览器推送更新，并带上构建时的 hash，然后客户端与上一次资源进行对比。
 客户端对比出差异后会向 WDS 发起 Ajax 请求来获取更改内容，这样客户端就可以再借助这些信息来继续向 WDS 发起 jsonp 请求来获取 chunk 的增量更新。
 后续的部分（拿到增量更新后如何处理？哪些状态该保留，哪些需要更新？）由 HotModulePlugin 来完成，提供了相关 api 以供开发者对自身场景进行处理，像 react-hot-loader 和 vue-loader 都是借助这些 api 来实现 HMR
 
-### 8. 如何对 bundle 体积进行监控和分析？
+## 8. 如何对 bundle 体积进行监控和分析？
 
 vscode 有个插件 import cost 可以帮助我么对引入模块的大小进行实时监测，还可以使用 webpack-bundle-analyzer 生成 bundle 的模块组成图，显示所占体积
 
 bundlesize 工具包 可以进行自动化资源体积监控
 
-### 9. 在实际工作中，配置上百行是常事，如何保证各个 loader 按预想工作？
+## 9. 在实际工作中，配置上百行是常事，如何保证各个 loader 按预想工作？
 
 可以使用 enforce 强制执行 loader 的作用顺序，pre 代表在所有正常 loader 之前执行，post 是所有 loader 之后执行。(inline 官方不推荐使用）
 
-### 10. 如何优化 webpack 构建速度？
+## 10. 如何优化 webpack 构建速度？
 
 1. 使用高版本的 webpack 和 nodejs
 2. 多进程/多实例：happypack（不维护了），thread-loader
@@ -574,7 +574,7 @@ bundlesize 工具包 可以进行自动化资源体积监控
 11. 动态 Polyfill
     建议采用 polyfill-service 只给用户返回需要的 polyfill，社区维护。（部分国内奇葩浏览器 UA 可能无法识别，但可以降级返回所需全部 polyfill)
 
-### 11. 聊一聊 Babel 原理吧？
+## 11. 聊一聊 Babel 原理吧？
 
 大多数 JavaScript Parser 遵循 estree 规范，Babel 最初基于 acorn 项目（轻量级现代 JavaScript 解析器） Babel 大概分为三大部分：
 
@@ -583,7 +583,7 @@ bundlesize 工具包 可以进行自动化资源体积监控
 3. 转换：访问 AST 的节点进行变换操作生产新的 ASTTaro 就是利用 babel 完成的小程序语法转换
 4. 生成：以新的 AST 为基础生成代码
 
-### 12. 有哪些常见的 loader，用过哪些 loader
+## 12. 有哪些常见的 loader，用过哪些 loader
 
 - style-loader/css-loader/postcss-loader: 将 css 以链接形式插入到 style/加载 css 模块，支持模块化，压缩，文件导入等 / 拓展 css，使用下一代 css，可以配合 autoprefixer 插件自动补齐前缀
 - sass-loader：sass/scss 转为 css
@@ -593,7 +593,7 @@ bundlesize 工具包 可以进行自动化资源体积监控
 - babel-loader：将 ES6 转换为 ES5
 - ts-loader/awesome-typescript-loader：ts 转 js / 后者性能优于前者
 
-### 13. 哪些常见 plugin，用过哪些
+## 13. 哪些常见 plugin，用过哪些
 
 - define-plugin：定义环境变量（webpack4 之后指定 mode 即可）
 - ignore-plgin：忽略部分文件
@@ -602,7 +602,7 @@ bundlesize 工具包 可以进行自动化资源体积监控
 - webpack-bundle-analyzer：可视化 webpack 输出文件的体积
 - @sentry/webpack-plugin: 可以配置源映射并自动将它们上传到 Sentry
 
-### 14. plugin 和 loader 的区别？
+## 14. plugin 和 loader 的区别？
 
 - loader 本质是一个函数，在函数中对接收到的内容进行转换，返回转换后的结果。因为 webpack 只认识 js，所以 loader 就是个翻译官，对其他类型的资源进行转译的预处理工作
 - plugin 就是插件，基于事件流框架 tabtable，可以拓展 webpack 的功能，在 webpack 运行的生命周期中会广播出许多时间，plugin 可以监听这些事件，在合适的时机通过 webpack 提供的 api 改变输出结果
@@ -610,7 +610,7 @@ bundlesize 工具包 可以进行自动化资源体积监控
 loader 在 Module.rules 中配置，作为模块的解析规则，类型为数组
 plugin 在 plugins 中单独配置，类型为数组，每一项都是个 plugin 实例
 
-### 15. 使用 webpack 开发时，用过哪些提高效率的插件
+## 15. 使用 webpack 开发时，用过哪些提高效率的插件
 
 - webpack-dashboard： 可以友好的展示相关打包信息
 - webpack-merge：提取公共配置，减少重读配置代码
@@ -618,7 +618,7 @@ plugin 在 plugins 中单独配置，类型为数组，每一项都是个 plugin
 - size-plugin：监控资源体积变化，今早发现问题
 - HotModuleReplacementPlugin：模块热替换
 
-## vue vs react
+# vue vs react
 
 Vue 和 React 相同点非常多：
 
@@ -632,14 +632,14 @@ Vue 和 React 通用流程：vue template/react jsx -> render 函数 -> 生成 V
 
 核心还是 Virtual DOM，
 
-### 为什么 Vue 和 React 都选择 Virtual DOM（React 首创 VDOM，Vue2.0 开始引入 VDOM）？，个人认为主要有以下几点：
+## 为什么 Vue 和 React 都选择 Virtual DOM（React 首创 VDOM，Vue2.0 开始引入 VDOM）？，个人认为主要有以下几点：
 
 - 减少直接操作 DOM。框架给我们提供了屏蔽底层 dom 书写的方式，减少频繁的整更新 dom，同时也使得数据驱动视图
 - 为函数式 UI 编程提供可能（React 核心思想）
 - 可以跨平台，渲染到 DOM（web）之外的平台。比如 ReactNative，Weex
   以下重点说下两者不同的点。
 
-### 1. 核心思想不同
+## 1. 核心思想不同
 
 Vue 早期定位是尽可能的降低前端开发的门槛（这跟 Vue 作者是独立开发者也有关系）。所以 Vue 推崇灵活易用（渐进式开发体验），数据可变，双向数据绑定（依赖收集）。
 
@@ -647,25 +647,25 @@ React 早期口号是 Rethinking Best Practices。背靠大公司 Facebook 的 R
 
 由于两者核心思想的不同，所以导致 Vue 和 React 许多外在表现不同（从开发层面看）。
 
-#### 1.1 核心思想不同导致写法差异
+### 1.1 核心思想不同导致写法差异
 
 Vue 推崇 template（简单易懂，从传统前端转过来易于理解）、单文件 vue。而且虽然 Vue2.0 以后使用了 Virtual DOM，使得 Vue 也可以使用 JSX（bebel 工具转换支持），但 Vue 官方依然首先推荐 template，这跟 Vue 的核心思想和定位有一定关系。
 
 React 推崇 JSX、HOC、all in js。
 
-#### 1.2 核心思想不同导致 api 差异
+### 1.2 核心思想不同导致 api 差异
 
 Vue 定位简单易上手，基于 template 模板 + options API，所以不可避免的有较多的概念和 api。比如 template 模板中需要理解 slot、filter、指令等概念和 api，options API 中需要理解 watch、computed（依赖收集）等概念和 api。
 
 React 本质上核心只有一个 Virtual DOM + Diff 算法，所以 API 非常少，知道 setState 就能开始开发了。
 
-#### 1.3 核心思想不同导致社区差异
+### 1.3 核心思想不同导致社区差异
 
 由于 Vue 定义简单易上手，能快速解决问题，所以很多常见的解决方案，是 Vue 官方主导开发和维护。比如状态管理库 Vuex、路由库 Vue-Router、脚手架 Vue-CLI、Vutur 工具等。属于那种大包大揽，遇到某类通用问题，只需要使用官方给出的解决方案即可。
 
 React 只关注底层，上层应用解决方案基本不插手，连最基础的状态管理早期也只是给出 flow 单向数据流思想，大部分都丢给社区去解决。比如状态管理库方面，有 redux、mobx、redux-sage、dva 等一大堆（选择困难症犯了），所以这也造就了 React 社区非常繁荣。同时由于有社区做上层应用解决方案，所以 React 团队有更多时间专注于底层升级，比如花了近 2 年时间把底层架构改为 Fiber 架构，以及创造出 React Hooks 来替换 HOC，Suspense 等。
 
-#### 1.4 核心思想不同导致未来升级方向不同
+### 1.4 核心思想不同导致未来升级方向不同
 
 核心思想不同，决定了 Vue 和 React 未来不管怎么升级变化，Vue 和 React 考虑的基本盘不变。
 
@@ -673,26 +673,26 @@ Vue 依然会定位简单易上手（渐进式开发），依然是考虑通过�
 
 React 的函数式编程这个基本盘不会变。React 核心思想，是把 UI 作为 Basic Type，比如 String、Array 类型，然后经过 render 处理，转换为另外一个 value（纯函数）。
 
-### 2. 组件实现不同
+## 2. 组件实现不同
 
 Vue 源码实现是把 options 挂载到 Vue 核心类上，然后再 new Vue({options}) 拿到实例（vue 组件的 script 导出的是一个挂满 options 的纯对象而已）。所以 options api 中的 this 指向内部 Vue 实例，对用户是不透明的，所以需要文档去说明 this.$slot、this.$xxx 这些 api。另外 Vue 插件都是基于 Vue 原型类基础之上建立的，这也是 Vue 插件使用 Vue.install 的原因，因为要确保第三方库的 Vue 和当前应用的 Vue 对象是同一个。
 
 React 内部实现比较简单，直接定义 render 函数以生成 VNode，而 React 内部使用了四大组件类包装 VNode，不同类型的 VNode 使用相应的组件类处理，职责划分清晰明了（后面的 Diff 算法也非常清晰）。React 类组件都是继承自 React.Component 类，其 this 指向用户自定义的类，对用户来说是透明的。
 
-### 3. 响应式原理不同
+## 3. 响应式原理不同
 
-#### Vue
+### Vue
 
 Vue 依赖收集，自动优化，数据可变。
 Vue 递归监听 data 的所有属性，直接修改。
 当数据改变时，自动找到引用组件重新渲染。
 
-#### React
+### React
 
 React 基于状态机，手动优化，数据不可变，需要 setState 驱动新的 State 替换老的 State。
 当数据改变时，以组件为根目录，默认全部重新渲染
 
-### 4. diff 算法不同
+## 4. diff 算法不同
 
 两者流程思维上是类似的，都是基于两个假设（使得算法复杂度降为 O(n)）：
 
@@ -704,20 +704,20 @@ Vue 基于 snabbdom 库，它有较好的速度以及模块机制。Vue Diff 使
 
 React 主要使用 diff 队列保存需要更新哪些 DOM，得到 patch 树，再统一操作批量更新 DOM。
 
-### 5. 事件机制不同
+## 5. 事件机制不同
 
-#### Vue
+### Vue
 
 Vue 原生事件使用标准 Web 事件
 Vue 组件自定义事件机制，是父子组件通信基础
 Vue 合理利用了 snabbdom 库的模块插件
 
-#### React
+### React
 
 React 原生事件被包装，所有事件都冒泡到顶层 document 监听,17 之后是冒泡到 root，然后在这里合成事件下发。基于这套，可以跨端使用事件机制，而不是和 Web DOM 强绑定。
 React 组件上无事件，父子组件通信使用 props
 
-## html
+# html
 
 1. 页面导入样式时，使用 link 和 @import 有什么区别。
 

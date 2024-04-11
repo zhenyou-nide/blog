@@ -11,7 +11,7 @@ tags:
 description: better enterprise frameworks and apps with Node.js & Koa
 ---
 
-### 开篇
+# 开篇
 
 1. 什么是 Egg.js?
 
@@ -69,9 +69,9 @@ description: better enterprise frameworks and apps with Node.js & Koa
 
    推荐阅读: https://github.com/atian25/blog/issues/18
 
-### 基本使用
+## 基本使用
 
-#### 手动安装手动配置
+### 手动安装手动配置
 
 1. `npm init --y`
 
@@ -157,7 +157,7 @@ class HomeController extends Controller {
 module.exports = HomeController;
 ```
 
-#### 处理请求
+### 处理请求
 
 app/controller/home.js
 
@@ -222,13 +222,13 @@ module.exports = {
 };
 ```
 
-#### 处理静态资源
+### 处理静态资源
 
 1. 将静态资源放置于 app/public 下
 
    直接访问http://127.0.0.1:7001/public/login.html
 
-#### 处理动态网页
+### 处理动态网页
 
 1. EggJS 如何处理动态资源?
 
@@ -275,7 +275,7 @@ module.exports = {
           }
       ```
 
-#### 处理网络请求
+### 处理网络请求
 
 EggJS 处理数据
 
@@ -342,16 +342,16 @@ EggJS 处理数据
        }
    ```
 
-#### service 注意点
+### service 注意点
 
-#### 处理 cookie
+### 处理 cookie
 
-#### 处理日志
+### 处理日志
 
-#### 定时任务
+### 定时任务
 
-#### 自定义启动项
+### 自定义启动项
 
-#### 框架拓展
+### 框架拓展
 
-#### 利用 egg 脚手架工具安装使用（egg-init）
+### 利用 egg 脚手架工具安装使用（egg-init）

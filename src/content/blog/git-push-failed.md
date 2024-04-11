@@ -11,7 +11,7 @@ tags:
 description: "connect to host github.com port 22: Connection refused"
 ---
 
-#### 背景
+# 背景
 
 代理网络下，使用 git pull/push 至远程失败
 
@@ -22,7 +22,7 @@ Please make sure you have the correct access rights
 and the repository exists.
 ```
 
-#### 定位问题
+# 定位问题
 
 使用 `ssh -vT git@github.com` 命令排查故障，日志如下
 
@@ -45,6 +45,6 @@ ssh: connect to host github.com port 22: Connection refused
 
 发现未连接到正确的域（依旧指向 127.0.0.1
 
-#### 解决
+# 解决
 
 打开网络设置，修改 DNS 服务器分配为手动，Ipv4 DNS 服务器改为 223.5.5.5（阿里的公共 DNS

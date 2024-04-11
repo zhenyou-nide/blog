@@ -11,7 +11,7 @@ tags:
 description: 使用 rn 过程中踩的血泪坑
 ---
 
-### react native
+# react native 不能使用第三方终端工具（git bash
 
 - 存疑：不能使用第三方终端工具（git bash
 
@@ -35,17 +35,17 @@ description: 使用 rn 过程中踩的血泪坑
 
   https://blog.csdn.net/qq_40067488/article/details/104896201
 
-### rn 无法使用 Intl.NumberFormat --- 未解决
+# rn 无法使用 Intl.NumberFormat --- 未解决
 
 [javascript - How to use Intl.NumberFormat with react native? - Stack Overflow](https://stackoverflow.com/questions/52812751/how-to-use-intl-numberformat-with-react-native)
 
-### rn android 不适配 safeAreaView 导底被遮挡
+# rn android 不适配 safeAreaView 导底被遮挡
 
 safeAreaView 仅支持 ios 端，android 环境下底部会被遮挡，主要就是在全面屏下高度不匹配
 
 ![rn-android-safearea-bug](../../assets/images/rn-android-safearea-bug.jpg)
 
-#### 解决的路上
+## 解决的路上
 
 1. 尝试通过给 container 加上外边距 margin，将底部撑起
 
@@ -120,7 +120,7 @@ safeAreaView 仅支持 ios 端，android 环境下底部会被遮挡，主要就
    });
    ```
 
-#### 效果
+## 效果
 
 但但是,发现 1 + 手机，纵横比大概是 2.4 还是会显示不全，最终解决方案如下：
 

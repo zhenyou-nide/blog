@@ -11,7 +11,7 @@ tags:
 description: "一些杂七杂八的碎碎念"
 ---
 
-### 计划
+# 计划
 
 - [ ] 1. 小研究一下 [turbopack](https://turbo.build/pack/docs)
   - [ ] usage
@@ -35,7 +35,7 @@ description: "一些杂七杂八的碎碎念"
 - [ ] 14. 内网搭建私有的 NPM 服务器
 - [ ] 15. RSC
 
-### 一些还没做的总结
+# 一些还没做的总结
 
 - [ ] mixpanel 埋点 一个月 3000 个 event
 - [ ] 接口 aws 签名
@@ -44,7 +44,7 @@ description: "一些杂七杂八的碎碎念"
 - [ ] `<meta name='theme-color' content='#000000'></meta>` [参考](https://zhuanlan.zhihu.com/p/413255714)
 - [ ] 判断元素是否在可视区域中 [ahooks/useInViewport](https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useInViewport/index.ts)
 
-### 一些杂七杂八的记录
+# 一些杂七杂八的记录
 
 - vscode `ctrl + shift + L` 或者 `ctrl + f2`: 光标聚焦左右匹配项
 - android studio 访问开发者菜单 `ctrl + M` 或者 `adb shell input keyevent 82`
