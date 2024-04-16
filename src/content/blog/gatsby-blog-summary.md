@@ -11,6 +11,8 @@ tags:
 description: ""
 ---
 
+## Table of contents
+
 # 注册 gatsby cloud 账户
 
 首先，需要一个带有版本控制系统的帐户。 目前已支持 GitHub 和 Gitlab。

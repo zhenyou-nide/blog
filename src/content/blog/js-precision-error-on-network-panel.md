@@ -10,6 +10,8 @@ tags:
 description: js 精度有问题？ 客户端收到的数据与服务端返回的不一致？
 ---
 
+## Table of contents
+
 今天在开发过程中遇到一个奇怪的问题，客户端收到的数据与服务端返回的不一致，打开控制台发现，response 与 preview 的数据竟然不一致（response 与 服务端的数据的一致的），为什么会这样呢？
 
 ```

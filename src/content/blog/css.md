@@ -10,6 +10,8 @@ tags:
 description: 日常会使用到的一些样式
 ---
 
+## Table of contents
+
 秉着 **不过度设计 css** 的原则下记录一下 css 小技巧
 
 # irregular border

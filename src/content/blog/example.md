@@ -14,6 +14,8 @@ description:
   fringilla est
 ---
 
+## Table of contents
+
 Users cannot see this post because it is in draft.
 
 ## Motivation

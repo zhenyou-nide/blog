@@ -11,6 +11,8 @@ tags:
 description: ""
 ---
 
+## Table of contents
+
 react 底层为了优化性能，在你防抖或者是异步的时候会把 e.target 设置成 null，调用 e.target.value 报错
 
 [事件池 – React (reactjs.org)](https://zh-hans.reactjs.org/docs/legacy-event-pooling.html)

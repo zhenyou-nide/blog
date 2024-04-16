@@ -10,6 +10,8 @@ tags:
 description: ""
 ---
 
+## Table of contents
+
 ## [@monaco-editor/react](https://www.npmjs.com/package/@monaco-editor/react)
 
 用于 React 的 Monaco Editor · 在任何 React 应用程序中使用 monaco-editor 而无需使用 webpack（或 rollup/parcel/etc）配置文件/插件；

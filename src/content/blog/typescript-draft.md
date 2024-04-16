@@ -10,6 +10,8 @@ tags:
 description: ""
 ---
 
+## Table of contents
+
 ###### 枚举类型：表示固定的几个取值
 
 ```ts

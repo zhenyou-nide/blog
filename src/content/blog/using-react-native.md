@@ -11,6 +11,8 @@ tags:
 description: 使用 rn 过程中踩的血泪坑
 ---
 
+## Table of contents
+
 # react native 不能使用第三方终端工具（git bash
 
 - 存疑：不能使用第三方终端工具（git bash

@@ -10,6 +10,8 @@ tags:
 description: 暂不公开
 ---
 
+## Table of contents
+
 ## introduction
 
 [Web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) are a set of web platform APIs that allow you to create new custom, reusable, encapsulated HTML tags to use in web pages and web apps.

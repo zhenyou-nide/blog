@@ -11,6 +11,8 @@ tags:
 description: Puppeteer 是一个 Node 库，它提供了高级 API 来通过 DevTools 协议控制 Chromium 或 Chrome
 ---
 
+## Table of contents
+
 # 如何创建一个 Browser 实例
 
 puppeteer 提供了两种方法用于创建一个 Browser 实例：

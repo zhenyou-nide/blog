@@ -11,6 +11,8 @@ tags:
 description: 一行代码实现日常 code 使用频率较高的逻辑
 ---
 
+## Table of contents
+
 一行只是噱头...
 
 # create

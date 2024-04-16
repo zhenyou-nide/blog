@@ -11,6 +11,8 @@ tags:
 description: 如何实现在一台电脑上同时使用多个 github 账号
 ---
 
+## Table of contents
+
 大家工作时轻车熟路通过工作邮箱注册 github，生成 ssh key 链接到 github，绑定唯一的公钥，结束
 
 这个公钥是工作 git 账号 work@mail.com 的公钥，而维护一些自己的项目时又需要使用到自己的 git 账号，恰巧它们还都发生在了同一台电脑上，怎么办呢

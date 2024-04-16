@@ -10,6 +10,8 @@ tags:
 description: ""
 ---
 
+## Table of contents
+
 源自https://www.valentinog.com/blog/testing-react/
 
 ### Testing React Components with react-test-renderer, and the Act API

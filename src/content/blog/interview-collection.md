@@ -10,6 +10,8 @@ tags:
 description: ""
 ---
 
+## Table of contents
+
 # 渲染方式
 
 ## 单页 Web 应用（SPA - Single Page web Application）

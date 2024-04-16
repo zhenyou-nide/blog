@@ -10,6 +10,8 @@ tags:
 description: 通过自己实现算法来回顾数据结构主要知识点
 ---
 
+## Table of contents
+
 ```js
 const BASE_STR = "0123456789ABCDEF";
 const BASE_ARR = BASE_STR.split("");

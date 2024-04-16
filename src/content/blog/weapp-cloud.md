@@ -10,6 +10,8 @@ tags:
 description: ""
 ---
 
+## Table of contents
+
 1. 注册小程序个人账号，获取 appid
 
    https://mp.weixin.qq.com/
