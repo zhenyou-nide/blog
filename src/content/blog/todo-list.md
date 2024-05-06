@@ -36,6 +36,9 @@ description: "一些杂七杂八的碎碎念"
 - [ ] 13. [挺不错的动画库](https://motion.ant.design/components/queue-anim#components-queue-anim-demo-custom)
 - [ ] 14. 内网搭建私有的 NPM 服务器
 - [ ] 15. RSC
+- [ ] 16. stylex
+- [ ] 17. hls.js
+- [ ] 18. nest.js
 
 # 一些还没做的总结
 

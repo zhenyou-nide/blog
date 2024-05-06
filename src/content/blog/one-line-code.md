@@ -209,3 +209,8 @@ const formatDateDiff = (diff: number) => {
   return `${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
 };
 ```
+
+# 随机 bool
+```js
+const randomBoolean = Boolean(Math.round(Math.random()))
+```
