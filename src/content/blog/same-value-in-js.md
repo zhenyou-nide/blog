@@ -11,8 +11,6 @@ tags:
 description: js 中的几种相等性判断分别是什么？他们直接都有些什么区别？
 ---
 
-## Table of contents
-
 js 中有大致归纳为三种相等性的判断
 
 1. strict equality 严格相等
@@ -25,6 +23,8 @@ js 中有大致归纳为三种相等性的判断
    不会执行隐式转换，也不会按照 IEEE 754 标准对 NaN、-0 和 +0 进行特殊处理
 
 js 中有四种相等算法
+
+## Table of contents
 
 ## IsLooselyEqual
 

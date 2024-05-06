@@ -11,8 +11,6 @@ tags:
 description: ""
 ---
 
-## Table of contents
-
 用 gatsby 写完了一个官网，需要将静态资源上传对象存储，一开始尝试使用`webpack-alioss-plugin`，在项目中添加自定义 Webpack 配置，在`gatsby-node.js`中导出一个名为的函数`onCreateWebpackConfig`，去写`AliOSSPlugin`,但 AliOSSPlugin 与 gatsby 的配套不一定好，
 
 最终，使用`gatsby-plugin-s3`这个插件，以将 gatsby 站点部署到 S3 存储桶

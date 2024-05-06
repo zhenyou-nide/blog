@@ -11,9 +11,9 @@ tags:
 description: 回顾前端模块化的发展历程， 持续更新中...
 ---
 
-## Table of contents
-
 本文是基于自己对前端模块化发展历程的总结
+
+## Table of contents
 
 # 基于封装性的探索
 

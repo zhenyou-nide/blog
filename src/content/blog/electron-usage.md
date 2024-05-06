@@ -10,13 +10,13 @@ tags:
 description: 一个能让你使用 JavaScript, HTML 和 CSS 来创建桌面应用程序的框架,这些应用程序可以打包后在 macOS、Windows 和 Linux 上直接运行，或者通过 Mac App Store 或微软商店进行分发
 ---
 
-## Table of contents
-
 Electron 是一个能让你使用 JavaScript, HTML 和 CSS 来创建桌面应用程序的框架。 这些应用程序可以打包后在 macOS、Windows 和 Linux 上直接运行，或者通过 Mac App Store 或微软商店进行分发。
 
 通常，你可以使用操作系统 (OS) 特定的本地应用程序框架来创建一个桌面应用程序。 Electron 可以使用你了解的技术来编写应用程序。
 
 Electron = Chromium + Node.js + Native API
+
+## Table of contents
 
 # 安装 Electron
 

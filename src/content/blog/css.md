@@ -10,11 +10,11 @@ tags:
 description: 日常会使用到的一些样式
 ---
 
-## Table of contents
-
 秉着 **不过度设计 css** 的原则下记录一下 css 小技巧
 
-# irregular border
+## Table of contents
+
+## irregular border
 
 ```css
 clippath: polygon(
@@ -29,7 +29,7 @@ clippath: polygon(
 );
 ```
 
-# 自定义滚动条样式
+## 自定义滚动条样式
 
 使用`-webkit-scrollbar` 来自定义滚动条的外观。该属性提供了七个伪元素：
 
@@ -84,7 +84,7 @@ html::-webkit-scrollbar-track {
 }
 ```
 
-# 长文字分 n 行显示，超出省略号
+## 长文字分 n 行显示，超出省略号
 
 `-webkit-line-clamp`: 用来限制在一个块元素显示的文本的行数。 为了实现该效果，它需要组合其他的 WebKit 属性。
 常见结合属性：
@@ -103,7 +103,7 @@ html::-webkit-scrollbar-track {
 }
 ```
 
-# 一些动效
+## 一些动效
 
 ```less
 * {
@@ -219,7 +219,7 @@ html::-webkit-scrollbar-track {
 </div>
 ```
 
-# irregular dash
+## irregular dash
 
 ```css
 .irregular_dash {

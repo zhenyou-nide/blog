@@ -10,11 +10,9 @@ tags:
 description: ""
 ---
 
-## Table of contents
-
 小菜鸡来写 gitlab-ci 了
 
-历劫前补补课
+## Table of contents
 
 # CI / CD 方法论简介
 

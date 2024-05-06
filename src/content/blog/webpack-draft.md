@@ -10,8 +10,6 @@ tags:
 description: ""
 ---
 
-## Table of contents
-
 1. 修改 webpack 配置文件
 
 ```js

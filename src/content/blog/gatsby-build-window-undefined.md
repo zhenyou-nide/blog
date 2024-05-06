@@ -11,8 +11,6 @@ tags:
 description: ""
 ---
 
-## Table of contents
-
 gatsby 搭建企业站，使用`scrollreveal`在元素滚动到视图中时对其进行动画处理，在执行`gatsby build`的时候出现如下错误
 
 ERROR #95312
