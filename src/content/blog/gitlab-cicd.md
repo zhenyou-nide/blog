@@ -3,7 +3,7 @@ title: 一次 gitlab CICD config 的实践记录
 author: zhenyounide
 pubDatetime: 2020-12-15T04:06:31Z
 slug: gitlab-cicd
-featured: true
+featured: false
 draft: false
 tags:
   - summary

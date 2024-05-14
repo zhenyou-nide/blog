@@ -3,7 +3,7 @@ title: Puppeteer - 通过 DevTools 协议控制 Chromium 或 Chrome 的自动化
 author: zhenyounide
 pubDatetime: 2021-06-16T05:06:31Z
 slug: puppeteer-usage
-featured: true
+featured: false
 draft: false
 tags:
   - summary
