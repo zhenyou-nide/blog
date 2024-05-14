@@ -8,7 +8,7 @@ featured: true
 draft: false
 tags:
   - docs
-description:
+description: 16 chapters, 帮助你系统的学习 Next.js.（有 React 基础）
 ---
 
 16 chapters, 帮助你系统的学习 Next.js.（有 React 基础）
