@@ -175,13 +175,11 @@ description: 温故知新，持续更新
 
 都是前端开发中的 **策略**，旨在处理不同浏览器和设备的兼容性问题。
 
-### 渐进增强（progressive enhancement）
+- 渐进增强（progressive enhancement）:
+  理念是从基本的，核心的功能开始，逐步增强用户体验；强调的是从用户需求和核心功能出发，根据能力来增强功能和效果
 
-理念是从基本的，核心的功能开始，逐步增强用户体验；强调的是从用户需求和核心功能出发，根据能力来增强功能和效果
-
-### 优雅降级（graceful degradation）
-
-理念是首先构建功能丰富的版本，然后在较低能力的浏览器上提供一种相对简化的版本；强调的是在功能丰富的版本的基础上创建简化版本
+- 优雅降级（graceful degradation）:
+  理念是首先构建功能丰富的版本，然后在较低能力的浏览器上提供一种相对简化的版本；强调的是在功能丰富的版本的基础上创建简化版本
 
 ## 9. iframe 优缺点以及使用场景
 
@@ -211,12 +209,14 @@ description: 温故知新，持续更新
   补充：vs 微前端
 
 ## 10. CSS 盒子模型
+
 HTML 元素看作盒子，包括 内容 内边距 border 外边距
 
 - IE盒模型（怪异模式）：内容 + 内边距 + border，box-sizing: border-box
 - 标准和模型：内容 ，box-sizing: content-box
 
 ## 11. html5 特性
+
 - **语气元素**：header, footer, section, nav 等更好的描述网页的解构
 - **多媒体**：audio 和 video 标签，无需再使用 flash
 - **canvas**：允许通过 js 创建和操作图形
@@ -230,4 +230,115 @@ HTML 元素看作盒子，包括 内容 内边距 border 外边距
 - **离线应用**
 - **新事件 API**：如 addEventListener
 
-## 12. css3 
+## 12. css3
+
+- **border-radius**
+- **box-shadow/text-shadow**
+- **linear-gradient/radial-gradient**：创建渐变北京，包括线性和径向渐变
+- **多列布局**：cplumn-count/column-with 可以创建多列布局，类似报纸排版
+- **transform**：rotate/scale/translate...
+- **transition**
+- **@keyframe/animation**
+- **2D/3D转换**：可以让元素在平面和三维空间旋转/缩放/倾斜
+- **@font-face**：自定义字体
+- **opacity**
+- **grid 布局**
+- **css 变量 var()**
+- **用户界面控件**：如滚动条，复选框和单选框的自定义样式
+- **响应式**：通过媒体查询和弹性布局
+
+## 13. CSS 中选择器的优先级，权重计算方式
+
+1. `!important`：具备最高优先级
+2. 特定性：
+3. 内联：1000
+4. ID 选择器：100
+5. 类选择器/属性选择器/伪类选择器：10
+6. 元素选择器/伪元素选择器：1
+
+案例
+
+- `#header`: 100
+- `.menu-item`: 10
+- `ul li`: 2
+
+3. 覆盖规则：后面定义的将覆盖前面定义的
+
+## 14. HTML5 input type
+
+- text: 单行文本
+- password: 密码，输入的字符会被覆盖
+- radio: 单选按钮
+- checkbox: 复选框
+- number:输入数字，包括上下箭头
+- range: 范围，例如滑动条
+- date: 日期
+- time: 时间
+- file: 文件上传
+- color: 颜色选择器
+- hidden: 存储数据，但不会在页面中显示
+- submit: 提交表单
+- reset: 重置表单
+- button: 创建自定义按钮
+
+## 15. CSS 继承性
+
+|            | 属性                                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------------------------ |
+| 有继承性的 | color, font, line-height, text-align, text-indent, text-transform, visibility                          |
+| 无继承性的 | border, margin, padding, background, width, height, position, top, right, left, bottom, display, float |
+
+## 16. 画一条 0.5px 的线
+
+```html
+<html>
+  <head>
+    <style type="text/css">
+      .line {
+        height: 1px;
+        background: white;
+        transform: scaleY(0.5);
+        transform-origin: 0 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="line"></div>
+  </body>
+</html>
+```
+
+## 17. position
+
+- static: 默认值，元素按正常文档流排列
+- relative: 元素相对于其正常位置定位；可使用 top 等定位；不脱离文档流
+- absolute: 相对最近的已定位祖先元素而定位；可使用 top 等定位；脱离文档流
+- fixed: 元素相对视口定位，不随页面滚动而移动；可使用 top 等定位；脱离文档流
+- sticky: 元素在跨越阈值前为相对定位，之后为固定定位；通常用于创建粘性导航栏或者侧边栏；
+
+## 18. 什么是浮动，会引起什么问题，有何方案
+
+float 是 css 中的一种布局属性，用于控制元素在其父元素的位置，可以浮动到其父元素的左侧或者右侧。常用于实现文本环绕图片，创建多列布局等。
+
+**导致问题**
+
+- 高度塌陷：会导致其父元素高度塌陷，父元素无法自适应浮动元素的告诉
+- 元素重叠：浮动元素可能会重叠在一起，导致布局错乱
+
+**解决方案**
+
+- 清除浮动：在包含浮动元素的父元素之后，可以使用 clear 来清除浮动
+  ```css
+  .clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  ```
+- 使用布局技巧：flex/grid 来替换 float 布局
+- `display: inline-block`: 将需要浮动的元素设置 inline-block；可以模拟浮动，但不会导致高度塌陷，因为 inline-block 元素会受到文本行的影响
+- `position: absolute`: 模拟 float
+- `overflow: hidden`: 在包含浮动的父元素上添加 overflow hidden，可以清除浮动
+
+## 19. line-height vs height
