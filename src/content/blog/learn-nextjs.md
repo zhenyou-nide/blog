@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2024-05-14T05:50:00Z
-modDatetime: 2024-05-14T05:50:00Z
+modDatetime: 2024-05-15T14:14:00Z
 title: learning the foundations of Next.js and building a fully functional demo website
 slug: learn-nextjs
 featured: true
@@ -10,6 +10,8 @@ tags:
   - docs
 description: 16 chapters, 帮助你系统的学习 Next.js.（有 React 基础）
 ---
+
+简单翻译 [Next.js learn](https://nextjs.org/learn)
 
 16 chapters, 帮助你系统的学习 Next.js.（有 React 基础）
 
@@ -143,3 +145,243 @@ export type Invoice = {
 `npm i && npm run dev` , 并在你的浏览器中打开 http://localhost:3000.
 
 # CSS styling
+
+目前你的主页没有任何样式，接下来让我们看看如何在 Next.js 中写样式。
+
+当前章节，我们将学到
+
+1. 给项目添加全局样式.
+2. 使用 Tailwind and CSS modules.
+3. 用 clsx 有条件的添加类名.
+
+## Global styles
+
+在 /app/ui folder 下有个 global.css. 你可以在这个文件下自定义 css，这将应用于全局，例如重置一些 css 样式，比如 link 标签等等
+
+您可以在任何组件下 import global.css, 最佳实践是将他添加早顶层组件里，在 Next.js 里通常是 root layout (more on this later).
+
+```tsx
+// /app/layout.tsx
+import "@/app/ui/global.css";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+保存后，开发环境会自动刷新，你可以在浏览器中进行预览，预期是长这样子：
+![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Fhome-page-with-tailwind.png&w=1920&q=75)
+
+欸稍等，你并没有写任何的 css 样式，这些样式来自哪里呢？仔细看 global.css, 你会注意到顶部声明了几个 @tailwind:
+
+```css
+/* /app/ui/global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+## Tailwind
+
+Tailwind 是一个 CSS 框架，它可以直接在 TSX 元素中写入类名来快速实现 styling。
+
+举个栗子，给 h1 标签添加 class "text-blue-500" , text color 将会变为 blue:
+
+```html
+<h1 className="text-blue-500">I'm blue!</h1>
+```
+
+虽然这里 CSS 样式是 global 的，但是每个类都单独应用于每个元素。这意味着如果添加或删除一个元素，就不必担心维护单独的 css、样式冲突或者 CSS bundle 的大小。
+
+当你使用 `create-next-app` 来初始化项目，Next.js 会询问你是否使用 Tailwind，如果你选择了 yes，Next.js 会自动帮你安装和配置好 Tailwind 所需的东西
+
+来到 /app/page.tsx, 你将看到我们的项目正在使用
+
+```tsx
+// /app/page.tsx
+import AcmeLogo from '@/app/ui/acme-logo';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+
+export default function Page() {
+  return (
+    // These are Tailwind classes:
+    <main className="flex min-h-screen flex-col p-6">
+      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
+    // ...
+  )
+}
+```
+
+不必担心你是否有 Tailwind 开发经验，为节省时间，我们已经写好所有需要用到的 ui 组件
+接下来让我们体验下 Tailwind 吧，将下面的代码 paste 到 /app/page.tsx 的 p 标签：
+
+```tsx
+// /app/page.tsx
+<div className="h-0 w-0 border-b-[30px] border-l-[20px] border-r-[20px] border-b-black border-l-transparent border-r-transparent" />
+```
+
+<details>
+<summary>q：上面的代码片段实现了个什么形状？</summary>
+a：A black triangle
+</details>
+
+如果你更喜欢写传统 css 样式，不写在 jsx/tsx 里，CSS Module 是个不错的选择
+
+## CSS Module
+
+CSS Module 可以自动创建唯一的类名，并作用于组件，避免了样式冲突。
+
+在本课程中，我们将继续使用 Tailwind，在此之前可以小体验一下 CSS Module。
+
+在/app/ui 中，创建一个名为 home.module.CSS 的新文件:
+
+```css
+/* /app/ui/home.module.css */
+.shape {
+  height: 0;
+  width: 0;
+  border-bottom: 30px solid black;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+}
+```
+
+/app/page.tsx 中 import 这个文件， 在 `<div />` 中用 `style.shale` 替换 Tailwind class :
+
+```tsx
+// /app/page.tsx
+import styles from "@/app/ui/home.module.css";
+<div className={styles.shape} />;
+```
+
+保存后，你将看到与之前一样的形状。
+Save your changes and preview them in the browser. You should see the same shape as before.
+
+Tailwind 和 CSS modules 都是 Next.js 中比较普遍的 Style 方案，选你喜欢的用就好，当然也可以二者一起使用
+
+<details>
+<summary>q：以下哪个是 CSS module 的优点？</summary>
+a: 提供一种使 CSS 拥有局部作用域的方案，减少样式冲突的风险。
+</details>
+
+## Using the clsx library to toggle class names
+
+如果需要条件性的添加或者移除某些类呢？
+There may be cases where you may need to conditionally style an element based on state or some other condition.
+
+clsx 是一个方便切换类名的库，在这里仅对这个库做一个基础的介绍
+
+试想你创建了一个 `InvoiceStatus` 组件，它接收 `status` 属性，status 可以是 'pending' 或者 'paid'.如果是 'paid', color 为 green，'pending' 的为 gray。
+
+这种情况下你可以使用 clsx 来条件性的应用 class：
+
+```tsx
+// /app/ui/invoices/status.tsx
+import clsx from 'clsx';
+
+export default function InvoiceStatus({ status }: { status: string }) {
+  return (
+    <span
+      className={clsx(
+        'inline-flex items-center rounded-full px-2 py-1 text-sm',
+        {
+          'bg-gray-100 text-gray-500': status === 'pending',
+          'bg-green-500 text-white': status === 'paid',
+        },
+      )}
+    >
+    // ...
+)}
+```
+
+<details>
+<summary>q：在你项目里搜索一下哪些组件用了 clsx?</summary>
+a: `status.tsx` and `pagination.tsx`
+</details>
+
+## Other styling solutions
+
+除了我们讨论的上述几种方案，你也可以使用：
+
+- Sass: 可 import .css 和 .scss 的文件.
+- CSS-in-JS: 例如 styled-jsx, styled-components， emotion.
+- 其他...
+
+# Optimizing Fonts and Images
+
+在之前的章节里，我们学习了 styling, 现在我们继续来讨论，如何添加自定义字体及 image 的显示，依旧以 home page 为例
+
+当前章节，我们将学到
+
+1. 使用 next/font 添加自定义字体.
+2. 使用 next/font 来显示图片.
+3. 如何优化 fonts 及 images.
+
+## Why optimize fonts?
+
+字体在网站设计中是一个比较重要的角色，在项目中使用自定义字体，加载对应字体文件可能会影响你的性能
+
+Cumulative Layout Shift 是 Google 用来评估网站性能和用户体验的指标。使用字体时，当浏览器最初以备用字体或系统字体呈现文本，然后在加载后将其转换为自定义字体时，会发生布局变化。这种变化可能导致文本大小、间距或布局发生变化，引起回流或者重绘。
+![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Ffont-layout-shift.png&w=3840&q=75)
+
+next/font 会自动优化 fonts，他会在 build 阶段下载字体文件，并用其他的静态资源托管着，这意味着当用户访问你的网站时，并不会发生额外加载字体文件的网络请求，也就不会因此影响性能了
+
+<details>
+<summary>q: Next.js 是如何做字体优化的？</summary>
+a: 用其他静态资产托管字体文件，这样就不会有额外的网络请求。
+</details>
+
+## Adding a primary font
+
+来吧，体验一下给项目添加个 Google font
+
+在 /app/ui 文件夹下, 创建 fonts.ts，用来保存字体配置。
+
+从 next/font/google Import Inter font ，这将作为主要的字体，可以指定要加载的 subset，比如 'latin':
+
+```ts
+// /app/ui/fonts.ts
+import { Inter } from "next/font/google";
+
+export const inter = Inter({ subsets: ["latin"] });
+```
+
+最后，将它添加到 /app/layout.tsx 的 <body > 下
+
+```tsx
+// /app/layout.tsx
+import "@/app/ui/global.css";
+import { inter } from "@/app/ui/fonts";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={`${inter.className} antialiased`}>{children}</body>
+    </html>
+  );
+}
+```
+
+这样 Inter 字体将在整个应用程序中被应用。在这里，您还要添加 Tailwind antialiased，它可以平滑字体。（不是必须使用的，他只是一个小优化）
+
+```css
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+```
+
+-- 未完待续 --
