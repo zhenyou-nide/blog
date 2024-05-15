@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-04-16T09:12:47.400Z
+modDatetime: 2024-05-15T11:13:47.400Z
 title: 前端面试汇总
 slug: interview-ready
 featured: false
@@ -217,7 +217,7 @@ HTML 元素看作盒子，包括 内容 内边距 border 外边距
 
 ## 11. html5 特性
 
-- **语气元素**：header, footer, section, nav 等更好的描述网页的解构
+- **语义元素**：header, footer, section, nav 等更好的描述网页的解构
 - **多媒体**：audio 和 video 标签，无需再使用 flash
 - **canvas**：允许通过 js 创建和操作图形
 - **本地存储**：web storage 和 indexedDB
@@ -234,7 +234,7 @@ HTML 元素看作盒子，包括 内容 内边距 border 外边距
 
 - **border-radius**
 - **box-shadow/text-shadow**
-- **linear-gradient/radial-gradient**：创建渐变北京，包括线性和径向渐变
+- **linear-gradient/radial-gradient**：创建渐变背景，包括线性和径向渐变
 - **多列布局**：cplumn-count/column-with 可以创建多列布局，类似报纸排版
 - **transform**：rotate/scale/translate...
 - **transition**
@@ -336,9 +336,26 @@ float 是 css 中的一种布局属性，用于控制元素在其父元素的位
     clear: both;
   }
   ```
-- 使用布局技巧：flex/grid 来替换 float 布局
 - `display: inline-block`: 将需要浮动的元素设置 inline-block；可以模拟浮动，但不会导致高度塌陷，因为 inline-block 元素会受到文本行的影响
-- `position: absolute`: 模拟 float
+- `position: absolute/display: flex/ display: grid`: 模拟 float
 - `overflow: hidden`: 在包含浮动的父元素上添加 overflow hidden，可以清除浮动
 
 ## 19. line-height vs height
+
+- `line-height`
+  - 行高，用于控制文字的行高，而不是整体的高度；
+  - 用于指定行内元素的文本行的垂直高度，可以影响文本的垂直居中和行距；
+- `height`
+  - 控制元素整体高度，包括文本内容，内边距和边框；
+  - 用于指定块级元素的高度，例如 `<div />`,`<section />`
+
+## 20. 设置一个元素的背景颜色会填充的区域
+
+`background-color` 默认填充区域为 content/padding/border，该行为由 `background-clip` 决定，默认为 `border-box`
+
+| background-clip | margin | border | padding | context | text |
+| --------------- | ------ | ------ | ------- | ------- | ---- |
+| border-box      | ×      | ✔     | ✔      | ✔      | --   |
+| padding-box     | ×      | ×      | ✔      | ✔      | --   |
+| context-box     | ×      | ×      | ×       | ✔      | --   |
+| text(webkit)    | ×      | ×      | ×       | ×       | ✔   |
