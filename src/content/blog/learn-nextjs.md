@@ -55,10 +55,7 @@ description: 16 chapters, 帮助你系统的学习 Next.js.（有 React 基础�
 
 ## Creating a new project
 
-To create a Next.js app, open your terminal, cd into the folder you'd like to keep your project, and run the following command:
 打开终端，cd 到任意文件夹，运行以下命名：
-
-Terminal
 
 ```bash
 npx create-next-app@latest nextjs-dashboard --use-npm --example "https://github.com/vercel/next-learn/tree/main/dashboard/starter-example"
@@ -71,9 +68,8 @@ npx create-next-app@latest nextjs-dashboard --use-npm --example "https://github.
 与让你从头开始编写代码的教程不同，本课程的大部分代码已经为你编写好了。这也更贴近现实中的实战开发。
 
 我们的目标是帮助您专注于学习 Next.js 的主要特性，而不必编写所有的应用程序代码。
-Our goal is to help you focus on learning the main features of Next.js, without having to write all the application code.
 
-安装后，cd 到 nextjs-dashboard.下
+安装后，cd 到 nextjs-dashboard 下
 
 接下来我们来了解下项目结构
 
