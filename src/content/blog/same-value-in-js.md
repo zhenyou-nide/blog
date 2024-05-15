@@ -4,11 +4,11 @@ author: zhenyounide
 pubDatetime: 2024-04-29T07:56:31Z
 slug: same-value-in-js
 featured: true
-draft: true
+draft: false
 tags:
   - interview
   - summary
-description: js 中的几种相等性判断分别是什么？他们直接都有些什么区别？
+description: js 中的几种相等性判断分别是什么？他们之间都有些什么区别？
 ---
 
 js 中有大致归纳为三种相等性的判断

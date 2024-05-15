@@ -380,4 +380,140 @@ export default function RootLayout({
 }
 ```
 
+## Practice: Adding a secondary font
+
+您也可以给特性元素添加特定字体
+
+轮到你啦，在 fonts.ts 里导入 Lusitana 为二级字体，并应用于 /app/page.tsx 的 p 标签中，记得指定 subset 及 weight。
+
+Hints:
+
+- 如果你不确定 weight 如何配置，可配合 TypeScript 提示。
+- 访问 Google Fonts 网站，搜索 Lusitana，看看有哪些选项可供选择。
+- 请参阅有关添加多种字体和完整选项列表的文档。
+
+```ts
+// /app/ui/fonts.ts
+import { Inter, Lusitana } from "next/font/google";
+
+export const inter = Inter({ subsets: ["latin"] });
+
+export const lusitana = Lusitana({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
+```
+
+```tsx
+// /app/page.tsx
+import AcmeLogo from "@/app/ui/acme-logo";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { lusitana } from "@/app/ui/fonts";
+
+export default function Page() {
+  return (
+    // ...
+    <p
+      className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
+    >
+      <strong>Welcome to Acme.</strong> This is the example for the{" "}
+      <a href="https://nextjs.org/learn/" className="text-blue-500">
+        Next.js Learn Course
+      </a>
+      , brought to you by Vercel.
+    </p>
+    // ...
+  );
+}
+```
+
+最后， <AcmeLogo /> 组件也使用 Lusitana. 在这之前为了避免错误已注释，现在你可以打开注释
+
+```tsx
+// /app/page.tsx
+// ...
+
+export default function Page() {
+  return (
+    <main className="flex min-h-screen flex-col p-6">
+      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
+        <AcmeLogo />
+        {/* ... */}
+      </div>
+    </main>
+  );
+}
+```
+
+好极啦，你现在已经配置了两种字体，接下来学习如何在主页中添加 Image
+
+## Why optimize images?
+
+Next.js can serve static assets, like images, under the top-level /public folder. Files inside /public can be referenced in your application.
+Next.js 可以在顶 层 /public 文件夹下存放静态资源，比如图像，然后应用于程序内部。
+
+如果使用常规 <img />：
+
+```html
+<img
+  src="/hero.png"
+  alt="Screenshots of the dashboard project showing desktop version"
+/>
+```
+
+然而，你需要额外做如下优化：
+
+- responsive，适配不同尺寸的屏幕.
+- 为不同的设备提供不同是图片尺寸.
+- 当 image load 时避免移位/回流/重绘.
+- 用户视图外的 image 需要懒加载.
+
+image 优化是 web 开发中的一个大课题，它本身就是一个专业领域。您可以使用 next/image 组件来自动优化，而不是手动实现这些优化。
+
+## The <Image> component
+
+<Image> 是 <img> 的拓展, 且已经自动做了一部分优化，例如:
+
+- 避免 image load 时图像避免移位/回流/重绘。
+- 自动调整 image 大小，以避免将大图发送到具有较小视窗的设备。
+- 默认情况下延迟加载图像(图像在进入视口时加载)。
+- 在浏览器支持的情况下，以 WebP 和 AVIF 等现代格式提供图像服务
+
+## Adding the desktop hero image
+
+/public 文件夹下有两张图片: hero-desktop.png，hero-mobile.png. 这两张图片完全不同，显示哪张图片取决于用户设备是 desktop 还是 mobile
+
+```tsx
+// /app/page.tsx
+import AcmeLogo from "@/app/ui/acme-logo";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { lusitana } from "@/app/ui/fonts";
+import Image from "next/image";
+
+export default function Page() {
+  return (
+    // ...
+    <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
+      {/* Add Hero Images Here */}
+      <Image
+        src="/hero-desktop.png"
+        width={1000}
+        height={760}
+        className="hidden md:block"
+        alt="Screenshots of the dashboard project showing desktop version"
+      />
+    </div>
+    //...
+  );
+}
+```
+
+Here, you're setting the width to 1000 and height to 760 pixels. It's good practice to set the width and height of your images to avoid layout shift, these should be an aspect ratio identical to the source image.
+
+You'll also notice the class hidden to remove the image from the DOM on mobile screens, and md:block to show the image on desktop screens.
+
+This is what your home page should look like now:
+
 -- 未完待续 --
