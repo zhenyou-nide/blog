@@ -359,3 +359,188 @@ float 是 css 中的一种布局属性，用于控制元素在其父元素的位
 | padding-box     | ×      | ×      | ✔      | ✔      | --   |
 | context-box     | ×      | ×      | ×       | ✔      | --   |
 | text(webkit)    | ×      | ×      | ×       | ×       | ✔   |
+
+## 21. inline-block vs inline vs block
+
+|              | 类型         | 是否独占一行               | 是否可设置宽高                                                             |
+| ------------ | ------------ | -------------------------- | -------------------------------------------------------------------------- |
+| block        | 块级元素     | 独占一行，由上到下垂直排列 | 可以设置宽高，内外边距                                                     |
+| inline       | 内联元素     | 不独占一行，行内水平排列   | 不可以设置宽高，内外边距                                                   |
+| inline-block | 内联块级元素 | 同一行内水平排列           | 可以设置宽高，内外边距，通常用于创建水平排列的块状元素，如按钮或者导航链接 |
+
+## 22. 为什么 img 是 inline 却可以设置宽高
+
+html 规范对 `img` 元素的默认样式有特殊的定义，因为 img 需要具体的宽高以确保图像以正确的尺寸显示，而不会引起页面重新布局。
+
+## 23. box-sizing 的作用，如何使用
+
+用于控制元素的盒模型如何计算尺寸。
+
+- context-box(initial): 元素的宽高只包含 context，不包括 padding 和 border。这是传统的盒模型。
+- border-box: 元素的宽高包含 context，padding，border。这意味着设置元素宽高的同时，padding 和 border 不会增加元素的总宽高，而是占用 context 的空间
+
+```css
+.element {
+  box-sizing: border-box;
+  width: 100px;
+  /* 总宽度还是 100px */
+  padding: 10px;
+  border: 2px solid black;
+}
+
+.element {
+  box-sizing: context-box;
+  width: 100px;
+  /* 总宽高是 100 + 10 + 2  */
+  pading: 10px;
+  border: 2px solid black;
+}
+```
+
+_注意_：box-sizing 通常在全局样式中设置，以确保整个页面使用一致的盒模型
+
+## 24. CSS 实现动画
+
+通过 `@keyframes` 和 `animation` 来实现。
+
+1. 定义 keyframes
+
+```css
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+```
+
+2. 应用动画
+
+```css
+.animation-element {
+  animatiin-name: scale;
+  animation-duration: 2s;
+  animation-time-function: ease-in-out;
+  animation-delay: 0.5s;
+  animation-interation-count: infinite;
+}
+```
+
+3. 触发动画
+
+```html
+<div class="animation-element">animation element</div>
+```
+
+## 25. transition vs animation
+
+- transition(过渡)
+
+  - 让元素在状态改变时平滑的过渡到新样式。
+  - 需要一个触发状态变化的事件，比如 hover，focus；
+
+  ```css
+  .button {
+    transition: background-color 0.3s ease;
+  }
+
+  .button:hover {
+    background-color: pink;
+  }
+  ```
+
+- animation
+
+  - 可创建更复杂的动画，可定义 keyframes。
+  - 动画可以在元素的状态，时间轴或者事件触发下进行
+
+  ```css
+  @keyframes slide {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(100px);
+    }
+    100% {
+      transform: translateX(200px);
+    }
+  }
+
+  .slide {
+    animation: slide 2s linear infinite;
+  }
+  ```
+
+**总结**
+
+- 使用 transition 可创建简单的状态过渡效果，适用于 hover，focus 等触发的状态变化。
+- 使用 animation 可创建更复杂的动画，包括关键帧，持续时间，循环和更精细的控制，它适用于需要更多控制和复杂度的动画场景
+
+## 26. 如何实现在某个容器中居中
+
+```html
+<html>
+  <head>
+    <style type="text/css">
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>居中的元素</div>
+    </div>
+  </body>
+</html>
+```
+
+## 27. 如何改变一个 dom 的字体颜色.....
+
+这问题太抽象了，不回答
+
+## 28. 相对布局和绝对布局
+
+很少用到了吧，不回答
+
+## 29. flex 布局
+
+- 容器和项：flex 布局中存在容器元素和容器内的项（子元素）。容器元素设置 `display: flex`;
+- 主轴和交叉轴：主轴是项排列的主要方向，交叉抽是垂直于主轴的方向
+- 弹性布局：允许项根据可用空间自动调整大小，以填充容器。项具有弹性的宽高。
+- 自动换行：如果项在主轴上无法适应容器的宽度，可以自动换行到下一行
+- 嵌套支持：支持嵌套
+
+## 30. Less（Lener Style Sheets） vs Scss（Sassy Css）
+
+todo，原文总结不到位
+
+## 31. 伪类，伪元素
+
+**伪类**
+
+- `:hover`: hover
+- `:active`: 被点击的 active
+- `:focus`: 获得焦点的元素
+- `:nth-child(n)`: 父元素下第 n 个位置
+- `:not(selector)`: 不匹配指定选择器的元素
+- `:first-child`: 第一个
+- `:last-child`: 最后一个
+
+**伪元素**
+
+- `::before`: 在元素内容之前生成内容，通常用于添加装饰或图标
+- `::after`: 在元素内容之后生成内容，通常用于添加装饰或图标
+- `::first-line`: 选择元素的首行文本，用于样式段落中的首行文字
+- `::first-letter`: 选择元素的首字母，用于样式段落中的首字母
+- `::selection`: 选择用户选择的文本部分，允许自定义选中的文本样式
