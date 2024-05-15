@@ -450,8 +450,7 @@ export default function Page() {
 
 ## Why optimize images?
 
-Next.js can serve static assets, like images, under the top-level /public folder. Files inside /public can be referenced in your application.
-Next.js 可以在顶 层 /public 文件夹下存放静态资源，比如图像，然后应用于程序内部。
+Next.js 可以在顶层 /public 文件夹下存放静态资源，比如图像，然后应用于程序内部。
 
 如果使用常规 `<img />`：
 
