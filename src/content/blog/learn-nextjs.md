@@ -509,10 +509,85 @@ export default function Page() {
 }
 ```
 
-Here, you're setting the width to 1000 and height to 760 pixels. It's good practice to set the width and height of your images to avoid layout shift, these should be an aspect ratio identical to the source image.
+这会儿可以看到，您给 image 设了 1000px 宽和 760px 的高，这对于避免页面移位是个不错的方案，当然前提是与源图的纵横比对应
 
-You'll also notice the class hidden to remove the image from the DOM on mobile screens, and md:block to show the image on desktop screens.
+并且，你会注意到 hidden class 隐藏了 mobile 端的 image dom，`md;block` 显示了 desktop 端的 image。
 
-This is what your home page should look like now:
+至此，主页该长这样啦
+![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Fhome-page-with-hero.png&w=1080&q=75)
+
+## Practice: Adding the mobile hero image
+
+轮到你啦，现在添加一下 mobile 端的图片
+Now it's your turn! Under the image you've just added, add another <Image> component for hero-mobile.png.
+
+- 这张图片是 560px 宽，620px 高
+- 预期是将他展示在 mobile 端，在 desktop 隐藏，你可以通过 控制台 Element，检查 desktop 和 mobile 端的图像是否正确显示。
+
+```tsx
+// /app/page.tsx
+import AcmeLogo from "@/app/ui/acme-logo";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { lusitana } from "@/app/ui/fonts";
+import Image from "next/image";
+
+export default function Page() {
+  return (
+    // ...
+    <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
+      {/* Add Hero Images Here */}
+      <Image
+        src="/hero-desktop.png"
+        width={1000}
+        height={760}
+        className="hidden md:block"
+        alt="Screenshots of the dashboard project showing desktop version"
+      />
+      <Image
+        src="/hero-mobile.png"
+        width={560}
+        height={620}
+        className="block md:hidden"
+        alt="Screenshot of the dashboard project showing mobile version"
+      />
+    </div>
+    //...
+  );
+}
+```
+
+好极啦哈哈哈哈，现在主页已经拥有自定义的字体和图片啦
+
+<details>
+<summary>True or False: 没有设置大小的图像和字体是页面移位的主要原因</summary>
+true
+</details>
+
+## Recommended reading
+
+关于本章节的话题，比如优化 remote images，如何使用 本地字体文件，如果你感兴趣且想要深入了解的话，推荐以下内容：
+
+- [Image Optimization Docs](https://nextjs.org/docs/app/building-your-application/optimizing/images)
+- [Font Optimization Docs](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
+- [Improving Web Performance with Images (MDN)](https://developer.mozilla.org/en-US/docs/Learn/Performance/Multimedia)
+- [Web Fonts (MDN)](https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts)
+
+# Creating Layouts and Pages
+
+至此，网站仅有一个主页，现在让我们来学习如何创建路由以及布局吧
+
+当前章节，我们将学到
+
+1. 文件路由：创建一个 `dashboard`
+2. 创建新路由的时候理解 文件夹和问价的角色.
+3. 创建一个可共享在多个 dashboard 页面之间的嵌套的 layout
+4. 理解 root layout，partial rendering，colocation.
+
+## Nested routing
+
+Next.js 使用的是文件路由，用文件夹来创建嵌套路由，每个文件夹表示一个 route segment，与 url 一一对应
+
+![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Ffolders-to-url-segments.png&w=1920&q=75)
 
 -- 未完待续 --

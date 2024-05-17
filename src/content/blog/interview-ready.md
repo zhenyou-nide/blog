@@ -629,3 +629,265 @@ CSS 中用双冒号表示伪元素，单冒号表示伪类，虽然实际应用�
 | `vh`  | 视窗高度单位，相对单位，表视窗高度的百分比     | 1vw 等于视窗高度的 1%                | 用于创建适应不同屏幕高度的布局             |
 | `rem` | 根元素单位，相对单位，基于根元素的字体大小     | 1rem 等于根元素字体大小              | 可用于实现相对大小的字体和元素，响应式设计 |
 | `em`  | 字体相对单位，相对单位，基于当前元素的字体大小 | 1em 等于当前元素的字体大小           | 通常用于设置相对于父元素的字体大小         |
+
+# js
+
+## 39. 以下哪段代码运行效率更高？（隐藏类）
+
+```js
+const obj1 = { a: 1 };
+const obj2 = { a: 1 };
+const obj3 = { a: 1 };
+```
+
+```js
+const obj1 = { a: 1 };
+const obj2 = { b: 1 };
+const obj3 = { c: 1 };
+```
+
+- 上面的效率更高，重用了 **隐藏类（Hidden Class）**
+
+```js
+// test
+console.time("a");
+for (let i = 0; i < 1000000; i++) {
+  const obj = {};
+  obj["a"] = i;
+}
+console.timeEnd("a");
+
+console.time("b");
+for (let i = 0; i < 1000000; i++) {
+  const obj = {};
+  obj[i] = i;
+}
+console.timeEnd("b");
+```
+
+- JS 运行机制：浏览器 -> 内核 -> JS 解析引擎
+  | 浏览器 | 内核 | 引擎 |
+  | -- | -- | -- |
+  | chrome | 早期 Webkit, 现目前 Blink | V8 |
+  | Mozilla Firebox | Gecko | SpiderMonkey |
+  | Edge | Chromium | Chakra |
+  | Safari | Webkit | JavascriptCore |
+
+- 比较主流的 JS 引擎 v8，这里假设是在 chrome 或 node 上，用的是 v8 引擎。
+- v8 是一个 c++ 实现的 js 解析引擎，内部利用隐藏类（Hidden Class）的方式存放 JS 对象。
+- 隐藏类的特性是：多个 **属性顺序一致** 的 JS 对象，会重用同一个隐藏类，减少 new Class 的开销。
+- 所以上面生成一个隐藏类，而下面只生成三个隐藏类，因此上面的性能更好
+- **代码编写习惯**：定义对象或者类时，尽可能保证属性顺序一致。
+
+## 40. 以下哪段代码运行效率更高？（数组- 快速模式/字典模式）
+
+```js
+const arr1 = [];
+for (let i = 0; i < 1000000; i++) {
+  arr1[i] = 1;
+}
+```
+
+```js
+const arr2 = [];
+arr2[1000000 - 1] = 1;
+for (let i = 0; i < 1000000; i++) {
+  arr1[i] = 1;
+}
+```
+
+- 上面的效率更高，利用了数组的 **快速模式**
+
+```js
+// test
+console.time("a");
+const arr1 = [];
+for (let i = 0; i < 1000000; i++) {
+  arr1[i] = 1;
+}
+console.timeEnd("a");
+
+console.time("b");
+const arr2 = [];
+arr2[1000000 - 1] = 1;
+for (let i = 0; i < 1000000; i++) {
+  arr2[i] = 1;
+}
+console.timeEnd("b");
+```
+
+- JS 运行机制：浏览器 -> 内核 -> JS 解析引擎
+  | 浏览器 | 内核 | 引擎 |
+  | -- | -- | -- |
+  | chrome | 早期 Webkit, 现目前 Blink | V8 |
+  | Mozilla Firebox | Gecko | SpiderMonkey |
+  | Edge | Chromium | Chakra |
+  | Safari | Webkit | JavascriptCore |
+
+- 比较主流的 JS 引擎 v8，这里假设是在 chrome 或 node 上，用的是 v8 引擎。
+- v8 是一个 c++ 实现的 js 解析引擎，内部有很多种方式存放 JS 数组。
+- "数组从 0 到 length - 1 无空洞", 会进入快速模式，存放为 array。
+- "数组中间有空洞"，会进入字典模式，存放为 HashMap （v8 的一个优化厕所，保证用最合适的数据结构处理当下场景，如果遇到数据量过大或者松散结构的话，就改变为 HashMap，牺牲遍历性能，换取访问性能）。
+- **代码编写习惯**：
+  - 从 0 开始初始化数组，避免数组进入字典模式
+  - 让数组保持紧凑，避免数组进入字典模式
+
+> [[V8 Deep Dives] Understanding Array Internals](https://itnext.io/v8-deep-dives-understanding-array-internals-5b17d7a28ecc)
+
+## 41. 如何判断 object 为空
+
+- 常用方法：
+  - `Object.keys(obj).length === 0`
+    = `JSON.stringfy(obj) === '{}'`
+  - for in
+- 以上都不太严谨，因为处理不了 `const obj = { [Symbol('a')]: 1 }` 的这种情况
+- 更严谨：`Reflect.ownKeys(obj).length === 0`
+
+## 42. 强制类型转换，隐式类型转换
+
+- 强制类型转换
+  ```js
+  const num = Number("42");
+  const str = String(123);
+  const boo1 = Boolean(0);
+  ```
+- 隐式类型转换
+  ```js
+  const res = 10 + "5";
+  true == 1;
+  false == 0;
+  ```
+
+## 43. `==` vs `===`
+
+- `==` ，先隐式转换，再判断值是否相等
+- `===`，直接判断 类型 + 值 是否相等
+
+```js
+1 == "1"; // true
+true == 1; // true
+
+1 === "1"; // false
+true === 1; // false
+```
+
+**补充**：当 a = ？以下代码成立
+
+```js
+if (a == 1 && a == 2 && a == 3) {
+  console.log("hi");
+}
+```
+
+```js
+const a = {
+  i: 1,
+  valueOf: function () {
+    return this.i++;
+  },
+};
+
+if (a == 1 && a == 2 && a == 3) {
+  console.log("hi");
+}
+```
+
+## 44. JS 的数据类型
+
+- 基础数据类型
+
+  - String
+  - Number
+  - Boolean
+  - Null
+  - Undefined
+  - Symbol
+
+- 复杂数据类型
+  - Object
+  - Array
+  - Function
+- 在 ECMAScript 2020（ES11）规范种正式添加 BigInt 数据类型，用于对 **大整数** 的表示。
+  - 结尾用 n 表示：100000n
+- 基础数据类型存放于栈，变量记录原始值；引用类型存放于堆，变量记录地址
+
+## 45. 如何判断 JS 的数据类型
+
+- `typeof`: 用以确定一个值的基础数据类型，返回一个表示数据类型的字符串
+
+  ```js
+  typeof 42; // 'number'
+  typeof "hello"; // 'string'
+  typeof true; // 'boolean'
+  typeof undefined; // 'undefined'
+  typeof null; // 'object' (typeof 的常见误解)
+  typeof [1, 2, 3]; // 'object'
+  typeof { key: "value" }; // 'object'
+  typeof function () {}; // 'function'
+  ```
+
+  _注意_：typeof null 返回 'object' 是历史遗留问题，不是很准确
+
+- `Object.prototype.toString` : 用于获取更想起的数据类型信息。
+
+  ```js
+  Object.prototype.toString.call(42); //'[object Number]'
+  Object.prototype.toString.call("hello"); // '[object String]'
+  Object.prototype.toString.call(true); // '[object Boolean]'
+  Object.prototype.toString.call(undefined); // '[object Undefined]'
+  Object.prototype.toString.call(null); // '[object Null]'
+  Object.prototype.toString.call([1, 2, 3]); // '[object Array]'
+  Object.prototype.toString.call({ key: "value" }); // '[object Object]'
+  Object.prototype.toString.call(function () {}); // '[object Function]'
+  ```
+
+- `instanceof` : 检查对象是否属于某个类的实例
+  ```js
+  const obj = {};
+  obj instanceof Object; // true
+  const arr = [];
+  arr instanceof Array; // true
+  function Person() {}
+  const person = new Person();
+  person instanceof Person; //true
+  ```
+- `Array.isArray`: 检查一个对象是否为数组
+  ```js
+  Array.isArray([1, 2, 3]); // true
+  Array.isArray("hi"); //false
+  ```
+
+## 46. ES 每个版本引入了什么
+
+ECMAScript 是一种用于编写 JS 的标准化脚本语言。下面是每个版本的一些重要特性和区别：
+
+- ES6 （ECMAScript 2015）
+  - let/const，用于声明块级作用域的变量
+  - arrow function
+  - 模板字符串 （template string）
+  - 解构赋值 （destructuring assignment）
+  - 类和模块（classed and modules）
+  - Promise
+- ES7 （ECMAScript 2016）
+  - Array.prototype.includes()
+  - 指数操作符
+- ES8 （ECMAScript 2017）
+  - async/await
+  - Object.values() / Object.entries()
+  - 引入字符串填充方法
+- ES9 （ECMAScript 2018）
+  - 异步迭代器（asynchronous iterators）
+  - Promise.finally()
+  - 对象的拓展运算符 （object spread）
+- ES10 （ECMAScript 2019）
+  - Array.prototype.flat()/flatMap()
+  - STring.prototype.trimStart()/trimEnd()
+  - 动态导入（dynamic imports）
+- ES11 （ECMAScript 2020）
+  - 可选链操作符（optional chaining）
+  - 空值合并操作符（nullish coalescing）
+  - Bigint
+
+## 47. let
+
+-- pending --
