@@ -1,11 +1,11 @@
-import type { Site, SocialObjects, SocialItem } from "./types";
+import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://zhenyounide.pages.dev/", // replace this with your deployed domain
+  website: "https://zhenyounide.top/", // replace this with your deployed domain
   author: "zhenyounide",
   desc: "A minimal, responsive and SEO-friendly blog",
   title: "zhenyounide blog",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "logo.svg",
   lightAndDarkMode: true,
   postPerPage: 3,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
@@ -54,12 +54,12 @@ export const SOCIALS: SocialObjects = [
     linkTitle: `Send an email to ${SITE.title}`,
     active: true,
   },
-  // {
-  //   name: "Twitter",
-  //   href: "https://github.com/satnaing/astro-paper",
-  //   linkTitle: `${SITE.title} on Twitter`,
-  //   active: false,
-  // },
+  {
+    name: "Twitter",
+    href: "https://x.com/xnx1019523",
+    linkTitle: `${SITE.title} on Twitter`,
+    active: false,
+  },
   // {
   //   name: "Twitch",
   //   href: "https://github.com/satnaing/astro-paper",

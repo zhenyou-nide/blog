@@ -1,6 +1,6 @@
 {
-  "name": "blogs-astro",
-  "version": "4.2.0",
+  "name": "zhenyounide-blog",
+  "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
