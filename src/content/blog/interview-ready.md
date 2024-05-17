@@ -27,30 +27,29 @@ description: 温故知新，持续更新
 
 - 如何减少回流：
   - 使用 css 动画代替 js 动画: css 动画利用 GPU 加速，在性能方面比 js 动画更高效。尽量使用 css 的 transform 和 opacity 属性来创建动效，而不是改变元素的布局属性，例如宽高
-  - 使用 translate3d 开启硬件加速？？：将元素的位移属性设置为 translate3d(0,0,0), 以强制浏览器使用 GPU 来渲染这个元素，而不是 CPU。这有助于避免回流，并提高动画的流畅度，Tailwind CSS 的话，官方就有 GPU 加速的玩法，直接加一个 transform-gpu
+  - 使用 translate3d 开启硬件加速？？：将元素的位移属性设置为 `translate3d(0,0,0)`, 以强制浏览器使用 GPU 来渲染这个元素，而不是 CPU。这有助于避免回流，并提高动画的流畅度，Tailwind CSS 的话，官方就有 GPU 加速的玩法，直接加一个 transform-gpu
   - 避免频繁操作影响布局的样式属性
   - 使用 requestAnimationFrame 调度动画帧，可以确保动画在浏览器的重绘周期内执行，从而避免回流。确保动画在最佳时间点进行渲染
   - 使用文档片段（Document Fragment）: 当需向 DOM 中插入大量新元素的时候，可先将这这元素用 fragment 包裹，再一次性添加到 DOM 中（虚拟 dom vue 的方式）
-  - 让元素脱离文档流：position absolute/fixed； float: left（只是减少回流，不是避免回流）
-  - 使用 visibility hidden 而不是 display none: display none 会将元素从 dom 中移除，引起回流； visibility hidden 不会触发回流，元素仍然占据空间
+  - 让元素脱离文档流：`position absolute/fixed`； `float: left`（只是减少回流，不是避免回流）
+  - 使用 `visibility hidden` 而不是 `display none`: `display: none` 会将元素从 dom 中移除，引起回流； `visibility: hidden` 不会触发回流，元素仍然占据空间
 
 ## 2. margin 塌陷，BFC? 如何触发 BFC
 
 - margin 塌陷：相邻元素外边距合并规则
 - BFC: block formatting context, 一个独立的区域，与外部元素不会互相影响
 - 触发方式
-  - float 不为 none 都行
-  - position absolute/fixed
-  - display inline-block
-  - overflow 不为 visible
+  - `float` 不为 none 都行
+  - `position: absolute/fixed` -` display: inline-block`
+  - `overflow` 不为 visible
 
 ## 3. 隐藏元素
 
-- display none 不占位
-- opacity 0 占位
-- visibility hidden 占位
-- clip-path circle(0) 占位
-- position absolute top -999px 不占位
+- `display: none` 不占位
+- `opacity: 0`占位
+- `visibility: hidden` 占位
+- `clip-path: circle(0)` 占位
+- `position: absolute` `top: -999`不占位
 
 ## 4. overflow 各值的区别
 
@@ -212,16 +211,16 @@ description: 温故知新，持续更新
 
 HTML 元素看作盒子，包括 内容 内边距 border 外边距
 
-- IE盒模型（怪异模式）：内容 + 内边距 + border，box-sizing: border-box
-- 标准和模型：内容 ，box-sizing: content-box
+- IE盒模型（怪异模式）：内容 + 内边距 + border，`box-sizing: border-box`
+- 标准和模型：内容 ，`box-sizing: content-box`
 
 ## 11. html5 特性
 
-- **语义元素**：header, footer, section, nav 等更好的描述网页的解构
-- **多媒体**：audio 和 video 标签，无需再使用 flash
+- **语义元素**：`header`, `footer`, `section`, `nav` 等更好的描述网页的解构
+- **多媒体**：`audio` 和 `video` 标签，无需再使用 flash
 - **canvas**：允许通过 js 创建和操作图形
 - **本地存储**：web storage 和 indexedDB
-- **新表单元素**：input type='date'/'email'/'range'
+- **新表单元素**：`input type='date'/'email'/'range'`
 - **web workers**：允许在后台运行 js，以提高 web 应用的响应性，而不会阻塞用户界面
 - **webSocket**：实时通信，可用于创建实时聊天和多人游戏
 - **地理位置**：允许网页访问用户的地理位置信息
@@ -266,20 +265,20 @@ HTML 元素看作盒子，包括 内容 内边距 border 外边距
 
 ## 14. HTML5 input type
 
-- text: 单行文本
-- password: 密码，输入的字符会被覆盖
-- radio: 单选按钮
-- checkbox: 复选框
-- number:输入数字，包括上下箭头
-- range: 范围，例如滑动条
-- date: 日期
-- time: 时间
-- file: 文件上传
-- color: 颜色选择器
-- hidden: 存储数据，但不会在页面中显示
-- submit: 提交表单
-- reset: 重置表单
-- button: 创建自定义按钮
+- `text`: 单行文本
+- `password`: 密码，输入的字符会被覆盖
+- `radio`: 单选按钮
+- `checkbox`: 复选框
+- `number`: 输入数字，包括上下箭头
+- `range`: 范围，例如滑动条
+- `date`: 日期
+- `time`: 时间
+- `file`: 文件上传
+- `color`: 颜色选择器
+- `hidden`: 存储数据，但不会在页面中显示
+- `submit`: 提交表单
+- `reset`: 重置表单
+- `button`: 创建自定义按钮
 
 ## 15. CSS 继承性
 
@@ -337,7 +336,7 @@ float 是 css 中的一种布局属性，用于控制元素在其父元素的位
   }
   ```
 - `display: inline-block`: 将需要浮动的元素设置 inline-block；可以模拟浮动，但不会导致高度塌陷，因为 inline-block 元素会受到文本行的影响
-- `position: absolute/display: flex/ display: grid`: 模拟 float
+- `position: absolute`,`display: flex`,`display: grid`: 模拟 float
 - `overflow: hidden`: 在包含浮动的父元素上添加 overflow hidden，可以清除浮动
 
 ## 19. line-height vs height
@@ -398,7 +397,7 @@ html 规范对 `img` 元素的默认样式有特殊的定义，因为 img 需要
 }
 ```
 
-_注意_：box-sizing 通常在全局样式中设置，以确保整个页面使用一致的盒模型
+_注意_：`box-sizing` 通常在全局样式中设置，以确保整个页面使用一致的盒模型
 
 ## 24. CSS 实现动画
 
@@ -457,7 +456,7 @@ _注意_：box-sizing 通常在全局样式中设置，以确保整个页面使�
 
 - animation
 
-  - 可创建更复杂的动画，可定义 keyframes。
+  - 可创建更复杂的动画，可定义 `@keyframes`。
   - 动画可以在元素的状态，时间轴或者事件触发下进行
 
   ```css
@@ -862,26 +861,26 @@ if (a == 1 && a == 2 && a == 3) {
 ECMAScript 是一种用于编写 JS 的标准化脚本语言。下面是每个版本的一些重要特性和区别：
 
 - ES6 （ECMAScript 2015）
-  - let/const，用于声明块级作用域的变量
+  - `let/const`，用于声明块级作用域的变量
   - arrow function
   - 模板字符串 （template string）
   - 解构赋值 （destructuring assignment）
   - 类和模块（classed and modules）
   - Promise
 - ES7 （ECMAScript 2016）
-  - Array.prototype.includes()
+  - `Array.prototype.includes()`
   - 指数操作符
 - ES8 （ECMAScript 2017）
   - async/await
-  - Object.values() / Object.entries()
+  - `Object.values()` / `Object.entries()`
   - 引入字符串填充方法
 - ES9 （ECMAScript 2018）
   - 异步迭代器（asynchronous iterators）
-  - Promise.finally()
+  - `Promise.finally()`
   - 对象的拓展运算符 （object spread）
 - ES10 （ECMAScript 2019）
-  - Array.prototype.flat()/flatMap()
-  - STring.prototype.trimStart()/trimEnd()
+  - `Array.prototype.flat()`/`Array.prototype.flatMap()`
+  - `String.prototype.trimStart()`/`String.prototype.trimEnd()`
   - 动态导入（dynamic imports）
 - ES11 （ECMAScript 2020）
   - 可选链操作符（optional chaining）
@@ -889,5 +888,178 @@ ECMAScript 是一种用于编写 JS 的标准化脚本语言。下面是每个�
   - Bigint
 
 ## 47. let
+
+- 块级作用域
+
+  ```js
+  for (var i = 0; i < 10; ++i) {
+    setTimeout(() => console.log(i), 1000);
+  }
+  ```
+
+  1000ms 后输出 10 个 10，循环体变量 i 会渗透到循环体外部，所以在 `setTimeout` 1000ms 的过程中，i 的值实质上变成了 10；因此会在 1000ms 后输出 10 个 10；
+
+  ```js
+  for (let i = 0; i < 10; ++i) {
+    setTimeout(() => console.log(i), 1000);
+  }
+  ```
+
+  改为 `let` 后，问题会消失，1000ms 后输出 0 - 9；因为 let 是块级作用域，仅局限于循环体内部。
+
+  ```js
+  for (var i = 0; i < 10; ++i) {
+    (function (index) {
+      setTimeout(() => console.log(index), 1000);
+    })(i);
+  }
+
+  for (var i = 0; i < 10; ++i) {
+    setTimeout(() => console.log(index), 1000, i);
+  }
+  ```
+
+  如果用 `var`，可通过在循环体内部添加一个立即执行函数，把迭代变量的作用域保护起来；或者给 `setTimeout` 传第三个参数
+
+- 暂时性死区（temporal dead zone）
+  在 `let` 声明之前的执行瞬间被称为 **暂时性性死区**，此阶段引用任何后面声明的变量会抛出 ReferenceError 的错误
+
+  ```js
+  a = 1;
+  let a;
+  // VM5545:1 Uncaught ReferenceError: Cannot access 'a' before initialization at <anonymous>:1:4
+  ```
+
+- 同级作用域下不能重复声明
+
+  ```js
+  let x = 1;
+  let x = 2;
+  //VM5590:1 Uncaught SyntaxError: Identifier 'x' has already been declared
+  ```
+
+- 全局声明会挂到 Script 作用域下，不会挂在 window
+  ![image](/let.jpg)
+
+## 48. 变量提升 & 函数提升（优先级）
+
+```js
+console.log(s);
+var s = 2;
+function s() {}
+console.log(s);
+
+// ƒ s() {}
+// 2
+```
+
+- `var` 变量提升
+- 优先级：函数提升 > 变量提升
+- 过程
+
+  ```js
+  function s() {}
+  console.log(s);
+  var s = 2;
+  console.log(s);
+  ```
+
+  ```js
+  function s() {}
+  console.log(s);
+  s = 2;
+  console.log(s);
+  ```
+
+  ```js
+  // 输出
+  // ƒ s() {}
+  // 2
+  ```
+
+## 49. 如何判断对象相等
+
+较常用 `JSON.strinfyg(obj1) === JSON.stringfy(obj2)`
+
+> [lodash/isEqual](https://lodash.com/docs/4.17.15#isEqual)
+
+## 50. null vs undefined
+
+**undefined**
+
+- 声明但未初始化它，值为 `undefined`
+- 访问对象属性或者数组元素不存在的属性或者缩影时，返回 `undefined`
+- 放函数没有返回值，默认返回 `undefined`
+- 函数的参数没有传递或者没有提供，函数内的对应参数值为 `undefined`
+
+```js
+let x;
+console.log(x);
+
+const obj = {};
+console.log(obj.name);
+
+function fn() {}
+console.log(fn());
+
+function add(a, b) {
+  return a + b;
+}
+console.log(add(2));
+```
+
+**null**
+
+- 特殊的关键字，表示一个空对象指针
+- 通常用于显式的表示一个变量或属性的值是空的，`null` 是一个赋值的操作，用来表示 **没有值** 或者 **空**
+- `null` 通常需要开发人员主动分配给变量，而不是自动分配的默认值
+- `null` 是原型链的顶层，所有对象都继承自 Object 原型对象，Object 原型对象的原型是 `null`；
+
+```js
+const a = null;
+console.log(a);
+
+const obj = { a: 1 };
+const proto = obj.__proto__;
+console.log(proto.__proto__); // null
+```
+
+## 51. 用 setTimeout 来实现倒计时，与 setInterval 的区别？
+
+```js
+// setTimeout
+const countDown = count => {
+  setTimeout(() => {
+    count--;
+    if (count > 0) countDown(count);
+    else {
+      console.timeEnd("a");
+      console.log("ended");
+    }
+  }, 1000);
+};
+console.time("a");
+countDown(10);
+// a: 10099.882080078125 ms
+```
+
+```js
+// setInterval
+let count = 10;
+console.time("a");
+let timer = setInterval(() => {
+  count--;
+  if (count <= 10) {
+    console.timeEnd("a");
+    clearInterval(timer);
+    timer = null;
+  }
+}, 1000);
+```
+
+- `setTimeout`: 每隔一秒生成一个任务，等待一秒后执行，执行完成后，再生成下一个任务，等待一秒后执行，如此循环，所以上面任务时间间隔保证是 1 秒；
+- `setInterval`: 无视执行时间，每隔一秒往任务队列里添加一个任务，等待一秒后执行，这样会导致任务执行间隔小于 1 秒，甚至任务堆积
+
+**注意**: `setInterval` 中当任务执行时间大于任务间隔时间，会导致消费赶不上生产。
 
 -- pending --
