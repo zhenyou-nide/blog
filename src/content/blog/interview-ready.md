@@ -1062,4 +1062,373 @@ let timer = setInterval(() => {
 
 **注意**: `setInterval` 中当任务执行时间大于任务间隔时间，会导致消费赶不上生产。
 
+## JS 事件循环机制 - 宏任务微任务
+
+1. 同步任务直接执行
+2. 遇到微任务-放到微任务队列（`Promise.then`/`process.nextTick`等等）
+3. 遇到宏任务-放到宏任务队列（`setTimeout`/`setInterval`等等）
+4. 执行完所有同步任务
+5. 执行微任务队列中的任务
+6. 执行宏任务队列中的任务
+
+```js
+console.log(1);
+Promise.resolve().then(() => {
+  console.log(2);
+  setTimeout(() => {
+    console.log(3);
+  }, 0);
+});
+setTimeout(() => {
+  console.log(4);
+  new Promise(resolve => {
+    console.log(5);
+    resolve();
+  }).then(() => {
+    console.log(6);
+  });
+}, 0);
+console.log(7);
+```
+
+<details>
+<summary>打印结果？</summary>
+1,7,2,4,5,6,3</details>
+
+**过程分析**
+
+```js
+// 输出 1 7
+// 宏任务列表
+const macroTaskQueue = [
+  {
+    console.log(4);
+    new Promise((resolve)=> {
+      console.log(5);
+      resolve()
+    }).then(()=> {
+      console.log(6)
+    })
+  }
+]
+// 微任务列表
+const microTaskQueue = [
+  {
+    console.log(2);
+    setTimeout(()=> {
+      console.log(3);
+    },0)
+  }
+]
+
+```
+
+```js
+// 输出 1 7 2
+// 宏任务列表
+const macroTaskQueue = [
+  {
+    console.log(4);
+    new Promise((resolve)=> {
+      console.log(5);
+      resolve()
+    }).then(()=> {
+      console.log(6)
+    })
+  }
+]
+// 微任务列表
+const microTaskQueue = []
+
+```
+
+```js
+// 输出 1 7 2 4 5
+// 宏任务列表
+const macroTaskQueue = [
+  {
+    console.log(3)
+  }
+]
+// 微任务列表
+const microTaskQueue = [
+  console.log(6)
+]
+
+```
+
+```js
+// 输出 1 7 2 4 5 6
+// 宏任务列表
+const macroTaskQueue = [
+  {
+    console.log(3)
+  }
+]
+// 微任务列表
+const microTaskQueue = []
+
+```
+
+```js
+// 输出 1 7 2 4 5 6 3
+// 宏任务列表
+const macroTaskQueue = [];
+// 微任务列表
+const microTaskQueue = [];
+```
+
+## 53. 事件循环进阶（1）
+
+```js
+Promise.resolve()
+  .then(() => {
+    console.log(0);
+    return Promise.resolve(4);
+  })
+  .then(res => {
+    console.log(res);
+  });
+
+Promise.resolve()
+  .then(() => {
+    console.log(1);
+  })
+  .then(() => {
+    console.log(2);
+  })
+  .then(() => {
+    console.log(3);
+  })
+  .then(() => {
+    console.log(4);
+  });
+```
+
+**过程分析**
+
+```js
+// 第 1 步
+// 输出：
+// 微任务:
+[
+  (() => {
+    console.log(0);
+    return Promise.resolve(4);
+  }).then(res => {
+    console.log(res);
+  }),
+  //
+  (() => {
+    console.log(1);
+  })
+  .then(() => {
+    console.log(2);
+  })
+  .then(() => {
+    console.log(3);
+  })
+  .then(() => {
+    console.log(4);
+  });
+];
+// 宏任务:
+[];
+```
+
+```js
+// 第 2 步
+// 输出：0
+// 处理第一个微任务
+(()=> {
+  return Promise.resolve().then(()=> {
+    return 4
+  }).then((res)=> console.log(res) )
+})
+// 微任务:
+[  (() => {
+    console.log(1);
+  })
+  .then(() => {
+    console.log(2);
+  })
+  .then(() => {
+    console.log(3);
+  })
+  .then(() => {
+    console.log(5);
+  });];
+// 宏任务:
+[];
+```
+
+```js
+// 第 3 步
+// 输出：
+// 处理第一个微任务
+(()=> {
+  return Promise.resolve().then(()=> {
+    return 4
+  }).then(x=> {
+    return x;
+  }).then((res)=> console.log(res) )
+})
+// 微任务:
+[(() => {
+  console.log(1);
+})
+.then(() => {
+  console.log(2);
+})
+.then(() => {
+  console.log(3);
+})
+.then(() => {
+  console.log(5);
+});];
+// 宏任务
+[];
+```
+
+```js
+// 第 4 步
+// 输出：0
+// 微任务:
+[(() => {
+  console.log(1);
+})
+.then(() => {
+  console.log(2);
+})
+.then(() => {
+  console.log(3);
+})
+.then(() => {
+  console.log(5);
+});
+//
+(()=> {
+    return 4
+  }).then(x=> {
+    return x;
+  }).then((res)=> console.log(res) )
+];
+// 宏任务
+[];
+```
+
+```js
+// 第 5 步
+// 输出：0 1
+// 微任务
+[
+  (() => {
+    return 4;
+  })
+    .then(x => {
+      return x;
+    })
+    .then(res => console.log(res)),
+  //
+  (() => {
+  console.log(2);
+})
+.then(() => {
+  console.log(3);
+})
+.then(() => {
+  console.log(5);
+});
+];
+// 宏任务
+[];
+```
+
+```js
+// 第 6 步
+// 输出：0 1
+// 微任务
+[
+  (() => {
+    console.log(2);
+  })
+    .then(() => {
+      console.log(3);
+    })
+    .then(() => {
+      console.log(5);
+    }),
+  //
+  (() => {
+    return 4;
+  }).then(res => console.log(res)),
+];
+// 宏任务
+[];
+```
+
+```js
+// 第 7 步
+// 输出：0 1 2
+// 微任务
+[
+  (() => {
+    return 4;
+  }).then(res => console.log(res)),
+  //
+  (() => {
+    console.log(3);
+  }).then(() => {
+    console.log(5);
+  }),
+];
+// 宏任务
+[];
+```
+
+```js
+// 第 8 步
+// 输出：0 1 2
+// 微任务
+[
+  (() => {
+    console.log(3);
+  }).then(() => {
+    console.log(5);
+  }),
+  //
+  () => {
+    console.log(4);
+  },
+];
+// 宏任务
+[];
+```
+
+```js
+// 第 9 步
+// 输出：0 1 2 3
+// 微任务
+[
+  //
+  () => {
+    console.log(4);
+  },
+  () => {
+    console.log(5);
+  },
+];
+// 宏任务
+[];
+```
+
+```js
+// 第 10 步
+// 输出：0 1 2 3 4 5
+// 微任务
+[];
+// 宏任务
+[];
+```
+
 -- pending --

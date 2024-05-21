@@ -15,6 +15,14 @@ description: 一行代码实现日常 code 使用频率较高的逻辑
 
 ## Table of contents
 
+# 反转颜色
+
+```css
+.invert {
+  filter: invert(1) hue-rotate(180deg);
+}
+```
+
 # create
 
 ```js
