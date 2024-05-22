@@ -1410,7 +1410,6 @@ Promise.resolve()
 // 输出：0 1 2 3
 // 微任务
 [
-  //
   () => {
     console.log(4);
   },
@@ -1430,5 +1429,302 @@ Promise.resolve()
 // 宏任务
 [];
 ```
+
+## 54. 事件循环进阶（2）
+
+```js
+const first = () =>
+  new Promise(resolve => {
+    console.log(3);
+    let p = new Promise(resolve => {
+      console.log(7);
+      setTimeout(() => {
+        console.log(5);
+        resolve(6);
+        console.log(p);
+      }, 0);
+      resolve(1);
+    });
+    resolve(2);
+    p.then(arg => {
+      console.log(arg);
+    });
+  });
+
+first().then(arg => {
+  console.log(arg);
+});
+
+console.log(4);
+```
+
+**过程分析**
+
+1. 第一步
+
+输出 2 7 4
+
+```js
+const micro = [
+  p.then(arg => {
+    console.log(arg);
+  }),
+
+  first.then(arg => {
+    console.log(arg);
+  }),
+];
+
+const macro = [
+  () => {
+    console.log(5);
+    resolve(6);
+    console.log(p);
+  },
+];
+```
+
+2. 第二步
+
+执行：
+
+```js
+p.then(arg => {
+  console.log(arg);
+});
+```
+
+输出 3 7 4 1
+
+```js
+const micro = [
+  first.then(arg => {
+    console.log(arg);
+  }),
+];
+
+const macro = [
+  () => {
+    console.log(5);
+    resolve(6);
+    console.log(p);
+  },
+];
+```
+
+3. 第三步
+
+执行：
+
+```js
+first.then(arg => {
+  console.log(arg);
+});
+```
+
+输出 3 7 4 1 2
+
+```js
+const micro = [];
+
+const macro = [
+  () => {
+    console.log(5);
+    resolve(6);
+    console.log(p);
+  },
+];
+```
+
+4. 第四步
+
+执行：
+
+```js
+() => {
+  console.log(5);
+  resolve(6);
+  console.log(p);
+};
+```
+
+输出 3 7 4 1 2 5 Promise(1)
+
+```js
+const micro = [];
+const macro = [];
+```
+
+## 55. 事件循环进阶（3）
+
+```js
+let a;
+let b = new Promise(resolve => {
+  console.log(1);
+  setTimeout(() => {
+    resolve();
+  }, 1000);
+}).then(() => {
+  console.log(2);
+});
+
+a = new Promise(async resolve => {
+  console.log(a);
+  await b;
+  console.log(a);
+  console.log(3);
+  await a;
+  resolve(true);
+  console.log(4);
+});
+
+console.log(5);
+```
+
+涉及 `await` 的题目，可先简单转换为 `Promise` ，便于理解
+
+```js
+let a;
+let b = new Promise(resolve => {
+  console.log(1);
+  setTimeout(() => {
+    resolve();
+  }, 1000);
+}).then(() => {
+  console.log(2);
+});
+
+a = new Promise(resolve => {
+  console.log(a);
+  b.then(() => {
+    console.log(a);
+    console.log(3);
+    a.then(() => {
+      resolve(true);
+      console.log(4);
+    });
+  });
+});
+
+console.log(5);
+```
+
+1. 第一步
+
+输出 1 a(undefined) 5
+
+```js
+const micro = [
+  b.then(() => {
+    console.log(a);
+    console.log(3);
+    a.then(() => {
+      resolve(true);
+      console.log(4);
+    });
+  }),
+];
+
+const macro = [
+  ()=> {
+    Promise{b}.resolve();
+  },1000);
+]
+```
+
+2. 第二步
+
+因为 b.then 在 setTimeout 中 resolve，所以这里优先执行
+
+```js
+  ()=> {
+    Promise{b}.resolve();
+  },1000);
+```
+
+输出 1 undefined 5 等待一秒
+
+```js
+const micro = [
+  ()=> {
+    console.log(2);
+  }).then(() => {
+    console.log(a);
+    console.log(3);
+    a.then(() => {
+      resolve(true);
+      console.log(4);
+    });
+  })
+];
+
+const macro = []
+```
+
+3. 第三步
+
+执行：
+
+```js
+  ()=> {
+    console.log(2);
+  }).then(() => {
+    console.log(a);
+    console.log(3);
+    a.then(() => {
+      resolve(true);
+      console.log(4);
+    });
+  })
+```
+
+输出 1 undefined 5 等待一秒 2
+
+```js
+const micro = [
+  () => {
+    console.log(a);
+    console.log(3);
+    a.then(() => {
+      resolve(true);
+      console.log(4);
+    });
+  },
+];
+
+const macro = [];
+```
+
+4. 第四步
+
+执行：
+
+```js
+() => {
+  console.log(a);
+  console.log(3);
+  a.then(() => {
+    resolve(true);
+    console.log(4);
+  });
+};
+```
+
+输出 1 undefined 5 等待一秒 2 Promise{<pending>} 3
+
+```js
+const micro = [
+   a.then(() => {
+    resolve(true);
+    console.log(4);
+  });
+]
+
+const macro = []
+```
+
+结束 因为 a.then 需要被 resolve 才会被执行
+
+## 56. 内存泄漏
 
 -- pending --

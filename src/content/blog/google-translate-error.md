@@ -31,14 +31,18 @@ description: ""
 ### What Google Translate was doing under the hood?
 
 ```js
-// Get the text node "checked"
-const myEl = document.querySelector("div > div > div").childNodes[0];
+// Get text nodes in the div
+const children = document.getElementById("parent").childNodes;
+for (const myEl of children) {
+  if (myEl.nodeType === Node.TEXT_NODE) {
+    // Replace a text node with a font element with translated data
+    const fontEl = document.createElement("font");
+    fontEl.textContent = myEl.data; // translated text
 
-// Create an arbitrary font element to replace it with
-const fontEl = document.createElement("font");
-
-myEl.parentElement.insertBefore(fontEl, myEl);
-myEl.parentElement.removeChild(myEl);
+    myEl.parentElement.insertBefore(fontEl, myEl);
+    myEl.parentElement.removeChild(myEl);
+  }
+}
 ```
 
 简而言之，Google Translate 找到需要翻译的文本后，用 `insertBefore` 方法在其父节点下插入 `font`，再用 `removeChild` 移除该父节点下的原 text；
@@ -57,23 +61,6 @@ myEl.parentElement.removeChild(myEl);
   </font>
   <!-- <div>no choice</div> is removed -->
 </div>
-```
-
-**translate mock:**
-
-```js
-// Get text nodes in the div
-const children = document.getElementById("parent").childNodes;
-for (const myEl of children) {
-  if (myEl.nodeType === Node.TEXT_NODE) {
-    // Replace a text node with a font element with translated data
-    const fontEl = document.createElement("font");
-    fontEl.textContent = myEl.data; // translated text
-
-    myEl.parentElement.insertBefore(fontEl, myEl);
-    myEl.parentElement.removeChild(myEl);
-  }
-}
 ```
 
 ### When an exception is thrown?
@@ -164,13 +151,25 @@ for (const myEl of children) {
 ```
 
 - for react : elementWaitForRemove is 'welcome'
-- but now, Google Translate replace 'welcome' with `<font><font>welcome</font></font>`
+- but now, Google Translate replace 'welcome' with
+  ```html
+  <font>
+    <font>welcome</font>
+  </font>
+  ```
 - 'welcome' is not the childNode of parent node, so react throw error;
 
 ---
 
 - if elementWaitForRemove is `<span>welcome</span>`
-- Google Translate replace `<span>welcome</span>` with `<span><font><font>welcome</font></font></span>`
+- Google Translate replace `<span>welcome</span>` with
+  ```html
+  <span>
+    <font>
+      <font>welcome</font>
+    </font>
+  </span>
+  ```
 - `<span>` is still a childNode of parent node, so react won't throw error
 
 ## 解决
