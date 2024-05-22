@@ -7,6 +7,7 @@ featured: true
 draft: false
 tags:
   - problems
+  - bug
 description: js 精度有问题？ 客户端收到的数据与服务端返回的不一致？
 ---
 

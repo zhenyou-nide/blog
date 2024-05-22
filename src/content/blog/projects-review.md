@@ -49,3 +49,9 @@ html2canvas 生成海报
 技术选型：vite + chakra-ui + wagmi
 
 优化项：todo
+
+### pumpad
+
+技术选型：vite + chakra-ui + wagmi
+
+优化项：todo

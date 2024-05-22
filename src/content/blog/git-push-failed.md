@@ -8,6 +8,7 @@ draft: false
 tags:
   - git
   - problems
+  - bug
 description: "connect to host github.com port 22: Connection refused"
 ---
 

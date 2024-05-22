@@ -8,6 +8,7 @@ draft: false
 tags:
   - problems
   - gatsbyjs
+  - bug
 description: ""
 ---
 

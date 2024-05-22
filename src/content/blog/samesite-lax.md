@@ -7,6 +7,7 @@ featured: false
 draft: false
 tags:
   - problems
+  - bug
 description: "这还能跨域吗，set-cookie （HttpOnly）set failed"
 ---
 

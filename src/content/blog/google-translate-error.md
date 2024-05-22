@@ -1,12 +1,12 @@
 ---
 author: zhenyounide
-pubDatetime: 2024-05-22T08:40:00Z
+pubDatetime: 2024-05-22T15:40:00Z
 title: "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node"
 slug: how-to-fix-removeChild-error
 featured: true
 draft: false
 tags:
-  - bugs
+  - bug
   - problems
   - react
 description: ""
@@ -166,6 +166,8 @@ for (const myEl of children) {
 - for react : elementWaitForRemove is 'welcome'
 - but now, Google Translate replace 'welcome' with `<font><font>welcome</font></font>`
 - 'welcome' is not the childNode of parent node, so react throw error;
+
+---
 
 - if elementWaitForRemove is `<span>welcome</span>`
 - Google Translate replace `<span>welcome</span>` with `<span><font><font>welcome</font></font></span>`
