@@ -1,6 +1,6 @@
 ---
 author: zhenyounide
-pubDatetime: 2024-05-22T15:40:00Z
+pubDatetime: 2024-05-22T08:35:26.680Z
 title: "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node"
 slug: how-to-fix-removeChild-error
 featured: true
