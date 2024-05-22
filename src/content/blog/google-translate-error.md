@@ -22,7 +22,7 @@ description: ""
 
 ![image](/faile-to-remove-child.png)
 
-一句话总结：react 中如果父节点下存在多个子节点且其中一个子节点是裸露的 text（没有使用 span 包裹），且这个文本的显隐由 `state` 控制，这种情况下如果用户开启了 Google Translate（或者其他翻译的插件），就会抛出如上图所示的异常。
+一句话总结：react 中如果父节点下存在多个子节点且其中一个子节点是裸露的 text（没有使用 `<span>` 包裹），且这个文本的显隐由 state 控制，这种情况下如果用户开启了 Google Translate（或者其他翻译的插件），就会抛出如上图所示的异常。
 
 本文将就 Google Translate 分析这一问题。
 
@@ -169,7 +169,7 @@ for (const myEl of children) {
 
 - if elementWaitForRemove is `<span>welcome</span>`
 - Google Translate replace `<span>welcome</span>` with `<span><font><font>welcome</font></font></span>`
-- 'span' is still a childNode of parent node, so react won't throw error
+- `<span>` is still a childNode of parent node, so react won't throw error
 
 ## 解决
 
