@@ -1,8 +1,8 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-05-17T11:13:47.400Z
-title: 前端面试汇总
+modDatetime: 2024-05-23T11:13:47.400Z
+title: 大宝典
 slug: interview-ready
 featured: false
 draft: false
@@ -1726,5 +1726,184 @@ const macro = []
 结束 因为 a.then 需要被 resolve 才会被执行
 
 ## 56. 内存泄漏
+
+应用程序中的内存不再被舒勇但是仍然被占用，导致内存消耗逐渐增加，最终可能导致程序性能下降或崩溃。
+
+通常是因为开发者编写的代码未正确释放不再需要的对象或者数组导致的
+
+**特征：**: 程序对内存失去控制
+
+**案例：**
+
+- 意外的全局变量
+
+  ```js
+  function fn() {
+    obj = {...}
+  }
+  ```
+
+- 闭包
+
+  闭包可能会无意中持有对不再需要的变量或对象的引用，组织它们被垃圾回收
+
+  ```js
+  function createClosure() {
+    const data = []; // 大量数据
+    return function () {
+      // 闭包持有对 data 的引用，即使他不再被使用
+      console.log(data);
+    };
+  }
+
+  const closureFn = createClosure();
+  // closureFn 不再被需要时，它仍然保留着 data 的引用，导致内存泄漏
+  ```
+
+- 事件监听器
+
+  忘记 remove event listener 可能会导致内存泄漏，因为与监听器相关联的对象将无法被垃圾回收
+
+  ```js
+  function createListener() {
+    const ele = document.getElementById("some-ele");
+    ele.addEventListener("click", () => {});
+  }
+
+  createListener();
+  // 即使 some-ele 从 dom 中移除，该元素及事件监听器仍将在内存中
+  //
+  ```
+
+- 循环引用
+
+  对象之间的循环引用会阻止他们被垃圾回收
+
+  ```js
+  function createCircleReference() {
+    const obj1 = {};
+    const obj2 = {};
+    obj1.ref = obj2;
+    obj2.ref = obj1;
+  }
+
+  createCircleReference();
+  ```
+
+- `setTimeout`/`setInterval`
+
+  如果没有正确 clear，可能会导致内存泄漏，特别是当回调函数持有对大型对象的引用时
+
+  ```js
+  function doSomethingRepeat() {
+    const data = []; // 大量数据
+    setInterval(() => {
+      console.log(data);
+    }, 1000);
+  }
+  doSomethingRepeat();
+  ```
+
+## 57. 闭包
+
+**定义**
+
+引用了另一个函数作用域中变量的函数，通常在嵌套函数中发生
+
+**作用**
+
+可以保留其被定义时的作用域，这意味着
+
+- 闭包内部可访问外部函数的局部变量，即使外部函数已执行完毕
+
+**注意**
+
+闭包会使函数内部的变量在函数执行后，仍存在于内存中，知道没有任何引用指向闭包。
+
+若不注意管理闭包，可能会导致内存泄漏
+
+**案例**
+
+```js
+const accumulation = function (initial = 0) {
+  let result = initial;
+  return function () {
+    result += 1;
+    return result;
+  };
+};
+```
+
+```js
+for (var i = 0; i < 10; ++i) {
+  (function (index) {
+    setTimeout(function () {
+      console.log(index);
+    }, 1000);
+  })(i);
+}
+```
+
+## 58. 常用的 `console`
+
+1. 普通打印 `console.log('a')`;
+2. 按级别打印
+
+   - `console.error('a')`
+   - `console.warn('a')`
+   - `console.info('a')`
+   - `console.debug('a')`
+
+3. 占位符
+
+   - `console.log('%o a', {a:1})`
+   - `console.log('%s a', 'ss')`
+   - `console.log('%d d', 123)`
+
+4. 打印任何对象，比如 dom 节点 `console.dir(document.body)`
+5. 打印表格 `console.table({a: 1,b: 2})`
+6. 计数
+
+   ```js
+   for (let i = 0; i < 10; ++i) {
+     console.count("a");
+   }
+   ```
+
+7. 分组
+
+   ```js
+   console.group("group1");
+   console.log("a");
+   console.group("group2");
+   console.log("b");
+   console.groupEnd("group2");
+   console.groupEnd("group1");
+   ```
+
+8. 计时
+
+   ```js
+   console.time("a");
+   const now = Date.now();
+   while (Date.now() - now < 1000) {}
+   console.timeEnd("a");
+   ```
+
+9. 断言 `console.assert(1 === 2, 'error')`
+
+10. 调用栈
+
+    ```js
+    function a() {
+      console.trace();
+    }
+    function b() {
+      a();
+    }
+    b();
+    ```
+
+11. 内存占用 `console.memory`
 
 -- pending --
