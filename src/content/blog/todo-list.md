@@ -2,7 +2,7 @@
 title: TODO LIST
 author: zhenyounide
 pubDatetime: 2022-05-23T04:06:31Z
-modDatetime: 2024-04-02T10:06:31Z
+modDatetime: 2024-05-27T10:06:31Z
 slug: todo-list
 featured: false
 draft: false
@@ -15,6 +15,10 @@ description: "一些杂七杂八的碎碎念"
 
 # 计划
 
+- [ ] LLM
+- [ ] next.js demo
+  - [ ] 过一下官方文档 （顺便总结）
+  - [ ] next-auth vs auth0 （ next-auth 简单看，实践 auth0 ）
 - [ ] 1. 小研究一下 [turbopack](https://turbo.build/pack/docs)
   - [ ] usage
   - [ ] why use it
@@ -46,11 +50,11 @@ description: "一些杂七杂八的碎碎念"
 - [ ] 接口 aws 签名
 - [ ] 命令式调用而非状态驱动 Modal
 - [ ] xbn 入选 Binance labs 孵化项目 （12/1500 国内 2 个）
-- [ ] `<meta name='theme-color' content='#000000'></meta>` [参考](https://zhuanlan.zhihu.com/p/413255714)
-- [ ] 判断元素是否在可视区域中 [ahooks/useInViewport](https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useInViewport/index.ts)
+- [x] 判断元素是否在可视区域中 [ahooks/useInViewport](https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useInViewport/index.ts)
 
 # 一些杂七杂八的记录
 
+- `<meta name='theme-color' content='#000000'></meta>` [参考](https://zhuanlan.zhihu.com/p/413255714)
 - vscode `ctrl + shift + L` 或者 `ctrl + f2`: 光标聚焦左右匹配项
 - android studio 访问开发者菜单 `ctrl + M` 或者 `adb shell input keyevent 82`
 - github 进入具体某个仓库 按下 `.` 就进入到 github 在线编译器 `https://github.dev/alibaba/hooks` [ahooks](https://github.dev/alibaba/hooks)

@@ -1,23 +1,19 @@
-let a;
-let b = new Promise(resolve => {
-  console.log(1);
-  setTimeout(() => {
-    resolve();
-  }, 1000);
-}).then(() => {
-  console.log(2);
+const obj = { a: 1, b: 2, c: 3 };
+
+for (let key in obj) {
+  console.log(key, obj[key]);
+}
+
+const keys = Object.keys(obj);
+keys.forEach(key => {
+  console.log(key, obj[key]);
 });
 
-a = new Promise(resolve => {
-  console.log(a);
-  b.then(() => {
-    console.log(a);
-    console.log(3);
-    a.then(() => {
-      resolve(true);
-      console.log(4);
-    });
-  });
+const entries = Object.entries(obj);
+entries.forEach(([key, value]) => {
+  console.log(key, value);
 });
 
-console.log(5);
+Reflect.ownKeys(obj).forEach(key => {
+  console.log(key, obj[key]);
+});

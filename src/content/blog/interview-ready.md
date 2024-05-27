@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-05-23T11:13:47.400Z
+modDatetime: 2024-05-27T11:13:47.400Z
 title: 大宝典
 slug: interview-ready
 featured: false
@@ -1905,5 +1905,231 @@ for (var i = 0; i < 10; ++i) {
     ```
 
 11. 内存占用 `console.memory`
+
+## 59. 数组去重
+
+1. 使用 Set
+
+```javascript
+let array = [1, 2, 3, 2, 4, 1, 5];
+let uniqueArray = [...new Set(array)];
+console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
+```
+
+2. 使用 filter 和 indexOf
+
+```javascript
+let array = [1, 2, 3, 2, 4, 1, 5];
+let uniqueArray = array.filter((item, index) => array.indexOf(item) === index);
+console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
+```
+
+3. 使用 reduce
+
+```javascript
+let array = [1, 2, 3, 2, 4, 1, 5];
+let uniqueArray = array.reduce((acc, item) => {
+  if (!acc.includes(item)) {
+    acc.push(item);
+  }
+  return acc;
+}, []);
+console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
+```
+
+4. 使用 forEach 和 includes
+
+```javascript
+let array = [1, 2, 3, 2, 4, 1, 5];
+let uniqueArray = [];
+array.forEach(item => {
+  if (!uniqueArray.includes(item)) {
+    uniqueArray.push(item);
+  }
+});
+console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
+```
+
+5. 使用 Map (适用于对象数组去重)
+
+```javascript
+let array = [
+  { id: 1, name: "Alice" },
+  { id: 2, name: "Bob" },
+  { id: 1, name: "Alice" },
+];
+let uniqueArray = Array.from(
+  new Map(array.map(item => [item.id, item])).values()
+);
+console.log(uniqueArray); // 输出: [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }]
+```
+
+## 60. 数组常用方法
+
+```js
+const list = [];
+// 遍历
+for (let i = 0; i < list.length; i++) {}
+for (const key in list) {
+}
+for (const key of list) {
+}
+list.forEach(i => {});
+list.map(i => {}); // 返回构造后的新数组
+
+// 逻辑判断
+list.every(i => {}); // 全部 true 即为 true
+list.some(i => {}); // 任一 true 即为 true
+
+// filter
+list.filter(i => {}); // 返回 过滤后的数组
+
+// 查找
+list.indexOf(); // 返回找到的第一个索引，没找到 -1
+list.lastIndexOf(); // 返回最后一个找到的位置，没找到 -1
+list.includes(); // 如果找到 返回 true
+list.find(); // 如果找到，返回目标值，否则 undefined
+list.findIndex(); // 如果找到，返回索引，否则 -1
+```
+
+## 61. reduce
+
+```js
+const list = [1, 2, 3, 4, 1];
+
+const sum = list.reduce((prev, cur) => prev + cur);
+const maxValue = list.reduce((prev, cur) => Math.max(prev, cur));
+const uniqArr = list.reduce((prev, cur) => {
+  if (prev.indexOf(cur) === -1) {
+    prev.push(cur);
+  }
+  return prev;
+}, []);
+
+const reverseStr = Array.from("hello world").reduce((prev, cur) => {
+  return `${cur}${prev}`;
+}, "");
+```
+
+## 62. 如何遍历对象
+
+```js
+const obj = { a: 1, b: 2, c: 3 };
+
+for (let key in obj) {
+  console.log(key, obj[key]);
+}
+
+const keys = Object.keys(obj);
+keys.forEach(key => {
+  console.log(key, obj[key]);
+});
+
+const entries = Object.entries(obj);
+entries.forEach(([key, value]) => {
+  console.log(key, value);
+});
+
+Reflect.ownKeys(obj).forEach(key => {
+  console.log(key, obj[key]);
+});
+```
+
+## 63. 创建函数的几种方式
+
+- 函数声明（function declaration）
+  函数声明提升，可以再声明之前掉用
+
+  ```js
+  function fn() {
+    console.log("hello");
+  }
+
+  fn();
+  ```
+
+- 函数表达式（function expression）
+  将函数赋值给变量或者属性，不会提升
+
+  ```js
+  var fn = function () {
+    console.log("hello");
+  };
+  fn();
+
+  var greet = function (name) {
+    console.log("hello" + name);
+  };
+  greet("mary");
+  ```
+
+- 匿名函数
+  没有名称，通常用于回调函数或者临时函数
+
+  ```js
+  setTimeout(function () {
+    console.log("this is an anonymous function");
+  });
+  ```
+
+- 箭头函数
+  ES6 引入，不能用作构造函数，且没有自己的 `this`,`arguments`,`super`或`new.target`
+
+  ```js
+  const greet = () => {
+    console.log("hello");
+  };
+
+  greet();
+  ```
+
+- 构造函数
+  可以使用 `Function` 构造函数来创建函数，但这种方式较少用
+
+  ```js
+  const greet = new Function("name", "console.log(`hello, ${name}`)");
+  ```
+
+- 方法定义
+
+  ```js
+  const obj = {
+    greet: function () {
+      console.log("hello");
+    },
+  };
+
+  const objSimple = {
+    greet() {
+      console.log("hello");
+    },
+  };
+  ```
+
+- Generator
+
+  ```js
+  function* generateFn() {
+    yield "hello";
+    yield "world";
+  }
+
+  const generator = generateFn();
+  console.log(generator.next().value); // hello
+  console.log(generator.next().value); // world
+  ```
+
+- Async
+  ```js
+  const greet = async () => {
+    const message = await Promise.resolve("hello");
+    console.log(message);
+  };
+  await greet();
+  ```
+
+## 64. 创建对象的几种方式
+
+- 对象
 
 -- pending --
