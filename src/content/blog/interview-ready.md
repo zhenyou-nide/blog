@@ -1910,59 +1910,61 @@ for (var i = 0; i < 10; ++i) {
 
 1. 使用 Set
 
-```javascript
-let array = [1, 2, 3, 2, 4, 1, 5];
-let uniqueArray = [...new Set(array)];
-console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
-```
+   ```javascript
+   let array = [1, 2, 3, 2, 4, 1, 5];
+   let uniqueArray = [...new Set(array)];
+   console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
+   ```
 
 2. 使用 filter 和 indexOf
 
-```javascript
-let array = [1, 2, 3, 2, 4, 1, 5];
-let uniqueArray = array.filter((item, index) => array.indexOf(item) === index);
-console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
-```
+   ```javascript
+   let array = [1, 2, 3, 2, 4, 1, 5];
+   let uniqueArray = array.filter(
+     (item, index) => array.indexOf(item) === index
+   );
+   console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
+   ```
 
 3. 使用 reduce
 
-```javascript
-let array = [1, 2, 3, 2, 4, 1, 5];
-let uniqueArray = array.reduce((acc, item) => {
-  if (!acc.includes(item)) {
-    acc.push(item);
-  }
-  return acc;
-}, []);
-console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
-```
+   ```javascript
+   let array = [1, 2, 3, 2, 4, 1, 5];
+   let uniqueArray = array.reduce((acc, item) => {
+     if (!acc.includes(item)) {
+       acc.push(item);
+     }
+     return acc;
+   }, []);
+   console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
+   ```
 
 4. 使用 forEach 和 includes
 
-```javascript
-let array = [1, 2, 3, 2, 4, 1, 5];
-let uniqueArray = [];
-array.forEach(item => {
-  if (!uniqueArray.includes(item)) {
-    uniqueArray.push(item);
-  }
-});
-console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
-```
+   ```javascript
+   let array = [1, 2, 3, 2, 4, 1, 5];
+   let uniqueArray = [];
+   array.forEach(item => {
+     if (!uniqueArray.includes(item)) {
+       uniqueArray.push(item);
+     }
+   });
+   console.log(uniqueArray); // 输出: [1, 2, 3, 4, 5]
+   ```
 
 5. 使用 Map (适用于对象数组去重)
 
-```javascript
-let array = [
-  { id: 1, name: "Alice" },
-  { id: 2, name: "Bob" },
-  { id: 1, name: "Alice" },
-];
-let uniqueArray = Array.from(
-  new Map(array.map(item => [item.id, item])).values()
-);
-console.log(uniqueArray); // 输出: [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }]
-```
+   ```javascript
+   let array = [
+     { id: 1, name: "Alice" },
+     { id: 2, name: "Bob" },
+     { id: 1, name: "Alice" },
+   ];
+   let uniqueArray = Array.from(
+     new Map(array.map(item => [item.id, item])).values()
+   );
+   console.log(uniqueArray); // 输出: [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }]
+   ```
 
 ## 60. 数组常用方法
 

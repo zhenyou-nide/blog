@@ -16,6 +16,9 @@ description: "一些杂七杂八的碎碎念"
 # 计划
 
 - [ ] LLM
+  - 了解概念
+  - 找一个方向
+  - 应用层开始了解
 - [ ] next.js demo
   - [ ] 过一下官方文档 （顺便总结）
   - [ ] next-auth vs auth0 （ next-auth 简单看，实践 auth0 ）
