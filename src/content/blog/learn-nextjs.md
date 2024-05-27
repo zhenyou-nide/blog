@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2024-05-14T05:50:00Z
-modDatetime: 2024-05-17T14:14:00Z
+modDatetime: 2024-05-27T10:14:00Z
 title: learning the foundations of Next.js and building a fully functional demo website
 slug: learn-nextjs
 featured: true
@@ -590,4 +590,124 @@ Next.js 使用的是文件路由，用文件夹来创建嵌套路由，每个文
 
 ![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Ffolders-to-url-segments.png&w=1920&q=75)
 
+你可以使用 `layout.tsx` 和 `page.tsx` 来为每一个 `route` 创建隔离的不同的样式
+
+`page.tsx` 是 Next.js 中的特殊文件，用于到处一个 React 组件，是路由可用的必须条件。在目前的项目结构中，已存在 `/app/page.tsx` -- 用于主页也就是根路由 `/`
+
+你可以通过创建嵌套的文件夹来创建嵌套路由。
+
+![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Fdashboard-route.png&w=3840&q=75)
+
+`/app/dashboard/page.tsx` 是路由 `/dashboard` 的路径。
+
+## Creating the dashboard page
+
+在 `/app` 下创建 `dashboard` 文件夹，然后在该文件夹下创建 `page.tsx`。
+
+```tsx
+// /app/dashboard/page.tsx
+export default function Page() {
+  return <p>Dashboard Page</p>;
+}
+```
+
+现在，访问 http://localhost:3000/dashboard. 预期是看到 "Dashboard Page" 字眼。
+
+这就是在 Next.js 中创建页面的方式。创建文件夹来创建一个新路由片段，然后在里面添加 `page` 文件。
+
+Next.js 允许您将 UI 组件、测试文件以及其他相关代码与您的路由共存。只有 `page` 文件会被公开访问。
+
+## Practice: Creating the dashboard pages
+
+让我们来联系创建更多路由。在 `/dashboard` 下创建两个页面：
+
+1. **Customers Page**：访问 http://localhost:3000/dashboard/customers. ，预期呈现 'Customers Page'
+
+2. **Invoices Page**：访问 http://localhost:3000/dashboard/invoices. ，预期呈现 'Invoices Page'
+
+文件结构预期是
+
+![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Frouting-solution.png&w=3840&q=75)
+
+```tsx
+// /app/dashboard/customers/page.tsx
+export default function Page() {
+  return <p>Customers Page</p>;
+}
+```
+
+```tsx
+// /app/dashboard/invoices/page.tsx
+export default function Page() {
+  return <p>Invoices Page</p>;
+}
+```
+
+## Creating the dashboard layout
+
+dashboard 有着跨多个页面的导航栏。在 Next.js 中，可以使用一个特殊的 `layout.tsx` 文件来创建在多个页面之间共享的 UI。让我们为 dashboard 创建一个 layout 吧！
+
+在 `/dashboard` 文件夹中，添加一个名为 `layout.tsx` 的新文件并粘贴以下代码:
+
+```tsx
+// /app/dashboard/layout.tsx
+import SideNav from "@/app/ui/dashboard/sidenav";
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+      <div className="w-full flex-none md:w-64">
+        <SideNav />
+      </div>
+      <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+    </div>
+  );
+}
+```
+
+这段代码中有一些内容，所以让我们小小分析一下:
+
+首先，将 `<SideNav/>` 组件导入到布局中.
+
+`<Layout/>` 组件接收一个 `children`, 可以是页面，也可以是其他布局。在这种情况下, `/dashboard` 中的页面将自动嵌套在 `<Layout/>` 中，如下所示:
+
+![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Fshared-layout.png&w=3840&q=75)
+
+然后，预取如下：
+![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Fshared-layout-page.png&w=1920&q=75)
+
+在 Next.js 中使用 layouts 的一个优化点是，当页面更新时，layouts 将不会重复渲染，这叫做 部分渲染 （partial rendering）
+
+![image](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Fpartial-rendering-dashboard.png&w=3840&q=75)
+
+## Root Layout
+
+更新 根布局：
+
+```tsx
+// /app/layout.tsx
+import "@/app/ui/global.css";
+import { inter } from "@/app/ui/fonts";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={`${inter.className} antialiased`}>{children}</body>
+    </html>
+  );
+}
+```
+
+这称为 root layout，是必需的。添加到 root layout 中的任何 UI 都将在所有页面之间共享。您可以使用根布局来修改 `<html>` 和 `<body >` 标签，并添加 metadata (您将在后面的章节中了解更多关于 metadata 的内容)。
+
+由于您刚刚创建的新布局 (/app/dashboard/layout.tsx) 对于 dashboard 是唯一的，所以您不需要向上面的根布局添加任何 UI】。
+
+<details>
+<summary>Next.js 中 layout 的作用是？</summary>
+在多个页面间共享 UI 样式。
+</details>
 -- 未完待续 --
