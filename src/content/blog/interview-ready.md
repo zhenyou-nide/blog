@@ -2132,6 +2132,187 @@ Reflect.ownKeys(obj).forEach(key => {
 
 ## 64. 创建对象的几种方式
 
-- 对象
+- 对象字面量（object literal）
 
--- pending --
+  ```js
+  const obj = {
+    name: "xxn",
+    age: 1,
+    sayHello: function () {
+      console.log("hello");
+    },
+  };
+  ```
+
+- 构造函数
+
+  ```js
+  function Person(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  const person = new Person("xxn", 1);
+  ```
+
+- `Object.create`
+
+  ```js
+  const person = Object.create(null);
+  person.name = "xxn";
+  person.age = 1;
+  ```
+
+- 工厂函数 （Factory Function）
+
+  ```js
+  function createPerson(name, age) {
+    return {
+      name,
+      age,
+    };
+  }
+
+  const person = createPerson("xxn", 1);
+  ```
+
+- class
+  ```js
+  class Person {
+    constructor(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+  }
+  ```
+
+## 65. 宿主对象/内置对象/原生对象
+
+1. 宿主对象（Host Object）
+   宿主对象是由宿主环境(通常是浏览器或者 nodejs)提供的对象。他们不属于 js 的核心，而是根据运行环境提供的功能而存在
+
+   - 浏览器中的 `window`,`document`,`XMLHttpRequest`
+   - nodejs 中的 `process`,`global`等
+
+2. 内置对象
+   js 本身提供的对象，包括全局对象，数学对象，日期对象，正则表达式对象等。例如：
+
+   - 全局对象 `Math`
+   - 日期对象 `Date`
+
+3. 原生对象
+   通过构造函数或者字面量方式创建的对象，例如数组，字符串，函数，对象等。
+
+## 66. 如何区分数组和对象
+
+1. **数组（Array）**：
+
+   - 数组是一种有序的集合，其中每个元素都有一个数字型索引。索引从0开始，依次递增。
+   - 数组的元素可以是任意类型的数据，包括数字、字符串、对象、甚至其他数组等。
+   - 通常用于存储一组相关的数据，比如一组数字、一组字符串等。
+   - 在JavaScript中，可以使用方括号 `[]` 来创建数组，或者使用 `new Array()` 构造函数。
+
+   ```javascript
+   let myArray = [1, 2, 3, 4, 5]; // 创建数组
+   let myArray2 = new Array(3); // 使用构造函数创建一个包含3个元素的数组
+   ```
+
+2. **对象（Object）**：
+
+   - 对象是一种键值对的集合，其中每个键（也称为属性）都对应一个值。值可以是任意类型的数据。
+   - 对象的键是唯一的，但值可以重复。
+   - 对象通常用于表示实体的属性，比如一个人的名字、年龄等。
+   - 在 JavaScript 中，对象的字面量形式是使用花括号 `{}`，或者使用 `new Object()` 构造函数。
+
+   ```javascript
+   let myObject = { name: "Alice", age: 30, city: "New York" }; // 创建对象
+   let myObject2 = new Object(); // 使用构造函数创建一个空对象
+   myObject2.name = "Bob"; // 添加属性到对象
+   ```
+
+数组是一种有序集合，通常用于存储一组相关的数据；而对象是一种键值对的集合，用于表示实体的属性。
+
+## 什么是类数组（伪数组），如何转为真实的数组
+
+是一种类似数组的对象。具有与数组类似的结构，具有索引和 `length` 属性。但不具有数组对象上的方法。
+
+**常见的类数组：**
+
+- 函数内部的 `arguments` 对象。
+- DOM 元素列表（例如 `querySelectorAll` 获取的元素集合）
+- 一些内置方法（如 `getElementByTagName` 返回的集合）
+
+**类数组转为真实数组的方法：**
+
+1. `Array.from`
+
+   ```js
+   const nodeList = document.querySelectorAll("#test");
+   const array = Array.from(nodeList);
+   ```
+
+2. `Array.prototype.slice.call()`
+
+   ```js
+   const nodeList = document.querySelectorAll("#test");
+   const array = Array.prototype.slice.call(nodeList);
+   ```
+
+3. `Spread`
+   ```js
+   const nodeList = document.querySelectorAll("#test");
+   const array = [...nodeList];
+   ```
+
+## 68. 什么是作用域链
+
+js 中用于查找变量或函数的一种机制，当代码中某个变量或者函数不在当前作用域（当前执行上下文），js 引擎会像外层作用域查找，直到找到为止，这种嵌套的作用域链形成了一个作用域层级结构。
+
+## 69. 作用域链如何延长
+
+作用域链的一个重要应用就是闭包。闭包是指函数可以访问其定义时所处的作用域以外的变量。
+
+当一个函数内部定义的函数被外部引用时，闭包就形成了。
+
+这时，内部函数依然可以访问外部函数的作用域，因为他们共享同一个作用域链
+
+**闭包**
+
+```js
+function createCounter() {
+  var count = 0;
+  return function () {
+    count++;
+    return count;
+  };
+}
+
+var counter1 = createCounter();
+var counter2 = createCounter();
+
+console.log(counter1()); //1
+console.log(counter1()); //2
+
+console.log(counter2()); //1
+
+// 每个 counter 具有自己的作用域链，且都延长了 count 的作用域
+```
+
+## 70. DOM 的 Attribute 和 Property 的区别
+
+在JavaScript中，DOM（文档对象模型）的Attribute（属性）和Property（属性）之间有一些区别：
+
+1. **Attribute（属性）**：
+
+   - 属性是 HTML 标签上的声明的静态属性，它们定义了HTML元素的初始值。
+   - 通过 `getAttribute()` 方法可以获取属性的值，通过 `setAttribute()` 方法可以设置属性的值。
+   - 属性值通常在HTML中以字符串形式指定，并且一般与标签的属性相对应，如`<input type="text" id="myInput" value="Hello">`中的`type`、`id`和`value`都是属性。
+
+2. **Property（属性）**：
+   - 属性是 DOM 元素的 JavaScript 对象上的动态属性，它们表示了 DOM 元素的当前状态。
+   - 通过直接访问 JavaScript 对象的属性来获取和设置属性值。
+   - 属性的值通常是对应属性类型的 JavaScript 对象，例如对于 input 元素的`value`属性，它可以是字符串、数字等类型。
+
+## 71. DOM 结构的创建/添加/移除/移动/复制/查找
+
+## -- pending --
