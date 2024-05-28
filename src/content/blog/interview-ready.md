@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-05-27T11:13:47.400Z
+modDatetime: 2024-05-28T11:13:47.400Z
 title: 大宝典
 slug: interview-ready
 featured: false
@@ -2311,8 +2311,268 @@ console.log(counter2()); //1
 2. **Property（属性）**：
    - 属性是 DOM 元素的 JavaScript 对象上的动态属性，它们表示了 DOM 元素的当前状态。
    - 通过直接访问 JavaScript 对象的属性来获取和设置属性值。
-   - 属性的值通常是对应属性类型的 JavaScript 对象，例如对于 input 元素的`value`属性，它可以是字符串、数字等类型。
+   - 属性的值通常是对应属性类型的 JavaScript 对象，例如对于 input 元素的`value`属性，它可以是字符串、数字等类型。`
 
-## 71. DOM 结构的创建/添加/移除/移动/复制/查找
+## 71. DOM 创建/添加/移除/复制/查找
+
+1. 创建
+
+   ```js
+   const newEle = document.createElement("div");
+   const newTextNode = document.createTextNode("Hello");
+   const fragment = document.createDocumentFragment();
+   ```
+
+2. 添加
+
+   ```js
+   const newEle = document.createElement("div");
+   // 添加子节点
+   parentEle.appendChild(newEle);
+   // 在参考节点前插入
+   parentEle.insertBefore(newEle, referenceEle);
+   ```
+
+3. 移除
+
+   ```js
+   parentEle.removeChild(childEle);
+   ```
+
+4. 复制
+
+   ```js
+   const cloneEle = originalNode.cloneNode(true);
+   ```
+
+5. 查找
+
+   ```js
+   // id
+   const ele = document.getElementById("id");
+   // 选择器
+   const ele = document.querySelector(".class");
+
+   // 节点遍历
+   const firstChild = parentEle.firstChild;
+   ```
+
+## 72. DOM 事件模型
+
+DOM（文档对象模型）事件模型是浏览器用来处理和管理网页上的事件的机制。它定义了事件如何传播、事件处理程序如何附加以及如何在事件中传递数据。DOM 事件模型主要包括三个阶段：捕获阶段、目标阶段和冒泡阶段。
+
+### 捕获阶段（Capturing Phase）
+
+- 在捕获阶段，事件从文档的根节点开始，向下传播到目标元素。
+- 这时可以在事件捕获的路径上拦截事件。
+- 捕获阶段主要用于为事件添加前置处理逻辑。
+
+### 目标阶段（Target Phase）
+
+- 当事件到达目标元素时，进入目标阶段。
+- 在目标元素上触发事件处理程序。
+- 此时处理的事件处理程序不区分捕获或冒泡。
+
+### 冒泡阶段（Bubbling Phase）
+
+- 在冒泡阶段，事件从目标元素开始向上传播回文档的根节点。
+- 这时可以在事件冒泡的路径上拦截事件。
+- 冒泡阶段主要用于为事件添加后续处理逻辑。
+
+### 事件绑定和处理
+
+在 JavaScript 中，可以通过 `addEventListener` 方法为 DOM 元素添加事件处理程序。
+
+```javascript
+// 添加一个点击事件处理程序
+element.addEventListener(
+  "click",
+  function (event) {
+    console.log("Element clicked!");
+  },
+  false
+); // false 表示在冒泡阶段处理事件
+```
+
+参数说明：
+
+1. **事件类型**（如 'click'、'mouseover' 等）。
+2. **事件处理程序函数**，在事件触发时执行的代码。
+3. **useCapture**（可选），布尔值，指示事件处理程序是否在捕获阶段触发。默认值为 `false`（即在冒泡阶段触发）。
+
+### 事件委托
+
+事件委托是一种将事件处理程序添加到父元素上，而不是直接添加到多个子元素上的技术。利用事件冒泡机制，可以有效地管理大量子元素的事件。
+
+```javascript
+// 为父元素添加事件处理程序
+parentElement.addEventListener("click", function (event) {
+  if (event.target && event.target.matches("childSelector")) {
+    console.log("Child element clicked!");
+  }
+});
+```
+
+### 停止事件传播
+
+在某些情况下，可能需要阻止事件传播。可以使用 `event.stopPropagation()` 方法停止事件在 DOM 树中的传播。
+
+```javascript
+element.addEventListener("click", function (event) {
+  event.stopPropagation(); // 停止事件传播
+  console.log("Propagation stopped.");
+});
+```
+
+### 默认行为和 preventDefault
+
+有些事件会触发浏览器的默认行为（如表单提交、链接跳转）。可以使用 `event.preventDefault()` 方法阻止这些默认行为。
+
+```javascript
+linkElement.addEventListener("click", function (event) {
+  event.preventDefault(); // 阻止默认的链接跳转行为
+  console.log("Default action prevented.");
+});
+```
+
+## 73. 事件三要素
+
+DOM 事件模型中的事件三要素是事件的核心组成部分，它们分别是事件类型、事件目标和事件处理程序。这些要素决定了事件的行为、触发对象以及响应方式。以下是对每个要素的详细解释：
+
+1. 事件类型（Event Type）
+
+   事件类型指的是事件的具体种类，它决定了事件触发的条件。例如，鼠标点击、键盘输入、页面加载等。常见的事件类型包括：
+
+   - **鼠标事件**：
+     - `click`：当用户点击某个元素时触发。
+     - `dblclick`：当用户双击某个元素时触发。
+     - `mouseover`：当鼠标指针移到某个元素上方时触发。
+     - `mouseout`：当鼠标指针移出某个元素时触发。
+     - `mousedown`：当用户按下鼠标按钮时触发。
+     - `mouseup`：当用户释放鼠标按钮时触发。
+   - **键盘事件**：
+     - `keydown`：当用户按下键盘按键时触发。
+     - `keypress`：当用户按下并按住键盘按键时触发。
+     - `keyup`：当用户释放键盘按键时触发。
+   - **表单事件**：
+     - `submit`：当表单提交时触发。
+     - `change`：当表单元素的值改变时触发。
+     - `focus`：当元素获得焦点时触发。
+     - `blur`：当元素失去焦点时触发。
+   - **窗口事件**：
+     - `load`：当页面加载完成时触发。
+     - `resize`：当窗口大小变化时触发。
+     - `scroll`：当页面滚动时触发。
+
+2. 事件目标（Event Target）
+
+   事件目标是事件触发的具体元素。即用户与之交互并触发事件的元素。例如，用户点击按钮时，按钮就是事件的目标。事件对象中可以通过 `event.target` 属性访问事件目标。
+
+   ```javascript
+   document
+     .getElementById("myButton")
+     .addEventListener("click", function (event) {
+       console.log("Event target:", event.target); // 输出触发事件的元素
+     });
+   ```
+
+3. 事件处理程序（Event Handler）
+
+   事件处理程序是当事件触发时执行的函数。它包含处理事件的逻辑。事件处理程序可以通过 `addEventListener` 方法附加到目标元素上。
+
+   ```javascript
+   document
+     .getElementById("myButton")
+     .addEventListener("click", function (event) {
+       alert("Button clicked!");
+     });
+   ```
+
+## 73. 如何绑定事件，解除事件
+
+**绑定事件**
+
+```js
+element.addEventListener("click", () => {});
+
+element.addEventListener("keydown", () => {});
+```
+
+**解除事件**
+
+```js
+element.removeEventListener("click", () => {});
+
+element.removeEventListener("keydown", () => {});
+```
+
+## 75. 事件冒泡与事件捕获的区别
+
+捕获是向下走，从根节点开始，向下去捕获到目标元素；（可通过 `addEventListener` 的第三个参数，设为 true 来开启事件捕获）
+
+冒泡是向上走，从目标元素开始，逐级向上冒泡到根节点（是默认的事件传播方式，可通过 `stopPropagation` 来阻止冒泡）
+
+见 [事件模型](#72-dom-事件模型)
+
+## 76. 事件委托
+
+见 [事件模型](#事件委托)
+
+**优点**
+
+1. 性能优势：可减少事件处理程序的数量
+2. 动态元素：适用于动态生成的元素，因为无需为新添加的元素单独绑定事件，而是在祖先元素上继续使用相同的事件处理程序
+3. 代码间接性
+4. 处理多个事件类型
+
+## 77. JS 动画 vs css3 动画
+
+|          | 优点                                                                              | 缺点                                                                 |
+| -------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| JS 动画  | 更可控，可使用复杂的逻辑/灵活性高/可使用 `requestAnimationFrame` 实现更高级的动画 | 性能较差/实现较为复杂                                                |
+| CSS 动画 | 性能好，可利用 GPU 加速/简洁易用/逻辑分离                                         | 控制力弱，无法精细控制每一帧，动画效果有限/交互能力有限，需要配合 js |
+
+**适用场景**
+
+- **CSS3 动画** 适合简单的过渡和动画效果，如元素的淡入淡出、位移、缩放、旋转等。例如：
+
+  ```css
+  .fade-in {
+    animation: fadeIn 2s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  ```
+
+- **JavaScript 动画** 适合复杂、动态交互和高需求的动画效果。例如：
+
+  ```javascript
+  const element = document.getElementById("myElement");
+  let start = null;
+
+  function animate(timestamp) {
+    if (!start) start = timestamp;
+    let progress = timestamp - start;
+    element.style.transform =
+      "translateX(" + Math.min(progress / 10, 200) + "px)";
+    if (progress < 2000) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  requestAnimationFrame(animate);
+  ```
+
+**小结**
+
+- **CSS3 动画**：适合简单、性能要求高的动画，实现简单，代码易于维护。
+- **JavaScript 动画**：适合复杂、需要高灵活性和交互性的动画，可以实现更复杂的效果。
 
 ## -- pending --
