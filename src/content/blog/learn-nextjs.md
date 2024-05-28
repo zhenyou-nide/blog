@@ -704,10 +704,21 @@ export default function RootLayout({
 
 这称为 root layout，是必需的。添加到 root layout 中的任何 UI 都将在所有页面之间共享。您可以使用根布局来修改 `<html>` 和 `<body >` 标签，并添加 metadata (您将在后面的章节中了解更多关于 metadata 的内容)。
 
-由于您刚刚创建的新布局 (/app/dashboard/layout.tsx) 对于 dashboard 是唯一的，所以您不需要向上面的根布局添加任何 UI】。
+由于您刚刚创建的新布局 (/app/dashboard/layout.tsx) 对于 dashboard 是唯一的，所以您不需要向上面的根布局添加任何 UI。
 
 <details>
 <summary>Next.js 中 layout 的作用是？</summary>
 在多个页面间共享 UI 样式。
 </details>
+
+# Navigating Between Pages
+
+在之前的章节里，我们已经创建了 dashboard 布局和页面文件，现在，让我们来学习下如何在切换路由，去到不同页面
+
+当前章节，我们将学到
+
+1. 如何使用 `next/link` 组件.
+2. 如何用 `usePathname()` 来展示一个 active link.
+3. Next.js 中导航的工作原理。
+
 -- 未完待续 --
