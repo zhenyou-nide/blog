@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>元素拖动实例</title>
+    <style type="text/css">
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .draggable {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+        color: black;
+        text-align: center;
+        line-height: 100px;
+        cursor: grab;
+        user-select: none;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="draggable" id="draggableEle">拖动我</div>
+
+    <script>
+      const draggableEle = document.getElementById("draggableEle");
+      let offsetX, offsetY;
+      let isDragging = false;
+      draggableEle.addEventListener("mousedown", event => {
+        isDragging = true;
+        offsetX = event.clientX - draggableEle.getBoundingClientRect().left;
+        offsetY = event.clientY - draggableEle.getBoundingClientRect().top;
+        draggableEle.style.cursor = "grabbing";
+      });
+      draggableEle.addEventListener("mousemove", event => {
+        if (!isDragging) return;
+        const newX = event.clientX - offsetX;
+        const newY = event.clientY - offsetY;
+        draggableEle.style.left = newX + "px";
+        draggableEle.style.top = newY + "px";
+      });
+      draggableEle.addEventListener("mouseup", event => {
+        isDragging = false;
+        draggableEle.style.cursor = "grab";
+      });
+    </script>
+  </body>
+</html>

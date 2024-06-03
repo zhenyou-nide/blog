@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-05-28T11:13:47.400Z
+modDatetime: 2024-06-03T11:13:47.400Z
 title: 大宝典
 slug: interview-ready
 featured: false
@@ -2574,5 +2574,113 @@ element.removeEventListener("keydown", () => {});
 
 - **CSS3 动画**：适合简单、性能要求高的动画，实现简单，代码易于维护。
 - **JavaScript 动画**：适合复杂、需要高灵活性和交互性的动画，可以实现更复杂的效果。
+
+## 78. document.write vs innerHtml
+
+1. 输出位置
+
+   - `document.write` 将内容直接写入到页面，会覆盖已存在的内容。如果它在页面加载后调用，会覆盖整个页面的内容，因此不建议在文档加载后使用它。
+   - `innerHTML` 是 DOM 元素的属性，可用来设置嚯获取元素的 HTML 内容。
+
+2. 用法
+
+   - `document.write` 通常用于在页面加载过程重生成 HTML 内容。不太推荐使用，不宜维护
+   - `innerHTML` 通常用户通过 js 动态更改特定元素的内容。更加灵活
+
+3. DOM 操作
+   - `document.write` 不是 DOM 操作，仅用于输出文本到页面
+   - `innerHTML` 是 DOM 操作
+
+## 80. mouseover vs mouseenter
+
+- 触发时机
+  - `mouseover` 鼠标指针从一个元素的外部进入到元素的范围内触发该事件，他会在进入时触发一次，然后在内部元素（有子元素）移动时多次触发
+  - `mouseenter` 鼠标指针从一个元素的外部进入到元素的范围内触发该事件，他只会在进入时触发一次，内部移动不会多次触发
+- 冒泡
+  - `mouseover` 会冒泡，也就是说鼠标进入子元素时，父元素的 mouseover 事件也会触发
+  - `mouseenter` 不会冒泡，进入特定元素才会触发
+- 应用场景
+  - `mouseover` 监听鼠标进入和离开，特别是当需要处理子元素的情况
+  - `mouseenter` 更常用于只需要鼠标第一次进入的监听，通常用于菜单，工具提示等忽略子元素的场景
+
+## 81. 元素拖动
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>元素拖动实例</title>
+    <style type="text/css">
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .draggable {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+        color: black;
+        text-align: center;
+        line-height: 100px;
+        cursor: grab;
+        user-select: none;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="draggable" id="draggableEle">拖动我</div>
+
+    <script>
+      const draggableEle = document.getElementById("draggableEle");
+      let offsetX, offsetY;
+      let isDragging = false;
+      draggableEle.addEventListener("mousedown", event => {
+        isDragging = true;
+        offsetX = event.clientX - draggableEle.getBoundingClientRect().left;
+        offsetY = event.clientY - draggableEle.getBoundingClientRect().top;
+        draggableEle.style.cursor = "grabbing";
+      });
+      draggableEle.addEventListener("mousemove", event => {
+        if (!isDragging) return;
+        const newX = event.clientX - offsetX;
+        const newY = event.clientY - offsetY;
+        draggableEle.style.left = newX + "px";
+        draggableEle.style.top = newY + "px";
+      });
+      draggableEle.addEventListener("mouseup", event => {
+        isDragging = false;
+        draggableEle.style.cursor = "grab";
+      });
+    </script>
+  </body>
+</html>
+```
+
+## 82. script 的 async vs defer
+
+- 默认（无 `async` 或 `defer`）: 浏览器会按照标签在 HTML 中的顺序，阻塞页面渲染，下载后并同步加载脚本，脚本会阻塞页面的加载和渲染。
+
+- `async`: 脚本将异步下载并执行，不会阻塞页面的加载和渲染。脚本将在下载完成后立刻执行，而不管其在文档中的位置。
+
+- `defer`: 脚本会异步下载，但不会立刻执行。它将在文档解析完成（DOMContentLoaded 事件之前）时按照他们在文档中的顺序执行。
+
+## ES6 的继承和 ES5 的继承的区别
+
+**ES6**：
+
+1. `Class` 和 `extends` 关键字
+2. `constructor` 构造函数，定义类的初始化逻辑，并通过 `super` 调用父类的构造函数。
+3. 方法定义：类中的方法不需要使用原型链，而是可以直接定义在类内部
+4. `super` 用于在子类中调用父类的方法，包括构造函数和普通方法
+
+**ES5**:
+....
 
 ## -- pending --
