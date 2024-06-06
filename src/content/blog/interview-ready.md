@@ -2680,7 +2680,78 @@ element.removeEventListener("keydown", () => {});
 3. 方法定义：类中的方法不需要使用原型链，而是可以直接定义在类内部
 4. `super` 用于在子类中调用父类的方法，包括构造函数和普通方法
 
+```js
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log("my name is" + this.name);
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, bread) {
+    super(name);
+    this.bread = bread;
+  }
+
+  speak() {
+    console.log("barks" + this.name);
+  }
+}
+
+const myDog = new Dog("dahuang", "golden");
+myDog.speak();
+```
+
 **ES5**:
-....
+
+- 原型链继承：
+
+  ```js
+  function Animal(name) {
+    this.name = name;
+  }
+
+  Animal.prototype.speak = function () {
+    console.log(this.name + "make a sound");
+  };
+
+  function Dog(breed) {
+    this.breed = breed;
+  }
+
+  Dog.prototype = new Animal("Unkown");
+
+  const myDog = new Dog("Golden");
+  myDog.speak();
+  ```
+
+  - 缺点1 属性共享：子类共享父类原型上的属性，一旦父类有引用类型，其中一个实例修改了这个引用类型的属性值，会影响所有其他实例
+  - 缺点2 不能传递参数：无法向弗雷构造函数传参，因为父类构造函数已经被调用
+
+- 构造函数继承
+
+  ```js
+  function Animal(name) {
+    this.name = name;
+  }
+
+  function Dog(name, breed) {
+    Animal.call(this.name);
+    this.breed = breed;
+  }
+
+  const myDog = new Dog("dahuang", "Golden");
+  console.log(myDog.nam);
+  ```
+
+  在这个实例中，`Dog` 构造函数内部调用了 `Animal` 构造函数，从而继承了 `Animal` 的属性
+
+  - 缺点1 属性继承：构造函数继承只能继承父类的属性，而没有继承父类的方法。子类无法访问父类原型上的方法
+  - 缺点2 属性复制：将属性复制到子类实例中，而不是通过原型链共享。导致内存浪费，特别是创建大量实例时。
+  - 不能继承方法：子类无法继承父类原型上的方法
 
 ## -- pending --
