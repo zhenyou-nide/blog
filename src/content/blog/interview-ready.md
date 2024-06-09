@@ -2754,4 +2754,36 @@ myDog.speak();
   - 缺点2 属性复制：将属性复制到子类实例中，而不是通过原型链共享。导致内存浪费，特别是创建大量实例时。
   - 不能继承方法：子类无法继承父类原型上的方法
 
+- 寄生组合继承
+
+  结合了构造函数继承和原型继承，通过在子类构造函数内部调用父类构造函数来继承属性，然后通过 `Object.create()` 方法来继承父类原型上的方法。
+
+  ```js
+  function Animal(name) {
+    this.name = name;
+  }
+
+  Animal.prototype.speak = function () {
+    console.log(this.name + "makes a sound");
+  };
+
+  function Dog(name, breed) {
+    // 使用构造函数继承，继承属性
+    Animal.call(this, name);
+    this.breed = breed;
+  }
+
+  // 使用 Object.create 继承原型
+  Dog.prototype = Object.create(Animal.prototype);
+  Dog.prototype.constructor = Dog; // 修复 constructor 引用
+
+  Dog.prototype.speak = function () {
+    console.log(this.name + "barks");
+  };
+  ```
+
+  避免了原型链中属性共享的问题，并允许灵活定义子类的构造函数和方法
+
+## 84. Promise
+
 ## -- pending --
