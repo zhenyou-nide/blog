@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-06-011T11:13:47.400Z
+modDatetime: 2024-06-11T11:13:47.400Z
 title: 大宝典
 slug: interview-ready
 featured: false
