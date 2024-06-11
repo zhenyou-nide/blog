@@ -2862,4 +2862,234 @@ P.then(
 
 ## 85. 如何解决异步回调地狱
 
+**定义：** 嵌套的回调函数中处理多个异步操作，导致代码变得混乱和难以维护的情况
+
+```js
+asyncFunc1(function(result1) {​
+  asyncFunc2(result1, function(result2) {​
+    asyncFunc3(result2, function(result3) {​
+      asyncFunc4(result3, function(result4) {​
+        // 更多的嵌套回调...​
+      });​
+    });​
+  });​
+});
+```
+
+**解决方案：**
+
+- Promise: 链式调用以便清晰的处理异步操作
+
+  ```js
+  asyncFunction()
+    .then(result => {
+      return anotherAsyncFunction(result);
+    })
+    .then(finalResult => {
+      // 处理最终结果
+    })
+    .catch(error => {
+      // 处理错误
+    });
+  ```
+
+- async/await: ES6 的异步处理发过誓，允许你使用类似同步代码的方式来处理异步操作
+
+  ```js
+  async function fetchData() {
+    try {
+      const res1 = await asyncFn1();
+      const res2 = await asyncFn2(res1);
+      // 处理结果
+    } catch (error) {
+      // 处理 error
+    }
+  }
+  ```
+
+- generators/yield: 可暂停和可恢复的异步代码
+
+## 86. 链式调用的实现方式
+
+```js
+class Calculator {
+  constructor() {
+    this.value = 0;
+  }
+
+  add(num) {
+    this.value += num;
+    return this; // 返回自身，以实现链式调用
+  }
+
+  minus(num) {
+    this.value -= num;
+    return this;
+  }
+  multiply(num) {
+    this.value *= num;
+    return this;
+  }
+  divide(num) {
+    this.value /= num;
+    return this;
+  }
+
+  getValue() {
+    return this.value;
+  }
+}
+
+const calculator = new Calculator();
+
+const res = calculator().add(5).minus(1).multiply(3).divide(4).getValue();
+```
+
+## 87. new 操作符内在逻辑
+
+```js
+function myNew(constructor, ...args) {
+  // 1. 创造一个新对象并连接到构造函数的原型
+  const obj = Object.create(constructor.prototype);
+  // 2. 将构造函数的 this 指向新对象并执行构造函数
+  const result = constructor.apply(obj, args);
+  // 3. 确保构造函数返回一个对象，如果没有则返回新对象
+  return result instanceof Object ? result : obj;
+}
+
+function Person(name) {
+  this.name = name;
+}
+const p1 = myNew(Person, "xxn");
+console.log(p1.name);
+```
+
+## 88. bind vs apply vs call, 以及内在实现
+
+### `call`
+
+- 用于调用一个函数，显示指定函数内部的 `this` 指向，参与以**列表**的形式传递给函数
+- 语法 `func.call(thisArg, arg1, arg2, ...)`
+- 直接调用函数，立即执行
+- 模拟实现
+
+  ```js
+  Function.prototype.myCall = function (context, ...args) {
+    // 1. 如果没有传入上下文，则默认为全局对象
+    context = context || window;
+    // 创建一个唯一的键，以避免属性名冲突
+    const uniqueID = Symbol();
+    // 在上下文中添加属性，将函数赋值给这个属性
+    context[uniqueID] = this;
+    // 调用函数
+    const res = context[uniqueID](...args);
+    // 删除属性
+    delete context[uniqueID];
+    // 返回函数执行结果
+    return res;
+  };
+
+  function greet(message) {
+    console.log(`${message}, ${this.name}`);
+  }
+
+  const person = { name: "xxn" };
+
+  greet.myCall(person, "Hello");
+  greet.call(person, "Hello");
+  ```
+
+### `apply`
+
+- 用于调用一个函数，显示指定函数内部的 `this` 指向，参与以**数组**的形式传递给函数
+- 语法 `func.call(thisArg, [arg1, arg2, ...])`
+- 直接调用函数，立即执行
+- 模拟实现
+
+  ```js
+  Function.prototype.myApply = function (context, args) {
+    // 1. 如果没有传入上下文，则默认为全局对象
+    context = context || window;
+    // 创建一个唯一的键，以避免属性名冲突
+    const uniqueID = Symbol();
+    // 在上下文中添加属性，将函数赋值给这个属性
+    context[uniqueID] = this;
+    // 调用函数
+    const res = context[uniqueID](...args);
+    // 删除属性
+    delete context[uniqueID];
+    // 返回函数执行结果
+    return res;
+  };
+
+  function greet(message) {
+    console.log(`${message}, ${this.name}`);
+  }
+
+  const person = { name: "xxn" };
+
+  greet.myApply(person, ["Hello"]);
+  greet.apply(person, ["Hello"]);
+  ```
+
+### `bind`
+
+- `bind` 方法不会立即调用函数，而是创建一个新的函数，该函数的 `this` 指向由 bind 的第一个参数执行，参数以列表的形式传递给函数。
+- 语法 `newFunc = func.bind(thisArg, arg1, arg2, ...)`
+- 不会立即执行函数，而是返回一个新函数
+- 模拟实现
+
+  ```js
+  Function.prototype.myBind = function (context, ...args) {
+    const func = this;
+    return function (...newArgs) {
+      return func.apply(context, args.concat * newArgs);
+    };
+  };
+
+  function greet(message) {
+    console.log(`${message}, ${this.name}`);
+  }
+
+  const person = { name: "xxn" };
+
+  const myBoundGreet = greet.myBind(person, "hi");
+  myBoundGreet();
+
+  const boundGreet = greet.bind(person, "hi");
+  boundGreet();
+  ```
+
+## 89. Ajax 避免浏览器缓存方法
+
+Http 请求时，浏览器会缓存响应数据，以提高性能。
+
+- 添加时间戳或随机参数
+
+```js
+const timestamp = new Date().getTime();
+const url = "data.json?timestamp=" + timestamp;
+```
+
+- 禁用缓存 header, 添加 `Cache-Control: no-cache` 或者 `Pragma: no-cache` 告诉服务器不用缓存
+
+  ```js
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "data.json", true);
+  xhr.setRequestHeader("Cache-Control", "no-cache");
+  xhr.send();
+  ```
+
+- 设置响应头: 服务器可在 response header 中设置缓存控制信息，以告诉浏览器不用缓存
+
+  ```text
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+  ```
+
+- 使用 POST？？？: GET 请求通常更容易被六拉你去缓存，而 POST 请求通常不会被缓存。如果没有特殊需求，可以考虑 POST
+
+## 90. `eval` 的功能和危害
+
 ## -- pending --
