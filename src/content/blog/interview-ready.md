@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-06-03T11:13:47.400Z
+modDatetime: 2024-06-011T11:13:47.400Z
 title: 大宝典
 slug: interview-ready
 featured: false
@@ -2785,5 +2785,81 @@ myDog.speak();
   避免了原型链中属性共享的问题，并允许灵活定义子类的构造函数和方法
 
 ## 84. Promise
+
+js 中处理 **异步操作** 的一种解决方案，尤其是在处理回调地狱问题上。
+
+三种状态：
+
+- pending
+- fulfilled
+- rejected
+
+模拟实现：
+
+```js
+function MyPromise(executor) {
+  // 初始化 Promise 的状态和结果
+  this._state = "pending";
+  this._value = undefined;
+
+  // 回调函数数组，用于存储成功和失败的回调
+  this._callback = [];
+
+  // 定义 resolve
+  const resolve = value => {
+    if (this._state === "pending") {
+      this._state = "fulfilled";
+      this._value = value;
+      this._callback.forEach(item => item.onFulfilled(value));
+    }
+  };
+
+  // 定义 reject
+  const reject = reason => {
+    if (this._state === "pending") {
+      this._state = "rejected";
+      this._value = reason;
+      this._callback.forEach(item => item.onRejected(reason));
+    }
+  };
+
+  // 执行 executor, 传入 resolve 和 reject 作为参数
+  try {
+    executor(resolve, reject);
+  } catch (error) {
+    reject(error);
+  }
+}
+
+MyPromise.prototype.then = function (onFulfilled, onRejected) {
+  if ((this._state = "fulfilled")) {
+    onFulfilled(this._value);
+  } else if (this._state === "rejected") {
+    this.onRejected(this._value);
+  } else if (this._state === "pending") {
+    this._callback.push({
+      onFulfilled,
+      onRejected,
+    });
+  }
+};
+
+// 实例
+
+const p = new MyPromise((resolve, reject) => {
+  setTimeout(() => resolve("成功"), 1000);
+});
+
+P.then(
+  result => {
+    console.log(result);
+  },
+  error => {
+    console.log(error);
+  }
+);
+```
+
+## 85. 如何解决异步回调地狱
 
 ## -- pending --

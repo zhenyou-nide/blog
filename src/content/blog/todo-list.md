@@ -2,7 +2,7 @@
 title: TODO LIST
 author: zhenyounide
 pubDatetime: 2022-05-23T04:06:31Z
-modDatetime: 2024-05-27T10:06:31Z
+modDatetime: 2024-06-11T10:06:31Z
 slug: todo-list
 featured: false
 draft: false
@@ -15,6 +15,7 @@ description: "一些杂七杂八的碎碎念"
 
 # 计划
 
+- [ ] [sanity](https://www.sanity.io/learn/course) 好东西，考虑重构博客
 - [ ] LLM
   - 了解概念
   - 找一个方向
