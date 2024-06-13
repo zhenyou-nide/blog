@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-06-11T11:13:47.400Z
+modDatetime: 2024-06-13T11:13:47.400Z
 title: 大宝典
 slug: interview-ready
 featured: false
@@ -3091,5 +3091,198 @@ const url = "data.json?timestamp=" + timestamp;
 - 使用 POST？？？: GET 请求通常更容易被六拉你去缓存，而 POST 请求通常不会被缓存。如果没有特殊需求，可以考虑 POST
 
 ## 90. `eval` 的功能和危害
+
+用于执行包含 js 代码的字符串，动态执行字符串内的 js 代码，例如
+
+```js
+const x = 1;
+const y = 2;
+const code = "x + y";
+const res = eval(code);
+```
+
+**危害：**
+
+1. 安全风险：允许执行来自不受信任来源的代码。如果恶意代码被注入到 `eval` 中
+2. 性能问题：运行时解析和执行代码。
+3. 可读性差：入参为字符串的代码，难以分析和调试
+4. 移植性问题：不同 js 引擎对 `eval` 的实现可能有差异，导致代码在不同环境中出现问题
+5. 限制代码优化：难以进行静态分析和优化
+
+## 91. 惰性函数
+
+指在第一次调用是执行特定操作，之后将函数重写或修改，以便在后续的调试中直接返回缓存的结果，而不再执行该操作。通常用于性能优化，以避免重复执行开销较大的操作。
+
+```js
+function addEvent(element, type, handler) {
+  if (element.addEventListener) {
+    addEvent = function (element, type, handler) {
+      element.addEventListener(type, handler, false);
+    };
+  } else if (element.attachEvent) {
+    addEvent = function (element, type, handler) {
+      element.attachEvent("on" + type, handler);
+    };
+  } else {
+    addEvent = function (element, type, handler) {
+      element["on" + type] = handler;
+    };
+  }
+  return addEvent(element, type, handler);
+}
+
+// 栗子
+const btn = document.getElementById("btn");
+addEvent(btn, "click", function () {
+  console.log("click btn");
+});
+```
+
+## 92. JS 监听对象属性的改变
+
+- `Object.defineProperty`
+
+  ```js
+  const person = {
+    firstName: "john",
+    lastName: "dow",
+  };
+
+  Object.defineProperty(person, "firstName", {
+    get() {
+      return this._firstName;
+    },
+    set(value) {
+      this._firstName = value;
+      console.log("firstName 改变为:", value);
+    },
+    configurable: true,
+  });
+
+  person.firstName = "mary"; // firstName 改变为: mary
+  ```
+
+- `Proxy`
+
+  ```js
+  const person = {
+    firstName: "john",
+    lastName: "dow",
+  };
+
+  const handler = {
+    get(target, property) {
+      console.log("访问了：", property);
+      return target[property];
+    },
+    set(target, property, value) {
+      console.log("设置了：", property, "为：", value);
+      target[property] = value;
+      return true;
+    },
+  };
+
+  const proxyPerson = new Proxy(person, handler);
+  console.log(proxyPerson.firstName); // 访问了： firstName
+  proxyPerson.lastName = "mick"; // 设置了： lastName 为： mick
+  ```
+
+## 93. `prototype` vs `__proto__`
+
+- `prototype`
+
+  - 函数对象（构造函数）特有属性，每个函数对象都有一个`prototype`，他是一个对象
+  - 通常用于定义共享的属性和方法，可以被构造函数创建的实例对象所继承。可以在构造函数的`prototype`上定义方法，以便多个实例对象共享这些方法，从而节省内存。
+  - 主要用于原型集成，他是构造函数和实例对象之间的链接，用于共享方法和属性。
+
+- `__proto__`
+
+  - 每个对象（包括函数对象和普通对象）都具有的属性，只想对象的原型，也就是他的父对象
+  - 用于实现原型链，当你访问一个对象的属性时，如果对象本社没有这个属性，js 引擎慧眼和原型链（通过`__proto__`属性）向上插好，知道好到属性或和到达原型链的顶部（通常是 `Object.prototype` ）。
+  - 主要用于对象之间的继承，建立了对象之间的原型关系
+
+```js
+// 创建一个构造函数
+function Person(name) {
+  this.name = name;
+}
+// 在构造函数的 prototype 上定义一个方法
+Person.prototype.sayHello = function () {
+  console.log(`Hello, my name is ${this.name}`);
+};
+
+// 创建一个实例对象
+const person1 = new Person("Tom");
+
+// 访问实例对象的属性和方法
+console.log(person1.name);
+person1.sayHello();
+
+// 查看实例对象的 __proto__ 属性，他指向构造函数的 prototype 对象
+console.log(person1.__proto__ === Person.prototype);
+```
+
+## 94. 如何理解箭头函数没有 this
+
+所谓的 `this` ，不是箭头函数中没有 `this` 这个变量，而是箭头i函数不绑定自己的 `this`，它们会捕获其所爱上下文的 `this` 值，作为自己的 `this`。这对于回校函数特别有用，可以避免传统函数中常见的 `this` 指向问题。例如在对象方法中使用箭头函数可以确保 `this` 保持一致
+
+## 95. 上下文与 this 指向
+
+```js
+globalThis.a = 100;
+function fn() {
+  return {
+    a: 200,
+    m: function () {
+      console.log(this.a);
+    },
+    n: () => {
+      console.log(this.a);
+    },
+    k: function () {
+      return function () {
+        console.log(this.a);
+      };
+    },
+  };
+}
+
+const fn0 = fn();
+fn0.m(); // 200 this 指向 {a, m, n}
+fn0.n(); // 100 this 指向 globalThis
+fn0.k()(); // 100 this 指向 globalThis
+
+const context = { a: 300 };
+const fn1 = fn.call(context); // 改变箭头函数 this 指向
+fn1.m(); // 200 this 指向 {a, m, n}
+fn1.n(); // 300 this 指向 context
+fn1.k()(); // 300 this 指向 context
+```
+
+## 97. 上下文与 this 指向 2
+
+```js
+let length = 10;
+function fn() {
+  return this.length + 1;
+}
+
+const obj = {
+  length: 5,
+  test1: function () {
+    return fn();
+  },
+};
+
+obj.test2 = fn;
+console.log(obj.test1()); // window 窗口数量
+console.log(fn() === obj.test2()); // false
+```
+
+## 98. 去除首尾空格
+
+`str.trim()`
+
+## 99. Symbol 特性与作用
 
 ## -- pending --
