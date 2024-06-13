@@ -3,7 +3,7 @@ title: 总结 js 中的相等性判断
 author: zhenyounide
 pubDatetime: 2024-04-29T07:56:31Z
 slug: same-value-in-js
-featured: true
+featured: false
 draft: false
 tags:
   - interview

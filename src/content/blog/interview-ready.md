@@ -2232,13 +2232,13 @@ Reflect.ownKeys(obj).forEach(key => {
 
 数组是一种有序集合，通常用于存储一组相关的数据；而对象是一种键值对的集合，用于表示实体的属性。
 
-## 什么是类数组（伪数组），如何转为真实的数组
+## 67. 什么是类数组（伪数组），如何转为真实的数组
 
 是一种类似数组的对象。具有与数组类似的结构，具有索引和 `length` 属性。但不具有数组对象上的方法。
 
 **常见的类数组：**
 
-- 函数内部的 `arguments` 对象。
+- 函数内部的 `arguments`
 - DOM 元素列表（例如 `querySelectorAll` 获取的元素集合）
 - 一些内置方法（如 `getElementByTagName` 返回的集合）
 
@@ -3284,5 +3284,140 @@ console.log(fn() === obj.test2()); // false
 `str.trim()`
 
 ## 99. Symbol 特性与作用
+
+1. 唯一性，即使有相同的描述字符串，也不想等
+2. 不可枚举：不会出现在 `for...in` 循环中
+3. 用作属性名：主要用途是作为对象属性的键，以确保属性的唯一性
+4. 常量：通常用来定义常量，以避免意外的修改值
+
+## 100. String 的 starstwith vs indexof
+
+- startsWith:
+
+  - 字符串对象的方法，用于检查字符串是否以指定的子字符串开始。
+  - 返回 bool
+  - 可接收两个参数，第一个参数是要查找的子字符串，第二个可选参数表示开始搜索的位置
+
+- indexOf:
+  - 字符串对象的方法，用于查找子字符串在字符串中第一次出现的位置
+  - 返回子字符串在字符串中的索引位置，没找到就返回 -1
+  - 可接收两个参数，第一个参数是要查找的子字符串，第二个可选参数表示开始搜索的位置
+
+## 101. 字符串转数字
+
+```js
+const num1 = parseInt("123");
+
+const num2 = parseFloat("123.456");
+
+const num3 = Number("123");
+
+const num4 = +"123";
+```
+
+## 102. Promise 和 async/await
+
+- Promise
+  一种用于处理异步操作的对象。代表了一个异步操作的最终完成或者失败，并允许在异步操作完成后执行相关代码
+
+- async/await
+  一种构建在 Promise 之上的语法糖。ES8 引入的特性，旨在简化异步代码的编写和理解。asynd 函数返回一个 Promise，允许在函数内部使用 await 等待异步操作完成
+
+**关系**
+
+- async 函数返回一个 Promise 对象。意味着可在 async 函数内使用 await 来等待一个 Promise 对象的完成。
+- async/await 是一种更直观的方式来处理 Promise，可避免嵌套的回调函数
+
+## 103. Array.prototype.sort 在 v8 的实现机制
+
+**知识点：默认情况下都会把数组项，转换为 字符串 进行比较**
+
+v8 版本查看方式：chrome://version/
+
+5.9 版本以前，用 JavaScript 语言实现（不稳定）
+
+> https://github.com/v8/v8/blob/5.9.221/src/js/array.js
+
+- 数组项 0~10：插入排序
+- 数组项 10~1000：常规快速排序
+- 数组项大于 1000：优化快速排序（）快排中间值通过多个中间值求得
+
+  7.6版本以后：用 Torque 语言实现（稳定）
+
+> https://github.com/v8/v8/blob/main/third_party/v8/builtins/array-sort.tq
+
+采用 timsort 算法实现
+
+## 104. JS 装箱机制（auto boxing）
+
+```js
+const a = 1;
+console.log(a.__proto__ === Number.prototype); // true
+consolo.log(a instanceof Number); // false
+```
+
+<details>
+<summary>
+q: 为什么上述代码第二行输出 true，第三行输出 false
+
+</summary>
+首先，基础类型是没有 __proto__ 的，第二行之所以会输出 true，是因为触发了 js 的装箱机制，当一个基础类型尝试访问 __proto__ 的时候，js 会把基础类型临时装箱，理解为 `const a = new Number(1)` , 所以第二行会输出 true；
+而第三行没有触发装箱机制，因此输出 false
+</details>
+
+详见 [JavaScript 的装箱机制（Boxing）和拆箱机制（Unboxing)](/posts/boxing-and-unboxing)
+
+## 105. 函数传值
+
+```js
+function test(m) {
+  m = { v: 50 };
+  console.log(m, "inner");
+}
+
+var m = { v: 30 };
+test(m); //  {v:50}'inner'
+console.log(m.v, "outer"); // 30 'outer'
+```
+
+js 中，对象是按引用传递的。在 `test` 函数中，m 参数被重新复制 `{v:50}`, 但这个只是对局部变量 m 的修改，不会影响外部变量
+
+## 106. 不同类型宏任务的优先级
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="test">测试</button>
+    <script type="text/javascript">
+      function wait(time) {
+        const start = Date.now();
+        while (Date.now() - start < time) {}
+      }
+
+      document.getElementById("test").addEventListener("click", () => {
+        console.log("click");
+      });
+
+      setTimeout(() => {
+        console.log("setTimeout");
+      }, 0);
+
+      wait(5000); // 阻塞页面 5s
+    </script>
+  </body>
+</html>
+```
+
+当页面初始化，生成了一个延迟类宏任务。则色页面 5s，而在这 5s 内，点击 test 按钮，新创建了交互类型的宏任务，而交互类型的宏任务优先级要高于延时类型，因此最终页面会先输出 'click'，再输出 'setTimeout'
+
+# Typescript
+
+## 107. ts vs js
 
 ## -- pending --
