@@ -16,18 +16,11 @@ console.log(a.__proto__ === Number.prototype); // true
 consolo.log(a instanceof Number); // false
 ```
 
-<details>
-<summary>
-q: 为啥第二行输出 true，第三行输出 false？
-
-</summary>
-a: 首先，基础类型是没有 __proto__ 的，第二行之所以会输出 true，是因为触发了 js 的装箱机制，当一个基础类型尝试访问 __proto__ 的时候，js 会把基础类型临时装箱，理解为 `const a = new Number(1)` , 所以第二行会输出 true；
-而第三行没有触发装箱机制，因此输出 false
-</details>
+> q: 为啥第二行输出 true，第三行输出 false？
 
 ---
 
-今儿个来总结下 js 中的装箱机制（Boxing）和拆箱机制（Unboxing）
+想分析这个问题，就不得不提到 js 中的装箱机制（Boxing）和拆箱机制（Unboxing）
 
 - **装箱（boxing）**: 原始数据类型（Primitive types）转为对象类型（Object types）
 
@@ -100,4 +93,7 @@ console.log(bool); // 输出 true
 - **临时对象**：自动装箱创建的对象是临时的，只有在需要时才会存在。例如，`"hello".length` 创建了一个临时 `String` 对象，该对象在表达式求值后立即被销毁。
 - **性能**：频繁的装箱和拆箱操作可能会影响性能，因此在性能关键的代码中，应尽量避免不必要的装箱和拆箱。
 
-结束！
+## 解答
+
+所以本文开头的问题，是因为基础类型是没有 `__proto__` ，第二行之所以会输出 true，是因为触发了 js 的装箱机制，当一个基础类型尝试访问 `__proto__`  的时候，js 会把基础类型临时装箱，理解为 `const a = new Number(1)`, 所以第二行会输出 true；
+而第三行没有触发装箱机制，因此输出 false

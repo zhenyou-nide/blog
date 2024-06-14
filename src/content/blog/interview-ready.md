@@ -3332,21 +3332,21 @@ const num4 = +"123";
 
 **知识点：默认情况下都会把数组项，转换为 字符串 进行比较**
 
-v8 版本查看方式：chrome://version/
+_v8 版本查看方式：chrome://version/_
 
-5.9 版本以前，用 JavaScript 语言实现（不稳定）
+- 5.9 版本以前，用 JavaScript 语言实现（不稳定）
 
-> https://github.com/v8/v8/blob/5.9.221/src/js/array.js
+  > https://github.com/v8/v8/blob/5.9.221/src/js/array.js
 
-- 数组项 0~10：插入排序
-- 数组项 10~1000：常规快速排序
-- 数组项大于 1000：优化快速排序（）快排中间值通过多个中间值求得
+  - 数组项 0~10：插入排序
+  - 数组项 10~1000：常规快速排序
+  - 数组项大于 1000：优化快速排序（）快排中间值通过多个中间值求得
 
-  7.6版本以后：用 Torque 语言实现（稳定）
+- 7.6版本以后：用 Torque 语言实现（稳定）
 
-> https://github.com/v8/v8/blob/main/third_party/v8/builtins/array-sort.tq
+  > https://github.com/v8/v8/blob/main/third_party/v8/builtins/array-sort.tq
 
-采用 timsort 算法实现
+  采用 timsort 算法实现
 
 ## 104. JS 装箱机制（auto boxing）
 
@@ -3361,7 +3361,7 @@ consolo.log(a instanceof Number); // false
 q: 为什么上述代码第二行输出 true，第三行输出 false
 
 </summary>
-首先，基础类型是没有 __proto__ 的，第二行之所以会输出 true，是因为触发了 js 的装箱机制，当一个基础类型尝试访问 __proto__ 的时候，js 会把基础类型临时装箱，理解为 `const a = new Number(1)` , 所以第二行会输出 true；
+首先，基础类型是没有 <code>__proto__</code> 的，第二行之所以会输出 true，是因为触发了 js 的装箱机制，当一个基础类型尝试访问 <code>__proto__</code> 的时候，js 会把基础类型临时装箱，理解为 <code>const a = new Number(1)</code> , 所以第二行会输出 true；
 而第三行没有触发装箱机制，因此输出 false
 </details>
 
