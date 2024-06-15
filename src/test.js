@@ -1,8 +1,11 @@
-function test(m) {
-  m = { v: 50 };
-  console.log(m, "inner");
+const btn = document.querySelector("button");
+
+function handleClick1() {
+  console.log("click 1");
+}
+function handleClick2() {
+  console.log("click 2");
 }
 
-var m = { v: 30 };
-test(m);
-console.log(m.v, "outer");
+btn.addEventListener("click", handleClick1);
+btn.addEventListener("click", handleClick2);
