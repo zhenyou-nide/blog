@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-06-15T11:13:47.400Z
+modDatetime: 2024-07-01T11:13:47.400Z
 title: 大宝典
 slug: interview-ready
 featured: false
@@ -3702,6 +3702,131 @@ btn.addEventListener("click", handleClick2);
 ## 116. 拖拉拽功能
 
 > 详见 [元素拖拉](#81-元素拖动)
+
+## 117. 原地打乱数组（数组洗牌）
+
+```js
+function shuffleArrar(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * i);
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+const arr = [1, 2, 3, 4, 5];
+
+console.log(shuffleArrar(arr));
+```
+
+## 118. 不能用 `Array.sort` 方法来打乱数组的原因
+
+1. **排序算法的稳定性**：相等元素的相对顺序不会改变，这进一步降低了 `sort` 方法的随机性。
+
+2. **效率问题**：`Array.sort` 的时间复杂度通常为 `O(nlogn)`，而 Fisher-Yates 洗牌算法的时间复杂度为 `O(n)`。因此，使用 `Array.sort` 进行随机打乱在效率上也不如 Fisher-Yates 洗牌算法。
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+const shuffledArr = arr.sort(() => Math.random() - 0.5);
+console.log(shuffledArr);
+```
+
+多次运行以上代码，会发现输出的结果并不总是完全随机的，有时会出现某些特定的排列频率更高的情况
+
+## 119. 对象深拷贝
+
+在 JavaScript 中，进行对象深拷贝的方法有多种。以下是几种常用的方法：
+
+1. 使用 JSON.stringify 和 JSON.parse
+
+这种方法适用于对象中只包含可序列化的数据类型（如不含函数、`undefined`、循环引用等）。
+
+```javascript
+const original = { a: 1, b: { c: 2 } };
+const copy = JSON.parse(JSON.stringify(original));
+console.log(copy); // { a: 1, b: { c: 2 } }
+```
+
+2. 使用递归方式进行深拷贝
+
+这种方法适用于更复杂的数据类型，包括循环引用和函数。
+
+```javascript
+function deepClone(obj, hash = new WeakMap()) {
+  if (Object(obj) !== obj) return obj; // 原始值
+  if (hash.has(obj)) return hash.get(obj); // 循环引用
+
+  let result;
+  if (obj instanceof Date) {
+    result = new Date(obj);
+  } else if (obj instanceof RegExp) {
+    result = new RegExp(obj.source, obj.flags);
+  } else if (obj instanceof Map) {
+    result = new Map(
+      Array.from(obj, ([key, val]) => [
+        deepClone(key, hash),
+        deepClone(val, hash),
+      ])
+    );
+  } else if (obj instanceof Set) {
+    result = new Set(Array.from(obj, val => deepClone(val, hash)));
+  } else if (Array.isArray(obj)) {
+    result = obj.map(item => deepClone(item, hash));
+  } else if (typeof obj === "object") {
+    result = Object.create(Object.getPrototypeOf(obj));
+    hash.set(obj, result);
+    for (let key of Reflect.ownKeys(obj)) {
+      result[key] = deepClone(obj[key], hash);
+    }
+  }
+
+  return result;
+}
+
+const original = { a: 1, b: { c: 2 }, d: new Date(), e: /abc/g };
+const copy = deepClone(original);
+console.log(copy);
+```
+
+3. 使用库 Lodash 的 `cloneDeep` 方法
+
+4. 使用结构化克隆算法（Structured Clone）
+
+浏览器提供了 `structuredClone` 方法，可以进行深拷贝。注意此方法不支持 Node.js
+
+```javascript
+const original = { a: 1, b: { c: 2 } };
+const copy = structuredClone(original);
+console.log(copy); // { a: 1, b: { c: 2 } }
+```
+
+## 120. curry function
+
+```js
+const curry = func => {
+  return (...args) => {
+    if (args.length >= func.length) {
+      console.log("a", args, func, args.length, func.length);
+      return func(...args);
+    } else {
+      console.log("b", args, func, args.length, func.length);
+      return (...nextArgs) => {
+        console.log("c", args, func, args.length, func.length);
+        return curry(func)(...args, ...nextArgs);
+      };
+    }
+  };
+};
+
+// 示例函数
+function sum(a, b, c) {
+  return a + b + c;
+}
+
+const curriedSum = curry(sum);
+
+console.log(curriedSum(1)(2)(3)); // 6
+```
 
 ## -- pending --
 
