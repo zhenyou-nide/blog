@@ -3828,6 +3828,308 @@ const curriedSum = curry(sum);
 console.log(curriedSum(1)(2)(3)); // 6
 ```
 
+## 121. 字符串反转
+
+```js
+const str = "abcdefg";
+
+const reverseStr1 = str.split("").reverse().join("");
+
+const reverseStr2 = Array.from(str).reduce((pre, cur) => `${cur}${pre}`, "");
+```
+
+## 122. 实现防抖
+
+<details>
+<summary>
+定义
+</summary>
+触发事件后，设置一个定时器
+若指定时间内再触发了事件，清除之前的定时器，并设置新的定时器
+若指定之间后触发了事件，则触发
+</details>
+
+```js
+const myDebounce = (fn, delay = 3000) => {
+  let timer = null;
+  return (...args) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn(args);
+      timer = null;
+    }, delay);
+  };
+};
+```
+
+## 123. 实现节流
+
+<details>
+<summary>
+定义
+</summary>
+触发事件后，
+再固定的时间间隔内执行
+</details>
+
+```js
+const myThrottle = (fn, delay = 3000) => {
+  let timer = null;
+  return (...args) => {
+    if (timer) return;
+    timer = setTimeout(() => {
+      fn(...args);
+      timer = null;
+    }, delay);
+  };
+};
+```
+
+## 124. 实现一个方法，能上传多张图片，保持单次 n 长上传，n 张里如果有一张成功，就补上 1 张，一直维持 n 张图片同时在上传
+
+```js
+const srcs = [...Array(50).keys()].map(i => `https://${i}.png`);
+
+const uploadImg = url => {
+  return new Promise(resolve => {
+    console.log(`%c 开始${url}`, "color:#00f;");
+    setTimeout(() => {
+      resolve(url);
+      console.log(`成功${url}`);
+    }, 3000 * Math.random());
+  });
+};
+
+const warpRequest = urls => {
+  const resultMap = {};
+  urls.forEach(element => {
+    resultMap[element] = false;
+  });
+
+  let index = 0;
+
+  return new Promise(resolve => {
+    const download = () => {
+      // 跳出条件
+      if (index >= urls.length) {
+        if (!Object.keys(resultMap).find(key => resultMap[key] === false)) {
+          resolve(resultMap);
+        }
+        return;
+      }
+      // 上传
+      const tempUrl = urls[index];
+      uploadImg(tempUrl).then(res => {
+        resultMap[tempUrl] = res;
+        setTimeout(() => {
+          download();
+        }, 100);
+      });
+      // 计数器++
+      ++index;
+    };
+    while (index < 5) {
+      download();
+    }
+  });
+};
+
+(async () => {
+  const result = await warpRequest(srcs);
+  console.log(result);
+})();
+```
+
+## 125. 获取当前时间
+
+```js
+/**
+ *
+ * @param {Date} date
+ * @returns
+ */
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const hour = date.getHours().toString().padStart(2, "0");
+  const minute = date.getMinutes().toString().padStart(2, "0");
+  const second = date.getSeconds().toString().padStart(2, "0");
+
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+}
+
+console.log(formatDate(new Date()));
+```
+
+## 126. once 函数，传入函数只执行一次
+
+```js
+/**
+ *
+ * @param {Function} fn
+ * @returns {Function}
+ */
+function once(fn) {
+  let called = false;
+  return function (...args) {
+    if (called) return;
+    called = true;
+    return fn(...args);
+  };
+}
+
+const fn1 = once(function () {
+  console.log("hahaha");
+});
+
+fn1(); // hahaha
+fn1(); // 不会执行
+```
+
+## 127. 实现一个私有变量，可用 `get`,`set`访问，不可直接访问
+
+在 JavaScript 中，可以使用闭包或 ES6 的 `WeakMap` 来实现私有变量。以下是两种方法的示例：
+
+**方法 1：使用闭包**
+
+通过闭包，我们可以创建一个私有变量，并通过 `get` 和 `set` 方法访问它：
+
+```javascript
+function createPerson(name) {
+  let _name = name; // 私有变量
+
+  return {
+    getName() {
+      return _name;
+    },
+    setName(newName) {
+      if (typeof newName === "string" && newName.length > 0) {
+        _name = newName;
+      } else {
+        throw new Error("Invalid name");
+      }
+    },
+  };
+}
+
+const person = createPerson("John");
+console.log(person.getName()); // John
+person.setName("Doe");
+console.log(person.getName()); // Doe
+// person._name; // undefined, 无法直接访问
+```
+
+**方法 2：使用 ES6 `WeakMap`**
+
+`WeakMap` 提供了一种更强大的方式来实现私有变量，它允许你将私有数据存储在对象外部，从而避免直接访问：
+
+```javascript
+const Person = (function () {
+  const privateData = new WeakMap();
+
+  class Person {
+    constructor(name) {
+      privateData.set(this, { name: name });
+    }
+
+    getName() {
+      return privateData.get(this).name;
+    }
+
+    setName(newName) {
+      if (typeof newName === "string" && newName.length > 0) {
+        privateData.get(this).name = newName;
+      } else {
+        throw new Error("Invalid name");
+      }
+    }
+  }
+
+  return Person;
+})();
+
+const person = new Person("John");
+console.log(person.getName()); // John
+person.setName("Doe");
+console.log(person.getName()); // Doe
+// person.name; // undefined, 无法直接访问
+```
+
+1. 闭包：**私有变量**: `_name` 被封闭在 `createPerson` 函数的作用域中，因此外部无法直接访问它。
+2. WeekMap：**私有变量**: `WeakMap` 用于存储私有数据，每个实例对象作为 `WeakMap` 的键，私有数据作为值。
+
+## 128. 将原生的 ajax 封装成 Promise
+
+```js
+/**
+ *
+ * @param {String} url
+ * @param String method
+ * @param String data
+ * @returns {Promise}
+ */
+function ajax(url, method, data) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.responseText);
+      } else {
+        reject(xhr.statusText);
+      }
+    };
+
+    xhr.onerror = () => {
+      reject(xhr.statusText);
+    };
+
+    if (data) {
+      xhr.setRequestHeader("Content-Type", "application/json;charset=TF-9");
+      xhr.send(JSON.stringify(data));
+    } else {
+      xhr.send();
+    }
+  });
+}
+
+ajax("https://xbank.global/launchpad/api/v1/airdrops/projects", "GET")
+  .then(console.log)
+  .catch(console.log);
+```
+
+## 129. 实现 sleep
+
+```js
+function sleep(ms = 3000) {
+  return new Promise(r => {
+    setTimeout(() => {
+      r();
+    }, md);
+  });
+}
+```
+
+## 130. 下载图片
+
+```js
+function downloadImg(src, title) {
+  let img = new Image();
+  img.src = src;
+  img.setAttribute("crossOrigin", "anonymous");
+  img.onload = () => {
+    let ele = document.createElement("canvas");
+    ele.width = img.width;
+    ele.height = img.height;
+    let a = document.createElement("a");
+    a.download = title;
+    a.href = ele.toDataURL("image/png");
+    a.click();
+  };
+}
+```
+
 ## -- pending --
 
 ```

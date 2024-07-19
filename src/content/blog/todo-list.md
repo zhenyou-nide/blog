@@ -15,6 +15,7 @@ description: "一些杂七杂八的碎碎念"
 
 # 计划
 
+- [ ] [redwood](https://redwoodjs.com/)
 - [ ] [sanity](https://www.sanity.io/learn/course) 好东西，考虑重构博客
 - [ ] LLM
   - 了解概念

@@ -1,23 +1,14 @@
-const curry = func => {
-  return (...args) => {
-    if (args.length >= func.length) {
-      console.log("a", args, func, args.length, func.length);
-      return func(...args);
-    } else {
-      console.log("b", args, func, args.length, func.length);
-      return (...nextArgs) => {
-        console.log("c", args, func, args.length, func.length);
-        return curry(func)(...args, ...nextArgs);
-      };
-    }
+function downloadImg(src, title) {
+  let img = new Image();
+  img.src = src;
+  img.setAttribute("crossOrigin", "anonymous");
+  img.onload = () => {
+    let ele = document.createElement("canvas");
+    ele.width = img.width;
+    ele.height = img.height;
+    let a = document.createElement("a");
+    a.download = title;
+    a.href = ele.toDataURL("image/png");
+    a.click();
   };
-};
-
-// 示例函数
-function sum(a, b, c) {
-  return a + b + c;
 }
-
-const curriedSum = curry(sum);
-
-console.log(curriedSum(1)(2)(3)); // 6
