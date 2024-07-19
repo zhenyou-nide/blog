@@ -7,6 +7,7 @@ import Datetime from "@components/Datetime";
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import { SITE } from "@config";
+import PostComments from "@components/PostComments.astro";
 
 export interface Props {
   post: CollectionEntry<"blog">;
@@ -75,6 +76,8 @@ const layoutProps = {
     <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
       <Content />
     </article>
+
+    <PostComments />
 
     <ul class="my-8">
       {tags.map((tag: string) => <Tag tag={slugifyStr(tag)} />)}
