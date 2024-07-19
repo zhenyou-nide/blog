@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-07-01T11:13:47.400Z
+modDatetime: 2024-07-19T11:13:47.400Z
 title: 大宝典
 slug: interview-ready
 featured: false
@@ -4130,8 +4130,143 @@ function downloadImg(src, title) {
 }
 ```
 
+## 131. 响应式数据+依赖收集 -- pending
+
+## 132. 实现 instanceOf
+
+```js
+function instanceOf(obj, constructor) {
+  // 如果 obj 是 null，直接返回 false
+  if (obj === null) {
+    return false;
+  }
+
+  // 获取 obj 的原型
+  let proto = Object.getPrototypeOf(obj);
+
+  // 遍历原型链
+  while (proto !== null) {
+    // 检查当前原型是否等于 constructor 的 prototype 属性
+    if (proto === constructor.prototype) {
+      return true;
+    }
+    // 继续向上查找原型链
+    proto = Object.getPrototypeOf(proto);
+  }
+
+  // 如果遍历到原型链的末端仍未找到，返回 false
+  return false;
+}
+
+// 测试示例
+function Person(name) {
+  this.name = name;
+}
+
+const john = new Person("John");
+
+console.log(instanceOf(john, Person)); // true
+console.log(instanceOf(john, Object)); // true
+console.log(instanceOf(john, Array)); // false
+```
+
+1. **获取构造函数的 `prototype` 属性**：这是我们需要在对象的原型链中查找的属性。
+2. **遍历对象的原型链**：使用 `while (obj != null)` 遍历对象的原型链。
+3. **检查原型链**：在每一步中，检查当前对象的 `__proto__` 属性是否与构造函数的 `prototype` 属性相同。如果相同，返回 `true`；如果不相同，继续沿着原型链向上查找。
+
+## 133. 还原一棵树
+
+假设我们有一个扁平化的节点数组，每个节点包含 `id` 和 `parentId` 字段：
+
+```javascript
+const data = [
+  { id: 1, parentId: null, name: "Root" },
+  { id: 2, parentId: 1, name: "Child 1" },
+  { id: 3, parentId: 1, name: "Child 2" },
+  { id: 4, parentId: 2, name: "Child 1.1" },
+  { id: 5, parentId: 2, name: "Child 1.2" },
+  { id: 6, parentId: 3, name: "Child 2.1" },
+];
+```
+
+```js
+function buildTree(data) {
+  const idMap = {};
+  const tree = [];
+
+  // 创建一个映射表
+  data.forEach(node => {
+    idMap[node.id] = { ...node, children: [] };
+  });
+
+  // 遍历数据并构建树
+  data.forEach(node => {
+    if (node.parentId === null) {
+      // 根节点
+      tree.push(idMap[node.id]);
+    } else {
+      // 非根节点，添加到其父节点的 children 数组中
+      idMap[node.parentId].children.push(idMap[node.id]);
+    }
+  });
+
+  return tree;
+}
+
+const tree = buildTree(data);
+console.log(JSON.stringify(tree, null, 2));
+```
+
+1. **创建映射表**: 使用 `idMap` 将每个节点的 `id` 映射到节点本身，同时在每个节点中添加一个 `children` 数组，用于存放子节点。
+2. **构建树**: 遍历每个节点，如果节点是根节点（`parentId` 为 `null`），将其添加到树的根节点数组中。否则，将其添加到其父节点的 `children` 数组中。
+3. **返回树**: 函数返回树的根节点数组。
+
+```json
+[
+  {
+    "id": 1,
+    "parentId": null,
+    "name": "Root",
+    "children": [
+      {
+        "id": 2,
+        "parentId": 1,
+        "name": "Child 1",
+        "children": [
+          {
+            "id": 4,
+            "parentId": 2,
+            "name": "Child 1.1",
+            "children": []
+          },
+          {
+            "id": 5,
+            "parentId": 2,
+            "name": "Child 1.2",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "parentId": 1,
+        "name": "Child 2",
+        "children": [
+          {
+            "id": 6,
+            "parentId": 3,
+            "name": "Child 2.1",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]
+```
+
+## 134. 一只青蛙可以跳 1 级台阶，也可以跳 2 级台阶，问该青蛙跳上 n 级台阶总共有多少种跳法
+
+
+
 ## -- pending --
-
-```
-
-```
