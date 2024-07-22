@@ -1,9 +1,9 @@
 ---
-title: curried function - 实现多参函数提供了一个递归降解的实现思路
+title: curried function
 author: zhenyounide
 pubDatetime: 2021-08-16T04:06:31Z
 slug: curried-function
-featured: true
+featured: false
 draft: false
 tags:
   - summary

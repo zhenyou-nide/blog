@@ -11,9 +11,9 @@ tags:
 description: A quick guide on how to add a comments section to your Astro blog
 ---
 
-在博客中添加评论模块是接收读者反馈的的一个很好的渠道。
+在博客中添加评论功能是接收读者反馈的的一个很好的渠道。
 
-本站是通过 Astro 构建的，在 Astro 博客中添加评论功能可以通过多种方式实现，常见的方法包括使用第三方评论系统（如 Disqus、Giscus、Commento）或者自己构建评论功能。
+本站是通过 [Astro](https://astro.build/) 构建的，在 Astro 博客中添加评论功能可以通过多种方式实现，常见的方法包括使用第三方评论系统（如 [Disqus](https://disqus.com/)、[Giscus](<(https://giscus.app)>)、[Commento](https://commento.io/)）或者自己构建评论功能。
 
 本文将演示如何使用 Giscus 来添加评论模块，最终效果如下图：
 ![image](../../assets/images/comment.png)
@@ -22,7 +22,7 @@ description: A quick guide on how to add a comments section to your Astro blog
 
 ## 👀 啥是 Giscus
 
-[Giscus](https://giscus.app) 是一个开源的、基于 GitHub Discussions 的评论系统，适用于使用 GitHub 管理评论的用户。无需数据库或者任何的权限系统，且是免费的，所有评论将会被放在 GitHub Discussions 中。
+[Giscus](https://giscus.app) 是一个开源的、基于 GitHub Discussions 的免费的评论系统，适用于使用 GitHub 管理评论的用户。无需数据库或者任何的权限系统，所有评论将会被放在 GitHub Discussions 中。
 
 ## 🧐如何自定义配置 Giscus
 
@@ -38,15 +38,14 @@ description: A quick guide on how to add a comments section to your Astro blog
 严格执行 Giscus config 的上述三点配置后，将 repo url 回填入 giscus 中，成功的话是这样的：
 ![image](../../assets/images/comment-config.png)
 
-_强烈建议选择 Discussion title contains page URL 来映射嵌入的页面和嵌入的 discussion_
+最后，来简单配置下 Discussions Mapping, Discussion Category，appearance，loading approach
 
-最后，来简单配置下 discussion category，appearance，loading approach
-
+- Discussions Mapping, 强烈建议选择 Discussion title contains page URL 来映射嵌入的页面和嵌入的 discussion
 - category, 选择刚刚创建的 Blog Post Comments.
 - appearance, 按需吧，可以多体验下.
-- loading approach, 选择 lazy load，这样只有在用户滚动到 comment 模块才会加载.
+- loading approach, 选择 lazy load, 这样只有在用户滚动到 comment 模块才会加载.
 
-至此，已完成 Giscus 的配置，在 Enable giscus 模块下辉生成如下一个代码块：
+至此，我们已完成 Giscus 的配置，在 Enable giscus 模块下会生成如下一个代码块：
 
 ```html
 <script
@@ -70,9 +69,9 @@ _强烈建议选择 Discussion title contains page URL 来映射嵌入的页面�
 
 ## 🛫将 Giscus 添加到博客中
 
-现在，创建一个 PostComments 组件，并将上述的代码块添加进来：
+现在，创建一个 `PostComments` 组件，并将上述的代码块添加进来：
 
-src/components/PostComments.astro
+例如在 `src/components/PostComments.astro` 中
 
 ```astro
 <section class="giscus mx-auto mt-10 w-full"></section>
@@ -95,7 +94,7 @@ src/components/PostComments.astro
   async></script>
 ```
 
-在 src/layouts/PostDetails.astro 中引用该组件：
+在 `src/layouts/PostDetails.astro` 中引用该组件：
 
 ```astro
 ---
@@ -130,7 +129,7 @@ Disqus 是一个流行的第三方评论系统，易于集成且功能丰富。
 
 2. 步骤 2：在 Astro 中集成 Disqus
 
-src/components/PostComments.astro
+在 `src/components/PostComments.astro` 中:
 
 ```astro
 ---
@@ -162,7 +161,7 @@ const disqusConfig = {
 </script>
 ```
 
-同样在 src/layouts/PostDetails.astro 中引用该组件：
+同样在 `src/layouts/PostDetails.astro` 中引用该组件：
 
 ```astro
 ---

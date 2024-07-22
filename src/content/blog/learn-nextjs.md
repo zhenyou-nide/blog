@@ -4,7 +4,7 @@ pubDatetime: 2024-05-14T05:50:00Z
 modDatetime: 2024-05-27T10:14:00Z
 title: learning the foundations of Next.js and building a fully functional demo website
 slug: learn-nextjs
-featured: true
+featured: false
 draft: false
 tags:
   - docs
