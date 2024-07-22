@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
-pubDatetime: 2024-07-22T15:22:00Z
-modDatetime: 2024-07-22T15:22:00Z
+pubDatetime: 2024-07-22T01:10:00Z
+modDatetime: 2024-07-22T01:10:00Z
 title: how to add comment section to astro blog
 slug: how-to-add-comment-section-to-astro-blog
 featured: true
