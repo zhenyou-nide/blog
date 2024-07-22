@@ -28,7 +28,7 @@ function toggleGiscusTheme() {
   if (!iframe) return;
   iframe.contentWindow.postMessage(
     { giscus: { setConfig: { theme: themeValue } } },
-    "https://giscus.app"
+    "*"
   );
 }
 
