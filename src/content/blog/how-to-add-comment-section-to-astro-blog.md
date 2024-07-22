@@ -13,9 +13,9 @@ description: A quick guide on how to add a comments section to your Astro blog
 
 在博客中添加评论功能是接收读者反馈的的一个很好的渠道。
 
-本站是通过 [Astro](https://astro.build/) 构建的，在 Astro 博客中添加评论功能可以通过多种方式实现，常见的方法包括使用第三方评论系统（如 [Disqus](https://disqus.com/)、[Giscus](<(https://giscus.app)>)、[Commento](https://commento.io/)）或者自己构建评论功能。
+本站是通过 [Astro](https://astro.build/) 构建的，在 Astro 博客中添加评论功能可以通过多种方式实现，常见的方法包括使用第三方评论系统（如 [Disqus](https://disqus.com/)、[Giscus](https://giscus.app)、[Commento](https://commento.io/)）或者自己构建评论功能。
 
-本文将演示如何使用 Giscus 来添加评论模块，最终效果如下图：
+本文将演示如何使用 [Giscus](https://giscus.app) 来添加评论模块，最终效果如下图：
 ![image](../../assets/images/comment.png)
 
 ## Table of contents
@@ -26,26 +26,25 @@ description: A quick guide on how to add a comments section to your Astro blog
 
 ## 🧐如何自定义配置 Giscus
 
-1. 确保 repo public
-2. 为 repo install Giscus app
-   前往 [giscus.app](https://github.com/apps/giscus)
-
+1. 确保 blog repo public.
+2. 为 blog repo install Giscus app.
+   指路 [Giscus App](https://github.com/apps/giscus)
 3. 确保 Github repo 已经开启了 Discussions 功能
    - enable Discussions: 指路 repo => settings => Features => ✔ Discussions
    - 创建分类：创建一个名为 Blog Post Comment 的分类，设置分类为 Open-ended discussion，指路 https://github.com/username/repo_name/discussions/categories/new
      ![image](../../assets/images/comment-cate.png)
 
-严格执行 Giscus config 的上述三点配置后，将 repo url 回填入 giscus 中，成功的话是这样的：
+严格执行 Giscus config 的上述三点配置后，将 blog repo url 回填入 Giscus App 中，成功的话是这样的：
 ![image](../../assets/images/comment-config.png)
 
 最后，来简单配置下 Discussions Mapping, Discussion Category，appearance，loading approach
 
-- Discussions Mapping, 强烈建议选择 Discussion title contains page URL 来映射嵌入的页面和嵌入的 discussion
-- category, 选择刚刚创建的 Blog Post Comments.
-- appearance, 按需吧，可以多体验下.
-- loading approach, 选择 lazy load, 这样只有在用户滚动到 comment 模块才会加载.
+- Discussions Mapping: 强烈建议选择 Discussion title contains page URL 来映射嵌入的页面和嵌入的 discussion.
+- category: 选择刚刚创建的 Blog Post Comments.
+- appearance: 按需吧，可以多体验下.
+- loading approach: 选择 lazy load, 这样只有在用户滚动到 comment 模块才会加载.
 
-至此，我们已完成 Giscus 的配置，在 Enable giscus 模块下会生成如下一个代码块：
+至此，我们已完成 Giscus 的配置，在 Enable Giscus 模块下会生成如下一个代码块：
 
 ```html
 <script
@@ -122,16 +121,16 @@ import PostComments from "@components/PostComments.astro";
 
 本博客站支持切换 dark/light theme，而 `PostComment` 是加载了一个静态 theme（由 script 的 `data-theme` 设置而来
 
-尽管部分 theme.css 是用了媒体查询 `@media (prefers-color-scheme: dark) { ...dart css}`, 但 giscus 是一个独立的 iframe，默认情况下无法关联到 blog 的 theme.
+尽管部分 theme.css 使用了媒体查询 `@media (prefers-color-scheme: dark) { ...dart css}`, 但 Giscus 是一个独立的 iframe，默认无法关联到 blog 的 theme.
 
-当 giscus 的 `data-theme="preferred_color_scheme"` 时，dark theme 无法被识别到：
+当 Giscus 的 `data-theme="preferred_color_scheme"` 时，dark theme 无法被识别到：
 ![image](../../assets/images/comment-theme-bug.png)
 
 😅有一说一还挺报看的...
 
-那么如何在 toggle blog theme 的同时也 toggle giscus 所在的 iframe 下的 theme 呢？
+那么如何在 toggle blog theme 的同时也 toggle Giscus 所在的 iframe 下的 theme 呢？
 
-这里可以通过将一个消息事件从 blog page 发送到 giscus 来动态更改它！😀
+这里可以通过将一个消息事件从 blog page 发送到 Giscus 来动态更改它！😀
 
 示例如下：
 
