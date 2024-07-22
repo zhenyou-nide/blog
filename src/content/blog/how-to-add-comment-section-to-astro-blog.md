@@ -116,6 +116,38 @@ import PostComments from "@components/PostComments.astro";
 
 完结撒花🎇🎇🎇
 
+等等，还有一个小优化🧐
+
+## ✌一个小优化
+
+本博客站支持切换 dark/light theme，而 `PostComment` 是加载了一个静态 theme（由 script 的 `data-theme` 设置而来
+
+尽管部分 theme.css 是用了媒体查询 `@media (prefers-color-scheme: dark) { ...dart css}`, 但 giscus 是一个独立的 iframe，默认情况下无法关联到 blog 的 theme.
+
+当 giscus 的 `data-theme="preferred_color_scheme"` 时，dark theme 无法被识别到：
+![image](../../assets/images/comment-theme-bug.png)
+
+😅有一说一还挺报看的...
+
+那么如何在 toggle blog theme 的同时也 toggle giscus 所在的 iframe 下的 theme 呢？
+
+这里可以通过将一个消息事件从 blog page 发送到 giscus 来动态更改它！😀
+
+示例如下：
+
+```js
+const iframe = document.querySelector("iframe.giscus-frame"); //get the iframe of giscus
+if (!iframe) return;
+iframe.contentWindow.postMessage(
+  { giscus: { setConfig: { theme: localStorage.theme } } },
+  "https://giscus.app"
+); //send a message with the theme to apply
+```
+
+可以把他放在 blog toggle theme 的函数中，这里就不展开了
+
+至此，整个页面就可以丝滑 toggle theme
+
 ---
 
 这里也简单介绍下 Disqus 的使用：
