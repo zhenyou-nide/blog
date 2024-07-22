@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-07-19T11:13:47.400Z
+modDatetime: 2024-07-22T11:13:47.400Z
 title: 大宝典
 slug: interview-ready
 featured: false
@@ -4267,6 +4267,86 @@ console.log(JSON.stringify(tree, null, 2));
 
 ## 134. 一只青蛙可以跳 1 级台阶，也可以跳 2 级台阶，问该青蛙跳上 n 级台阶总共有多少种跳法
 
+这是一个经典的动态规划问题，类似于斐波那契数列。青蛙跳上第 n 级台阶的跳法数可以表示为前两级台阶跳法数之和。
 
+我们可以通过以下公式来表示这个问题：
+
+- 当 n = 1 时，只有一种跳法，即跳 1 级。
+- 当 n = 2 时，有两种跳法：跳 1 级 + 1 级，或直接跳 2 级。
+- 当 n > 2 时，跳上第 n 级台阶的跳法数等于跳上第 (n-1) 级台阶和第 (n-2) 级台阶的跳法数之和。
+
+公式可以表示为：
+\[ f(n) = f(n-1) + f(n-2) \]
+
+以下是使用 JavaScript 实现该问题的几种方法：递归、记忆化递归和动态规划。
+
+1. 方法 1：递归
+
+递归方法最直接，但当 n 较大时效率较低。
+
+```javascript
+function climbStairs(n) {
+  if (n === 1) return 1;
+  if (n === 2) return 2;
+  return climbStairs(n - 1) + climbStairs(n - 2);
+}
+
+console.log(climbStairs(10)); // 输出 89
+```
+
+2. 方法 2：记忆化递归
+
+记忆化递归通过缓存中间结果来提高效率。
+
+```javascript
+function climbStairs(n, memo = {}) {
+  if (n === 1) return 1;
+  if (n === 2) return 2;
+  if (memo[n]) return memo[n];
+  memo[n] = climbStairs(n - 1, memo) + climbStairs(n - 2, memo);
+  return memo[n];
+}
+
+console.log(climbStairs(10)); // 输出 89
+```
+
+3. 方法 3：动态规划
+
+动态规划方法通过迭代计算来避免递归的开销，效率更高。
+
+```javascript
+function climbStairs(n) {
+  if (n === 1) return 1;
+  if (n === 2) return 2;
+  let prev1 = 1,
+    prev2 = 2;
+  for (let i = 3; i <= n; i++) {
+    let current = prev1 + prev2;
+    prev1 = prev2;
+    prev2 = current;
+  }
+  return prev2;
+}
+
+console.log(climbStairs(10)); // 输出 89
+```
+
+4. 方法 4：更简单的动态规划（数组形式）
+
+这种方法更直观，但空间复杂度稍高。
+
+```javascript
+function climbStairs(n) {
+  if (n === 1) return 1;
+  if (n === 2) return 2;
+  const dp = [0, 1, 2];
+  for (let i = 3; i <= n; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2];
+  }
+  return dp[n];
+}
+
+console.log(climbStairs(10)); // 输出 89
+```
 
 ## -- pending --
