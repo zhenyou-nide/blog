@@ -3,15 +3,13 @@ author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
 modDatetime: 2024-06-22T11:13:47.400Z
 title: 大宝典-Javascript
-slug: interview-js-ready
+slug: collection-js
 featured: false
 draft: false
 tags:
   - docs
   - summary
-  - interview
-  - 大宝典
-description: 温故知新，持续更新
+description: 温故知新
 ---
 
 ## Table of contents
