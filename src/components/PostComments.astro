@@ -13,7 +13,23 @@
   data-input-position="bottom"
   data-theme="preferred_color_scheme"
   data-lang="en"
-  data-loading="lazy"
   crossorigin="anonymous"
-  async
-></script>
+  async></script>
+
+<script is:inline>
+  // 临时方案
+  setTimeout(() => {
+    if (typeof iframe !== "undefined") {
+      iframe?.contentWindow?.postMessage(
+        { giscus: { setConfig: { theme: themeValue } } },
+        "*"
+      );
+    } else {
+      const iframe = document.querySelector("iframe.giscus-frame"); //get the iframe of giscus
+      iframe?.contentWindow?.postMessage(
+        { giscus: { setConfig: { theme: themeValue } } },
+        "*"
+      );
+    }
+  }, 2000);
+</script>
