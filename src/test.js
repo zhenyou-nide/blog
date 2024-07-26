@@ -1,14 +1,31 @@
-function downloadImg(src, title) {
-  let img = new Image();
-  img.src = src;
-  img.setAttribute("crossOrigin", "anonymous");
-  img.onload = () => {
-    let ele = document.createElement("canvas");
-    ele.width = img.width;
-    ele.height = img.height;
-    let a = document.createElement("a");
-    a.download = title;
-    a.href = ele.toDataURL("image/png");
-    a.click();
-  };
+/**
+ *
+ * @param {number[]} nums
+ * @returns
+ */
+function permute(nums) {
+  let result = [];
+  /**
+   *
+   * @param {number[]} subArr
+   * @param {number[]} remains
+   * @returns
+   */
+  function backtrack(subArr, remains) {
+    if (remains.length === 0) {
+      result.push([...subArr]);
+      return;
+    }
+
+    for (let i = 0; i < remains.length; i++) {
+      subArr.push(remains[i]);
+      backtrack(subArr, remains.slice(0, i).concat(remains.slice(i + 1)));
+      subArr.pop();
+    }
+  }
+
+  backtrack([], nums);
+  return result;
 }
+
+console.log(permute([1, 2, 3]));

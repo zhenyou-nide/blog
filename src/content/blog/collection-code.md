@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-07-22T11:13:47.400Z
+modDatetime: 2024-07-26T00:00:00.400Z
 title: 大宝典-代码编程
 slug: collection-code
 featured: false
@@ -778,4 +778,265 @@ let s = "abcabcbb";
 console.log(longestUniqueSubstring(s)); // 输出: "abc"
 ```
 
-## -- pending --
+### 136. 回文判断
+
+我的笨办法 😅
+
+```js
+function canPermutePalindrome(str) {
+  const arr = str.split("");
+  if (arr.length < 1) return false;
+  let res = true;
+  while (arr.length > 1) {
+    if (arr[0] === arr[arr.length - 1]) {
+      arr.shift();
+      arr.pop();
+    } else {
+      res = false;
+      break;
+    }
+  }
+  return res;
+}
+
+console.log(fn("aabbaa"));
+```
+
+另一思路 😮
+
+```js
+function canPermutePalindrome(str) {
+  const arr = str.split("");
+  const set = new Set();
+  arr.forEach(key => {
+    if (set.has(key)) {
+      set.delete(key);
+    } else {
+      set.add(key);
+    }
+  });
+  return set.size <= 1;
+}
+
+console.log(canPermutePalindrome("abddbq"));
+```
+
+## 137. 反转一个链表
+
+```javascript
+class ListNode {
+  constructor(val = 0, next = null) {
+    this.val = val;
+    this.next = next;
+  }
+}
+
+function reverseList(head) {
+  let prev = null;
+  let curr = head;
+
+  while (curr !== null) {
+    let next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+
+  return prev;
+}
+
+// Helper function to create a linked list from an array
+function createLinkedList(arr) {
+  let head = null;
+  let tail = null;
+
+  for (let val of arr) {
+    let newNode = new ListNode(val);
+    if (tail === null) {
+      head = newNode;
+      tail = newNode;
+    } else {
+      tail.next = newNode;
+      tail = newNode;
+    }
+  }
+
+  return head;
+}
+
+// Helper function to convert a linked list to an array
+function linkedListToArray(head) {
+  let arr = [];
+  let current = head;
+
+  while (current !== null) {
+    arr.push(current.val);
+    current = current.next;
+  }
+
+  return arr;
+}
+
+// Example usage:
+let list = createLinkedList([1, 2, 3, 4, 5]);
+console.log("Original list:", linkedListToArray(list));
+let reversedList = reverseList(list);
+console.log("Reversed list:", linkedListToArray(reversedList));
+```
+
+## 138. 遍历二叉树
+
+1. 前序遍历 **根 左 右**
+   ![img](../../assets/images/tree-root-left-right.gif)
+
+2. 中序遍历 **左 根 右**
+   ![img](../../assets/images/tree-left-root-right.gif)
+
+3. 后序遍历 **左 右 根**
+   ![img](../../assets/images/tree-left-right-root.gif)
+
+```javascript
+class TreeNode {
+  constructor(val = 0, left = null, right = null) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+// 前序遍历 (Pre-order traversal)
+function preOrderTraversal(root) {
+  let result = [];
+  function traverse(node) {
+    if (node !== null) {
+      result.push(node.val); // 访问节点
+      traverse(node.left); // 递归遍历左子树
+      traverse(node.right); // 递归遍历右子树
+    }
+  }
+  traverse(root);
+  return result;
+}
+
+// 中序遍历 (In-order traversal)
+function inOrderTraversal(root) {
+  let result = [];
+  function traverse(node) {
+    if (node !== null) {
+      traverse(node.left); // 递归遍历左子树
+      result.push(node.val); // 访问节点
+      traverse(node.right); // 递归遍历右子树
+    }
+  }
+  traverse(root);
+  return result;
+}
+
+// 后序遍历 (Post-order traversal)
+function postOrderTraversal(root) {
+  let result = [];
+  function traverse(node) {
+    if (node !== null) {
+      traverse(node.left); // 递归遍历左子树
+      traverse(node.right); // 递归遍历右子树
+      result.push(node.val); // 访问节点
+    }
+  }
+  traverse(root);
+  return result;
+}
+
+// Example usage:
+let tree = new TreeNode(1);
+tree.right = new TreeNode(2);
+tree.right.left = new TreeNode(3);
+
+console.log("Pre-order traversal:", preOrderTraversal(tree)); // [1, 2, 3]
+console.log("In-order traversal:", inOrderTraversal(tree)); // [1, 3, 2]
+console.log("Post-order traversal:", postOrderTraversal(tree)); // [3, 2, 1]
+```
+
+## 139. 实现一个全排列
+
+```javascript
+/**
+ *
+ * @param {number[]} nums
+ * @returns
+ */
+function permute(nums) {
+  let result = [];
+  /**
+   *
+   * @param {number[]} subArr
+   * @param {number[]} remains
+   * @returns
+   */
+  function backtrack(subArr, remains) {
+    if (remains.length === 0) {
+      result.push([...subArr]);
+      return;
+    }
+
+    for (let i = 0; i < remains.length; i++) {
+      subArr.push(remains[i]);
+      const newRemain = [...remains.slice(0, i), ...remains.slice(i + 1)];
+      backtrack(subArr, newRemain);
+      subArr.pop();
+    }
+  }
+
+  backtrack([], nums);
+  return result;
+}
+
+console.log(permute([1, 2, 3]));
+
+// Example usage:
+let nums = [1, 2, 3];
+console.log("Permutations:", permute(nums));
+// Output:
+// [
+//   [1, 2, 3],
+//   [1, 3, 2],
+//   [2, 1, 3],
+//   [2, 3, 1],
+//   [3, 1, 2],
+//   [3, 2, 1]
+// ]
+```
+
+## 140. 快速找到链表中间节点
+
+快慢指针，快指针步数为 2，慢指针步数为 1，两个指针同时启动，当快指针走到底，慢指针指向的即为中间节点
+
+```javascript
+class ListNode {
+  constructor(val = 0, next = null) {
+    this.val = val;
+    this.next = next;
+  }
+}
+
+function findMiddle(head) {
+  let slow = head;
+  let fast = head;
+
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  return slow;
+}
+
+// 示例链表: 1 -> 2 -> 3 -> 4 -> 5
+let node5 = new ListNode(5);
+let node4 = new ListNode(4, node5);
+let node3 = new ListNode(3, node4);
+let node2 = new ListNode(2, node3);
+let head = new ListNode(1, node2);
+
+let middle = findMiddle(head);
+console.log("Middle node value:", middle.val); // 输出: Middle node value: 3
+```
