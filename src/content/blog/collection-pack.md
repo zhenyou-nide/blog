@@ -74,9 +74,137 @@ Webpack 是一个现代的前端模块打包工具，它用于构建和优化 We
 
 ## 199. Loader 和 Plugin 的区别
 
+在 Webpack 中，Loader 和 Plugin 是两个重要的概念，它们用于不同的目的并在 Webpack 构建过程中发挥不同的作用。
+
+- Loader
+  **作用：** Loader 主要用于转换模块的源代码。它们能够对文件进行预处理，从而将各种类型的资源（如 ES6、TypeScript、SCSS、图片等）转化为 Webpack 能够理解的模块。
+
+  **工作方式：** Loader 在模块解析阶段生效。它们通过链式调用的方式，从右到左、从下到上依次对文件进行处理。Loader 的主要目的是让 Webpack 能够处理非 JavaScript 文件，并将其转换为 JavaScript 模块。
+
+  **示例：**
+
+  ```javascript
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: "babel-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+    ];
+  }
+  ```
+
+- Plugin
+
+  **作用：** Plugin 用于执行范围更广的任务，如打包优化、资源管理、环境变量注入等。它们可以在整个构建过程中执行更复杂和灵活的操作。
+
+  **工作方式：** Plugin 通过 Webpack 的钩子机制进行工作，它们能够在 Webpack 构建生命周期的不同阶段插入自定义行为。Plugins 可以访问 Webpack 编译器和构建过程的详细信息，并通过这些信息来执行特定的操作。
+
+  **示例：**
+
+  ```javascript
+  const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+  module.exports = {
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: "./src/index.html",
+      }),
+    ],
+  };
+  ```
+
+**总结**
+
+- **Loader：** 用于转换文件类型，通过链式调用预处理文件，使其能够被 Webpack 解析和打包。
+- **Plugin：** 用于执行更广泛的构建任务，通过 Webpack 的钩子机制插入自定义行为，优化和扩展构建过程。
+
+简单来说，Loader 处理文件转换，Plugin 处理构建过程中的各种任务。两者结合使用，使 Webpack 具有强大的灵活性和扩展性。
+
 ## 200. 写一个 Loader
 
+编写一个自定义的 Webpack Loader 需要实现一个 Node.js 模块，该模块导出一个函数。这是一个基本的 Loader 示例，该 Loader 将文件内容转换为大写字母。
+
+1. 创建 Loader 文件
+
+   在项目根目录下创建一个名为 `uppercase-loader.js` 的文件：
+
+   ```javascript
+   // uppercase-loader.js
+
+   module.exports = function (source) {
+     // 将源文件内容转换为大写
+     const result = source.toUpperCase();
+     return result;
+   };
+   ```
+
+2. 配置 Webpack
+
+   在项目根目录下创建一个 `webpack.config.js` 文件：
+
+   ```javascript
+   // webpack.config.js
+
+   const path = require("path");
+
+   module.exports = {
+     mode: "development",
+     entry: "./src/index.js",
+     output: {
+       path: path.resolve(__dirname, "dist"),
+       filename: "bundle.js",
+     },
+     module: {
+       rules: [
+         {
+           test: /\.txt$/,
+           use: path.resolve(__dirname, "uppercase-loader.js"),
+         },
+       ],
+     },
+   };
+   ```
+
 ## 201. 写一个 Plugin
+
+编写一个自定义的 Webpack Plugin 需要创建一个 JavaScript 类，并定义一个 `apply` 方法，该方法在 Webpack 构建过程中会被调用。
+
+```javascript
+// advanced-plugin.js
+
+class AdvancedPlugin {
+  apply(compiler) {
+    // 监听编译开始的钩子
+    compiler.hooks.compile.tap("AdvancedPlugin", () => {
+      console.log("编译开始...");
+    });
+
+    // 监听编译完成的钩子
+    compiler.hooks.done.tap("AdvancedPlugin", stats => {
+      console.log("编译完成！");
+    });
+  }
+}
+
+module.exports = AdvancedPlugin;
+```
+
+在 `webpack.config.js` 中使用 `AdvancedPlugin`：
+
+```javascript
+const AdvancedPlugin = require("./advanced-plugin");
+
+module.exports = {
+  // ... 其他配置
+  plugins: [new AdvancedPlugin()],
+};
+```
 
 ## 202. Webpack 构建速度提升
 
