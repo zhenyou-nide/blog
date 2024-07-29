@@ -1,7 +1,7 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-07-26T10:00:00.400Z
+modDatetime: 2024-07-29T10:00:00.400Z
 title: 大宝典-React
 slug: collection-react
 featured: false
@@ -478,25 +478,297 @@ export default App;
 
 ## 180. React 如何实现 mvvm
 
-## 181. Redux 主要解决什么问题。及其优缺点
+在 React 中，你可以使用以下方法来实现类似 MVVM 的架构：
+
+- 使用状态管理库：React 可以与状态管理库（如 Redux、MobX、React Context 等）结合使用，以实现集中化的状态管理。这些库可以帮助你在模型层和视图层之间进行数据传递和状态管理，从而实现 MVVM 的一部分。
+- 使用双向数据绑定库：有一些第三方库（如 mobx-react-lite、reactive-react 等）提供了双向数据绑定的能力它们可以使 React 组件中的数据与视图保持同步。通过使用这些库，你可以更接近 MWM 模式中的双向数据绑定概念。
+- 自定义视图模型：你可以在 React 中定义自己的视图模型类或对象，将数据逻辑和转换逻辑封装到这些视图模型中。通过将视图模型与 React 组件结合使用，你可以实现数据的射和处理逻辑。
+
+需要注意的是，React 本 身是一个非常灵活的库，你可以选择与其他库或模式结合使用，以满足你的应用程序需求。MVVM 只是一种软件架构模式，具体的实现方式可以根据项目的特定要求和团队的偏好进行调整。
+
+## 181. Redux 主要解决什么问题，及其优缺点
+
+Redux 是一个 JavaScript 状态管理库，主要用于管理应用程序的全局状态。它常用于大型应用程序，以确保状态在整个应用中保持一致
+
+1. **状态管理**：在大型应用中，管理和维护组件之间共享的状态可能会变得复杂。Redux 提供了一个中心化的存储，使得状态管理更加清晰和可预测。
+2. **状态一致性**：通过使用单一的状态树，Redux 确保了状态的一致性，避免了因状态不同步导致的 bug。
+3. **跨组件通信**：通过使用 Redux，不需要在组件层次结构中传递回调函数和状态，简化了跨组件的通信。
+
+**缺点**
+
+1. **样板代码多**：Redux 的设置和使用通常需要编写大量的样板代码（boilerplate code）。
+2. **复杂性**：对于小型项目，Redux 可能显得过于复杂，并不总是必要的。在这种情况下，使用 React 的内置状态管理（如 `useState` 和 `useReducer`）可能更为简便。
+3. **学习曲线**：对于初学者来说，理解 Redux 的理念（如 actions、reducers 和 store）可能需要一定的学习时间和经验积累。
+4. **性能问题**：在处理大量状态更新时，如果没有正确优化，Redux 可能会带来性能上的开销。
+
+总的来说，Redux 是一个功能强大的状态管理库，适用于大型应用和复杂状态管理需求，但在选择是否使用 Redux 时，需要权衡其复杂性和项目的实际需求。
 
 ## 182. React 性能优化方案，所关联周期函数
 
+在 React 中进行性能优化，确保应用程序运行顺畅并避免不必要的渲染是很重要的
+
+1. **使用 React.memo 和 PureComponent**
+
+   - **React.memo**: 用于函数组件，防止组件在不必要的情况下重新渲染。如果组件的 props 没有变化，`React.memo` 会缓存组件的上一次渲染结果并返回，从而避免重新渲染。
+
+     ```javascript
+     const MyComponent = React.memo(function MyComponent(props) {
+       // 渲染逻辑
+     });
+     ```
+
+   - **PureComponent**: 用于类组件，类似于 `React.memo`。`PureComponent` 会自动执行浅比较来决定是否需要重新渲染组件。
+
+     ```javascript
+     class MyComponent extends React.PureComponent {
+       render() {
+         // 渲染逻辑
+       }
+     }
+     ```
+
+2. **避免匿名函数和对象字面量**
+
+   在 render 方法中避免使用匿名函数和对象字面量，因为它们会在每次渲染时创建新的引用，导致不必要的重新渲染。
+
+   ```javascript
+   // 不推荐
+   <button onClick={() => doSomething()}></button>;
+
+   // 推荐
+   const handleClick = () => doSomething();
+   <button onClick={handleClick}></button>;
+   ```
+
+3. **使用 useCallback 和 useMemo**
+
+   - **useCallback**: 返回一个 memoized 回调函数，避免在每次渲染时创建新的函数实例。
+
+     ```javascript
+     const handleClick = useCallback(() => {
+       // 点击逻辑
+     }, [dependencies]);
+     ```
+
+   - **useMemo**: 返回一个 memoized 值，避免在每次渲染时执行昂贵的计算。
+
+     ```javascript
+     const computedValue = useMemo(() => {
+       return expensiveComputation(dependencies);
+     }, [dependencies]);
+     ```
+
+4. **shouldComponentUpdate 和 getDerivedStateFromProps**
+
+   - **shouldComponentUpdate**: 类组件中用于控制组件是否需要重新渲染。返回 `false` 可以阻止不必要的渲染。
+
+     ```javascript
+     shouldComponentUpdate(nextProps, nextState) {
+       // 自定义逻辑，返回 true 或 false
+     }
+     ```
+
+   - **getDerivedStateFromProps**: 类组件中用于在每次渲染之前更新组件的 state。
+
+     ```javascript
+     static getDerivedStateFromProps(nextProps, prevState) {
+       // 返回新的 state 或 null
+     }
+     ```
+
+5. **React.lazy 和 Suspense**
+
+   通过 `React.lazy` 实现组件的代码分割，仅在需要时才加载组件，从而减少初始加载时间。
+
+   ```javascript
+   const LazyComponent = React.lazy(() => import("./LazyComponent"));
+
+   function MyComponent() {
+     return (
+       <React.Suspense fallback={<div>Loading...</div>}>
+         <LazyComponent />
+       </React.Suspense>
+     );
+   }
+   ```
+
+6. **虚拟化长列表**
+
+   使用库如 `react-window` 或 `react-virtualized` 来只渲染视口中的列表项，而不是一次性渲染所有项。
+
+   ```javascript
+   import { FixedSizeList as List } from "react-window";
+
+   function MyComponent() {
+     return (
+       <List height={500} itemCount={1000} itemSize={35} width={300}>
+         {({ index, style }) => <div style={style}>Row {index}</div>}
+       </List>
+     );
+   }
+   ```
+
+7. **适当使用 useEffect 和 useLayoutEffect**
+
+   避免不必要的副作用，确保在依赖项变化时才执行副作用。同时，`useLayoutEffect` 可以在 DOM 变更后同步执行副作用，避免视觉不一致。
+
+   ```javascript
+   useEffect(() => {
+     // 副作用逻辑
+     return () => {
+       // 清理逻辑
+     };
+   }, [dependencies]);
+   ```
+
+8. **减少 Re-render**
+
+   尽量减少父组件的重新渲染，因为每次父组件渲染时，所有子组件也会重新渲染。可以通过将状态提升到更高层次或使用 `React.memo` 和 `useCallback` 等方法来优化。
+
+9. **使用 Key 正确标记列表项**
+
+   在渲染列表时，为每个列表项提供唯一的 `key` 属性，以确保 React 能够高效地更新和重新排列列表项。
+
+   ```javascript
+   {
+     items.map(item => <ItemComponent key={item.id} item={item} />);
+   }
+   ```
+
+10. 使用 `React-Fragment` 来避免不必要的 DOM 节点，可减少 DOM 节点数量
+
 ## 183. 虚拟 DOM 的意义
+
+1. **减少实际的 DOM 操作**: 通过比较新旧虚拟 DOM 树的差异，React 可以确定需要更新的部分，并生成最
+   小化的 DOM 操作序列。这样可以减少实际的 DOM 操作次数，提高性能。
+2. **批量更新**:React 会将所有需要更新的 DOM 操作批量执行，从而避免了频繁的 DOM 操作，提高了性能。
+3. **跨平台兼容性**: 虚拟 DOM 是一个轻量级的 JavaScript 对象，可以在不同的平台上运行，例如浏览器、移动设备和服务器。这使得 React 可以在多个环境中使用相同的代码和逻辑。
+4. **更好的开发体验**: 虚拟 DOM 使得开发者可以使用类似于 HTML 的标记语言来描述 UI，而不需要直接操作 DOM。这简化了开发过程，并提供了更好的开发体验。
 
 ## 184. React DOM Diff 算法
 
+React 的 DOM Diff 算法，也被称为协调（reconciliation）算法，是 React 用来高效更新 DOM 的核心机制。这个算法通过比较当前树和更新后的树来确定最小的变更集，并应用这些变更以更新实际的 DOM。
+
+以下是 React DOM Diff 算法的主要步骤和关键点：
+
+1. 基于同级节点的比较
+
+   React 通过同级比较来减少复杂度，而不是进行深度比较。只有在同一级别的节点之间进行比较，避免了跨层级比较带来的复杂度。
+
+2. 节点类型的比较
+
+   - **相同类型的元素**：如果两个节点类型相同（例如都是 `<div>`），React 会保留 DOM 节点，仅对属性进行更新。
+
+     ```javascript
+     // 示例
+     <div className="old" />
+     <div className="new" />
+     ```
+
+   - **不同类型的元素**：如果两个节点类型不同（例如 `<div>` 变成 `<span>`），React 会销毁旧的节点及其子节点，并创建新的节点。
+
+     ```javascript
+     // 示例
+     <div />
+     <span />
+     ```
+
+   - **组件类型相同**：如果是相同的 React 组件类型，React 会更新该组件实例，并更新子树。
+
+     ```javascript
+     // 示例
+     <MyComponent key="1" />
+     ```
+
+   - **组件类型不同**：如果组件类型不同，React 会卸载旧组件并挂载新组件。
+
+     ```javascript
+     // 示例
+     <MyComponent key="1" />
+     <AnotherComponent key="1" />
+     ```
+
+3. Key 属性的使用
+
+   在列表渲染中，React 使用 `key` 属性来识别每个元素的唯一性，从而高效地重新排列列表项并最小化重绘。
+
+   - **Key 的匹配**：如果 `key` 属性匹配，React 会认为元素是相同的，并复用现有元素，仅更新其属性。
+
+     ```javascript
+     // 示例
+     <ul>
+       {items.map(item => (
+         <li key={item.id}>{item.name}</li>
+       ))}
+     </ul>
+     ```
+
+   - **Key 的不匹配**：如果 `key` 属性不匹配，React 会销毁旧元素并创建新元素，尽管两者可能在结构上相似。
+
+4. 子节点的比较
+
+   React 会对每个父节点的子节点进行递归比较，通过 `key` 属性和类型来确定节点是否需要更新、添加或删除。
+
+   - **删除多余节点**：如果新子节点少于旧子节点，React 会删除多余的节点。
+
+   - **添加新节点**：如果新子节点多于旧子节点，React 会添加新的节点。
+
+   - **重排序**：如果 `key` 属性变化，React 会重新排列子节点，以匹配新子节点的顺序。
+
+5. 深度优先遍历
+
+   React 采用深度优先遍历的方式进行节点比较，从树的根节点开始逐层向下比较，并根据需要进行更新。这种方式有助于及时处理嵌套子组件的更新，确保 UI 的一致性。
+
+6. 并行化和批量更新
+
+   React 通过批量更新和并行化处理来优化性能。在一次事件循环中收集多个状态变化，然后一次性进行 DOM 更新，减少重绘和回流。
+
 ## 185. 关于 Fiber 架构
+
+- Fiber 是 React 中一种新的架构，它用于实现增量式的、可中断的虚拟 DOM diff 过程。Fiber 的目标是改进 React 的性能和用户体验，使得 React 应用程序更加流畅和响应。
+- 在 React 的旧版本中，虚拟 DOM diff 过程是一个递归的过程，它会一直执行直到完成，期间无法中断这可能会导致长时间的 JavaScript 执行，从而阻塞主线程，造成页面的卡顿和不流畅的用户体验。
+- 为了解决这个问题，React 引|入了 Fiber 架构。Fiber 将整个虚拟 DOM diff 过程分为多个小任务，每个任务称为一个 Fiber 节点。这些 Fiber 节点被组织成一个树状结构，称为 Fiber 树。
+- Fiber 树可以被中断和恢复，这意味着在执行 Fiber 树的 diff 过程时，可以在任意时刻中断当前任务，并优先执行其他任务。这样可以使得应用程序更加灵活地响应用户的交互和其他优先级的任务，提高性能和响应性。
+- 通过 Fiber 架构，React 可以根据任务的优先级动态地调整任务的执行顺序，从而更好地控制 JavaScript 的执行。这使得 React 应用程序可以在不阻塞主线程的情况下进行虚拟 DOM diff，减少页面的卡顿和提高用户体验。
+- 总而言之，Fiber 是 React 中一种新的架构，用于实现增量式的、可中断的虚拟 DOM diff 过程。它通过将 diff 过程分为多个小任务，并根据优先级动态地调整任务的执行顺序，提高 React 应用程序的性能和响应性。
 
 ## 186. 关于 Flux
 
+一种架构思想，用于构建前端应用程序的数据流管理，解决传统 MVC 架构在复杂应用中数据流管理变得困难的问题。
+Flux 架构的核心思想是单向数据流，划分为四个主要部分：
+
+1. View（视图）: 负责展示用户界面，并将用户的操作转发给 Action 进行处理。
+2. Action（动作）: 定义应用程序中可能发生的各种操作，例如点击按钮、输入文本等。当用户在 View 上执行操作时，View 会触发相应的 Action。
+3. Dispatcher（派发器）: 负责接收 Action 并将其分发给注册的 Store。
+4. Store（数据仓库）: 存储应用程序的数据，并定义数据的更新逻辑。当 Dispatcher 将 Action 分发给 Store 时，Store 会根据 Action 的类型更新数据，并触发事件通知 View 进行更新。
+
+Flux 架构的关键是单向数据流，当用户在 View 上执行操作时，View 会触发相应的 Action，Action 会通过 Dispatcher 被分发给 Store，Store 根据 Action 的类型更新数据，并触发事件通知 View 进行更新。这样，数据的流动是单向的，没有循环依赖和复杂的数据交互。通过这种单向数据流的方式，Flux 架构使得应用程序的数据流管理更加清晰和可预测。避免了数据的混乱和不一致，使得应用程序的开发和维护更加简单和可靠。
+
 ## 187. React 项目脚手架
+
+1. **Create React App**:Create React App 是官方推荐的 React 项目脚手架，它基于 Webpack 和 Babel，可以快速创建 React 应用程序的基本结构和配置文件。Create React App 提供了一套简单易用的命令行工具，可以快速创建、运行和打包 React 应用程序。
+2. **Next.js**:Next.js 是一个基于 React 的轻量级服务器端渲染框架，它提供了一套简单易用的 API 和命令行工具，可以快速创建具有服务器端渲染功能的 React 应用程序。Next.js 还提供了一些高级特性，例如自动代码分割、静态文件服务、CSS 模块化等。
+3. **Gatsby**:Gatsby 是一个基于 React 的静态站点生成器，它可以快速创建高性能、可靠的静态网站。
+   Gatsby 使用 React 和 GraphQL 构建静态网站，可以通过插件和主题扩展功能。
+4. **React Boilerplate**:React Boilerplate 是一个 React 项目脚手架，它提供了一套完整的 React 应用程序开发框架，包括基本结构、配置文件、测试、代码分割、性能优化等功能。React Boilerplate 还提供了-些常用的 React 库和工具，例如 Redux、React Router、Webpack 等，
 
 ## 188. React 组件可请求数据生命周期钩子
 
+- `componentDidMount`: 组件挂载后立即调用，在此方法中可以发起请求，并更新组件的状态或 props。
+- `componentDidUpdate`: 组件更新后立即调用，在此方法中可以根据 props 或 state 的变化发起请求。
+
 ## 189. refs 的作用
 
+在 React 中，refs（引用）是用于访问组件或 DOM 元素的方法。
+
+1. **访问组件实例**: 通过 refs，可以获取到组件的实例，从而可以直接调用组件的方法或访问组件的属性这在某些情况下非常有用，例如需要手动触发组件的某个方法或获取组件的状态。
+2. **访问 DOM 元素**: 通过 refs，可以获取到 React 组件中的 DOM 元素，从而可以直接操作 DOM，例如改变样式、获取输入框的值等。这在需要直接操作 DOM 的场景下非常有用，但在 React 中应该尽量避免直接操作 DOM，而是通过状态和属性来控制组件的渲染。
+
 ## 190. key 在渲染列表时的作用
+
+- **识别每个列表项的唯一性**: key 属性用于帮助 React 区分列表中的每个元素。React 使用 key 属性来跟踪列表中的每个元素，以便在进行列表更新时能够准确地识别每个元素。如果没有指定 key 属性或 key 属性不唯一，React 可能会出现警告或产生不正确的渲染结果，
+- **提高列表更新的性能**: key 属性可以帮助 React 在进行列表更新时，识别出哪些元素是新添加的、些元素是已存在的、哪些元素是已删除的。通过 key 属性，React 可以更加高效地进行 DOM 操作，减少不必要的重渲染。
+- **保持元素的稳定性**:key 属性可以帮助 React 保持元素的稳定性。当列表中的元素顺序发生变化时，如果每个元素都有一个稳定的 key 属性，React 可以更准确地识别出哪些元素是移动的，哪些元素是新增的，哪些元素是删除的，从而只进行必要的 DOM 操作，提高性能。
 
 ## 191. 如何使用 useState Hook 来管理状态
 

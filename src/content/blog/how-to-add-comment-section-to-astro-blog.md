@@ -29,7 +29,7 @@ description: A quick guide on how to add a comments section to your Astro blog
 1. 确保 blog repo public.
 2. 为 blog repo install Giscus app.
    指路 [Giscus App](https://github.com/apps/giscus)
-3. 确保 Github repo 已经开启了 Discussions 功能
+3. 确保 blog repo 开启了 Discussions 功能
    - enable Discussions: 指路 repo => settings => Features => ✔ Discussions
    - 创建分类：创建一个名为 Blog Post Comment 的分类，设置分类为 Open-ended discussion，指路 https://github.com/username/repo_name/discussions/categories/new
      ![image](../../assets/images/comment-cate.png)
@@ -121,7 +121,7 @@ import PostComments from "@components/PostComments.astro";
 
 本博客站支持切换 dark/light theme，而 `PostComment` 是加载了一个静态 theme（由 script 的 `data-theme` 设置而来
 
-尽管部分 theme.css 使用了媒体查询 `@media (prefers-color-scheme: dark) { ...dart css}`, 但 Giscus 是一个独立的 iframe，默认无法关联到 blog 的 theme.
+部分 theme.css 使用了 `@media (prefers-color-scheme: dark) { ...dart css}`, 但 Giscus 是一个独立的 iframe，默认无法关联到 blog 的 theme.
 
 当 Giscus 的 `data-theme="preferred_color_scheme"` 时，dark theme 无法被识别到：
 ![image](../../assets/images/comment-theme-bug.png)
