@@ -2,8 +2,8 @@
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
 modDatetime: 2024-07-30T11:00:00.400Z
-title: 大宝典-工程化
-slug: collection-pack
+title: 大宝典-浏览器
+slug: collection-browser
 featured: false
 draft: false
 tags:
