@@ -94,18 +94,373 @@ description: 温故知新
     "jsHeapSizeLimit": 4294705152,
     "totalJSHeapSize": 43618524,
     "usedJSHeapSize": 31012928
-  },
-  "now": ""
+  }
+  // ...
 }
 ```
 
-## 215. webpack 优化前端性能
+2. **Resource Timing API**：
 
-## 216. 如何实现长缓存
+   - `performance.getEntriesByType('resource')`: 返回页面上所有资源（如图像、脚本、样式表等）的性能数据。
+
+3. **User Timing API**：
+
+   - `performance.mark()`: 为自定义时间点创建一个时间戳。
+   - `performance.measure()`: 测量两个时间点之间的时间。
+
+4. **High Resolution Time API**：
+   - `performance.now()`: 返回从页面加载开始经过的高精度时间（以毫秒为单位），可以用于精确的时间测量。
+
+**示例**
+
+```javascript
+// 获取页面加载的详细时间点
+console.log(performance.timing);
+
+// 获取所有资源的性能数据
+const resources = performance.getEntriesByType("resource");
+resources.forEach(resource => {
+  console.log(`Resource: ${resource.name}, Duration: ${resource.duration}`);
+});
+
+// 创建和测量自定义时间点
+performance.mark("start-task");
+// 执行一些任务...
+performance.mark("end-task");
+performance.measure("task-duration", "start-task", "end-task");
+
+// 获取高精度时间
+const start = performance.now();
+// 执行一些任务...
+const end = performance.now();
+console.log(`Task duration: ${end - start}ms`);
+```
+
+**使用场景**
+
+1. **性能调试**：帮助开发者了解页面加载的各个阶段，从而优化资源加载和减少页面加载时间。
+2. **用户体验改进**：通过精确测量用户交互时间点，改进网站的响应速度和交互体验。
+3. **性能监控**：在生产环境中监控和记录性能数据，以便及时发现和解决性能问题。
+
+## 215. Webpack 优化前端性能
+
+Webpack 是一个流行的 JavaScript 模块打包工具，它提供了许多功能来优化前端性能。通过使用 Webpack，开发者可以改进页面加载速度、减少带宽消耗，并提高整体用户体验。以下是一些关键的优化技术和配置：
+
+1. 代码拆分 (Code Splitting)
+
+   代码拆分是将代码分成多个小块，按需加载，而不是一次性加载所有代码。
+
+   ```javascript
+   module.exports = {
+     optimization: {
+       splitChunks: {
+         chunks: "all",
+       },
+     },
+   };
+   ```
+
+2. 按需加载 (Lazy Loading)
+
+   按需加载可以使某些代码仅在需要时加载，从而减少初始加载时间。
+
+   ```javascript
+   // 使用动态 import 实现按需加载
+   import(/* webpackChunkName: "my-chunk-name" */ "./myModule").then(module => {
+     const myModule = module.default;
+     // 使用 myModule
+   });
+   ```
+
+3. Tree Shaking
+
+   Tree Shaking 是一个消除未使用代码的优化技术，它依赖于 ES6 模块语法。
+
+   ```javascript
+   module.exports = {
+     mode: "production",
+     optimization: {
+       usedExports: true,
+     },
+   };
+   ```
+
+4. 压缩和缩小代码 (Minification)
+
+   通过压缩和缩小代码，可以减少文件大小，提高加载速度。
+
+   ```javascript
+   const TerserPlugin = require("terser-webpack-plugin");
+
+   module.exports = {
+     optimization: {
+       minimize: true,
+       minimizer: [new TerserPlugin()],
+     },
+   };
+   ```
+
+5. 使用缓存 (Caching)
+
+   利用缓存可以减少用户多次访问时的加载时间。
+
+   ```javascript
+   module.exports = {
+     output: {
+       filename: "[name].[contenthash].js",
+     },
+     optimization: {
+       moduleIds: "deterministic",
+       runtimeChunk: "single",
+       splitChunks: {
+         cacheGroups: {
+           vendor: {
+             test: /[\\/]node_modules[\\/]/,
+             name: "vendors",
+             chunks: "all",
+           },
+         },
+       },
+     },
+   };
+   ```
+
+6. 资源压缩 (Asset Compression)
+
+   压缩静态资源（如 CSS、JavaScript 和图片）以减少传输时间。
+
+   ```javascript
+   const CompressionPlugin = require("compression-webpack-plugin");
+
+   module.exports = {
+     plugins: [
+       new CompressionPlugin({
+         test: /\.(js|css)$/,
+         algorithm: "gzip",
+       }),
+     ],
+   };
+   ```
+
+7. 使用 Service Workers
+
+   Service Workers 允许缓存资源，并在离线或网络不稳定时提供快速响应。
+
+   ```javascript
+   const WorkboxPlugin = require("workbox-webpack-plugin");
+
+   module.exports = {
+     plugins: [
+       new WorkboxPlugin.GenerateSW({
+         clientsClaim: true,
+         skipWaiting: true,
+       }),
+     ],
+   };
+   ```
+
+8. 移除未使用的 CSS (PurifyCSS)
+
+   PurifyCSS 可以分析和移除未使用的 CSS。
+
+   ```javascript
+   const PurgeCSSPlugin = require("purgecss-webpack-plugin");
+   const glob = require("glob");
+   const path = require("path");
+
+   module.exports = {
+     plugins: [
+       new PurgeCSSPlugin({
+         paths: glob.sync(`${path.join(__dirname, "src")}/**/*`, {
+           nodir: true,
+         }),
+       }),
+     ],
+   };
+   ```
+
+9. 预取和预加载模块 (Prefetching and Preloading)
+
+   通过预取和预加载，可以在用户可能需要时提前加载资源。
+
+   ```javascript
+   // Prefetch example
+   import(/* webpackPrefetch: true */ "./someModule");
+
+   // Preload example
+   import(/* webpackPreload: true */ "./anotherModule");
+   ```
+
+10. 优化图像
+
+    使用图像压缩工具减少图像大小。
+
+    ```javascript
+    const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+
+    module.exports = {
+      plugins: [
+        new ImageMinimizerPlugin({
+          minimizerOptions: {
+            plugins: [
+              ["mozjpeg", { quality: 70 }],
+              ["optipng", { optimizationLevel: 5 }],
+            ],
+          },
+        }),
+      ],
+    };
+    ```
+
+## 216. 如何实现长缓存(Long-term caching)
+
+一种前端性能优化策略，旨在浏览器能够缓存应用程序的静态资源（如 js，css，图像等）更长时间，以减少不必要的网络请求，加速页面的加载速度。
+
+通过将资源文件的内容与他们的文件名关联，可以实现长缓存
+
+通常，浏览器会更及资源文件的 URL 来判断是否从缓存中获取资源。
+
+**落地方案**
+
+1. 文件名哈希：文件只有在内容发生变化时具有不同的文件名
+2. 合理分包：将代码与第三方库，样式表和其他资源分开打包成多个文件。这样只有在发生变化时候重新下载应用程序代码，而其他资源可长期缓存
+3. 配置缓存控制：服务端配置好资源的缓存控制策略，示例：
+
+   ```nginx
+   location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+   expires 1y;
+   add_header Cache-Control "public, immutable";
+   }
+
+   ```
+
+4. 版本号控制：如需要强制浏览器重新下载文件，可将资源本舰的版本号添加到 URL 中，如 `<link ref='stylesheet' href='styles.css?v=2'/>`
+5. 使用文件指纹：生成资源的指纹（如 MD5 哈希），并将指纹添加在资源文件名中，一切包文件内容发生变化时 URL 也会发生变化
+   ```js
+   const md5 = require("md5");
+   const fileContent = fs.readFileSync("file.js");
+   const fileHash = md5(fileContent);
+   const fileName = `file.${fileHash}.js`;
+   ```
 
 ## 217. 遍历 100000000 项的数组如何优化
 
+1. 使用高效的循环
+
+   在 JavaScript 中，`for` 循环通常比其他迭代方法（如 `forEach`、`map`）更高效。
+
+   ```javascript
+   const array = new Array(100000000).fill(0); // 假设数组已填充
+
+   console.time("for loop");
+   for (let i = 0; i < array.length; i++) {
+     // 执行操作
+   }
+   console.timeEnd("for loop");
+   ```
+
+2. 避免频繁的数组长度访问
+
+   将数组长度存储在一个变量中，避免在每次循环中访问 `array.length`。
+
+   ```javascript
+   const array = new Array(100000000).fill(0); // 假设数组已填充
+
+   console.time("optimized for loop");
+   for (let i = 0, len = array.length; i < len; i++) {
+     // 执行操作
+   }
+   console.timeEnd("optimized for loop");
+   ```
+
+3. 使用 Web Workers
+
+   Web Workers 允许你在后台线程中运行脚本，从而避免阻塞主线程。这对处理大量数据非常有用。
+
+   **主线程代码**：
+
+   ```javascript
+   const worker = new Worker("worker.js");
+   const array = new Array(100000000).fill(0);
+
+   worker.postMessage(array);
+
+   worker.onmessage = function (e) {
+     console.log("结果:", e.data);
+   };
+   ```
+
+   **worker.js**：
+
+   ```javascript
+   self.onmessage = function (e) {
+     const array = e.data;
+     let result = 0;
+
+     for (let i = 0; i < array.length; i++) {
+       result += array[i]; // 假设某个计算操作
+     }
+
+     self.postMessage(result);
+   };
+   ```
+
+4. 分块处理 (Chunking)
+
+   将数组分成较小的块，以减少单次操作的负担，并使用 `setTimeout` 或 `requestIdleCallback` 处理每个块。
+
+   ```javascript
+   const array = new Array(100000000).fill(0);
+   const chunkSize = 1000000;
+   let currentIndex = 0;
+
+   function processChunk() {
+     const end = Math.min(currentIndex + chunkSize, array.length);
+
+     for (let i = currentIndex; i < end; i++) {
+       // 执行操作
+     }
+
+     currentIndex = end;
+
+     if (currentIndex < array.length) {
+       setTimeout(processChunk, 0);
+     } else {
+       console.log("处理完成");
+     }
+   }
+
+   processChunk();
+   ```
+
+5. 使用 Typed Arrays
+
+   如果数据是数值类型，可以使用 `Typed Arrays`（如 `Float64Array`）提高性能。
+
+   ```javascript
+   const array = new Float64Array(100000000);
+
+   console.time("typed array for loop");
+   for (let i = 0; i < array.length; i++) {
+     // 执行操作
+   }
+   console.timeEnd("typed array for loop");
+   ```
+
+6. 避免不必要的计算和内存分配
+
+   确保在循环中避免不必要的计算和内存分配，这会显著提高性能。
+
+7. JIT (Just-In-Time) 优化
+
+   确保你的代码符合 JavaScript 引擎的 JIT 编译器优化模式。避免使用会触发降级的代码模式，例如：
+
+   - 不要在循环内动态改变数组的长度。
+   - 避免在循环内使用 `try-catch`。
+
 ## 218. webworker 优化 100000000 数组遍历
+
+见上一问题
 
 ## 219. 延迟加载的方式有哪些
 
