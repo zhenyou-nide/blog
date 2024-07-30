@@ -44,8 +44,8 @@ Webpack 是一个现代的前端模块打包工具，它用于构建和优化 We
 
 ## 197. Webpack 常用 Loader
 
-- **Babel Loader**: 用于将新版 JavaScript（如 ES6+) 转换为旧版 JavaScript，以确保在不同浏览器中的兼容性。解决了不同 javaScript 版本之间的问题。
-- **Css Loader**: 处理 CSS 文件，使其能够被打包到应用程序中。可以配合其他 Loader（如 style-loader) 一起使用，以处理 CSS 的导入、模块化等问题。
+- **Babel Loader**: 用于将新版 JavaScript(如 ES6+) 转换为旧版 JavaScript，以确保在不同浏览器中的兼容性。解决了不同 javaScript 版本之间的问题。
+- **Css Loader**: 处理 CSS 文件，使其能够被打包到应用程序中。可以配合其他 Loader(如 style-loader) 一起使用，以处理 CSS 的导入、模块化等问题。
 - **style Loader**: 将 CSS 样式加载到页面中，通常与 CSS Loader 一起使用。
 - **File Loader**: 处理文件资源（如图片、字体等），将它们复制到输出目录，并返回文件路径。
 - **URL Loader**: 与 File Loader 类似，但可以将小文件转换为 Base64 编码的 Data URL，以减小 HTTP 请求的数量。
@@ -208,11 +208,296 @@ module.exports = {
 
 ## 202. Webpack 构建速度提升
 
+提升 Webpack 构建速度可以从以下几个方面入手：
+
+1. **优化 Loader 配置**
+
+   - **缓存**：使用 `cache-loader` 或 `babel-loader` 的 `cacheDirectory` 选项来缓存编译结果。
+     ```javascript
+     {
+       loader: 'babel-loader',
+       options: {
+         cacheDirectory: true,
+       },
+     }
+     ```
+   - **限制作用范围**：通过 `include` 或 `exclude` 选项限制 Loader 的作用范围。
+     ```javascript
+     {
+       test: /\.js$/,
+       include: path.resolve(__dirname, 'src'),
+       use: 'babel-loader',
+     }
+     ```
+
+2. **分离开发和生产环境配置**
+
+   使用 `webpack-merge` 将开发和生产环境的配置文件分离，确保只有必要的插件在相应环境下被加载。
+
+3. **减少解析时间**
+
+   - **模块别名**：使用 `resolve.alias` 配置来缩短模块路径，减少模块查找时间。
+     ```javascript
+     resolve: {
+       alias: {
+         '@': path.resolve(__dirname, 'src'),
+       },
+     }
+     ```
+   - **文件扩展名**：明确指定要解析的文件扩展名，减少文件解析次数。
+     ```javascript
+     resolve: {
+       extensions: ['.js', '.jsx', '.json'],
+     }
+     ```
+
+4. **DLLPlugin**
+
+   使用 `DllPlugin` 将不常变动的依赖单独打包，可以显著提高构建速度。
+
+   ```javascript
+   const webpack = require("webpack");
+
+   module.exports = {
+     // ...
+     plugins: [
+       new webpack.DllPlugin({
+         name: "[name]",
+         path: path.resolve(__dirname, "dist/[name]-manifest.json"),
+       }),
+     ],
+   };
+   ```
+
+5. **HappyPack**
+
+   使用 `HappyPack` 将任务分解到多个子进程中并行处理，减少总编译时间。
+
+   ```javascript
+   const HappyPack = require("happypack");
+
+   module.exports = {
+     // ...
+     module: {
+       rules: [
+         {
+           test: /\.js$/,
+           use: "happypack/loader?id=js",
+         },
+       ],
+     },
+     plugins: [
+       new HappyPack({
+         id: "js",
+         loaders: ["babel-loader"],
+       }),
+     ],
+   };
+   ```
+
+6. **Thread-loader**
+
+   利用 `thread-loader` 开启多进程编译。
+
+   ```javascript
+   {
+     test: /\.js$/,
+     use: [
+       'thread-loader',
+       'babel-loader',
+     ],
+   }
+   ```
+
+7. **优化插件**
+
+   - **`terser-webpack-plugin`**：在生产环境下使用更快的压缩插件。
+
+     ```javascript
+     const TerserPlugin = require("terser-webpack-plugin");
+
+     module.exports = {
+       optimization: {
+         minimize: true,
+         minimizer: [new TerserPlugin()],
+       },
+     };
+     ```
+
+   - **`webpack-parallel-uglify-plugin`**：并行压缩 JS 文件。
+
+     ```javascript
+     const ParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
+
+     module.exports = {
+       plugins: [
+         new ParallelUglifyPlugin({
+           uglifyJS: {
+             output: {
+               comments: false,
+             },
+             compress: {
+               warnings: false,
+             },
+           },
+         }),
+       ],
+     };
+     ```
+
+8. **持久化缓存**
+
+   Webpack 5 引入了持久化缓存，可以显著减少重复构建时间。
+
+   ```javascript
+   module.exports = {
+     cache: {
+       type: "filesystem",
+     },
+   };
+   ```
+
+9. **缩小编译范围**
+
+   - **Tree Shaking**：移除无用代码。
+     ```javascript
+     module.exports = {
+       optimization: {
+         usedExports: true,
+       },
+     };
+     ```
+
+10. **其他工具**
+
+    - **`speed-measure-webpack-plugin`**：衡量构建时间，找出瓶颈。
+
+      ```javascript
+      const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+      const smp = new SpeedMeasurePlugin();
+
+      module.exports = smp.wrap({
+        // webpack config
+      });
+      ```
+
+    - **`webpack-bundle-analyzer`**：分析打包后的文件，优化体积。
+
+      ```javascript
+      const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+
+      module.exports = {
+        plugins: [new BundleAnalyzerPlugin()],
+      };
+      ```
+
 ## 203. Webpack 神奇注释
+
+Webpack 的“神奇注释”（Magic Comments）是一种内联注释，它们可以用来提供额外的构建指令，从而优化打包过程和改善开发体验。
+
+1. **动态导入 (Dynamic Imports)**
+
+   动态导入允许你按需加载模块，可以用 `import()` 函数结合神奇注释实现代码拆分和懒加载。
+
+   - **webpackChunkName** 指定拆分后生成的 chunk 的名称。
+
+     ```javascript
+     import(/* webpackChunkName: "my-chunk-name" */ "./module");
+     ```
+
+   - **webpackMode** 指定导入模式，可以是 `lazy`、`lazy-once` 或 `eager`。
+
+     ```javascript
+     import(/* webpackMode: "lazy" */ "./module"); // 默认模式
+     import(/* webpackMode: "eager" */ "./module"); // 立即加载
+     ```
+
+   - **webpackPrefetch** 指示浏览器在空闲时预取资源，优化性能。
+
+     ```javascript
+     import(/* webpackPrefetch: true */ "./module");
+     ```
+
+   - **webpackPreload** 指示浏览器立即加载资源，优先级高于 `webpackPrefetch`。
+
+     ```javascript
+     import(/* webpackPreload: true */ "./module");
+     ```
+
+   - **webpackInclude 和 webpackExclude** 用于正则表达式匹配，包含或排除特定文件。
+
+     ```javascript
+     import(
+       /* webpackInclude: /\.js$/ */
+       /* webpackExclude: /\.test\.js$/ */
+       "./module"
+     );
+     ```
+
+2. **注释中的魔法**
+
+   在注释中添加魔法注释，可以在代码分割和异步加载时提供更多的控制。
+
+   - **webpackIgnore** 忽略特定的动态导入。
+
+     ```javascript
+     import(/* webpackIgnore: true */ "./module");
+     ```
+
+下面是一个使用各种神奇注释的示例：
+
+```javascript
+// 使用 webpackChunkName 指定 chunk 名称
+import(/* webpackChunkName: "login" */ "./login").then(module => {
+  const login = module.default;
+  login();
+});
+
+// 使用 webpackMode 设置懒加载模式
+import(/* webpackMode: "eager" */ "./dashboard").then(module => {
+  const dashboard = module.default;
+  dashboard();
+});
+
+// 使用 webpackPrefetch 指示浏览器预取资源
+import(/* webpackPrefetch: true */ "./analytics").then(module => {
+  const analytics = module.default;
+  analytics();
+});
+
+// 使用 webpackPreload 指示浏览器立即加载资源
+import(/* webpackPreload: true */ "./performance").then(module => {
+  const performance = module.default;
+  performance();
+});
+
+// 使用 webpackInclude 和 webpackExclude 进行正则匹配
+import(
+  /* webpackInclude: /\.js$/ */
+  /* webpackExclude: /\.test\.js$/ */
+  "./components"
+).then(module => {
+  const components = module.default;
+  components.init();
+});
+
+// 使用 webpackIgnore 忽略特定的动态导入
+import(/* webpackIgnore: true */ "./config");
+```
 
 ## 204. Webpack 分包案例
 
+**目的**：尽量按改动频率来区分，利用浏览器缓存
+
+1. vendor: 第三方 lib 库，基本不会改动，除非依赖版本升级
+2. common: 业务组件代码的公共部分提取出来，改动较少
+3. entry: 不同页面的 entry 里业务组件代码的差异部分，会经常改动
+
 ## 205. Webpack vs Vite
+
+**Webpack**: 一个打包工具(对标 Rollup), 静态构建，在项目工程化，依赖，打包，构建等过程发挥作用
+
+**Vite**: 一个更上层的工具链方案(对标 Webpack + 针对 web 的常用配置 + webpack-dev-server)。旨在提供快速的开发体验，使用 ES modules 和现代浏览器特性来实现即时开发，不需要预构建或编译
 
 ## 206. Babel 的原理
 
