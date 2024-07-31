@@ -28,7 +28,7 @@ description: 温故知新
 2. **交互性（Interactivity）**：
 
    - **首次输入延迟（First Input Delay, FID）**：用户第一次与页面交互（如点击按钮）到浏览器能够响应交互的时间。
-   - **总阻塞时间（Total Blocking Time, TBT）**：页面加载过程中超过50毫秒的长任务时间总和。
+   - **总阻塞时间（Total Blocking Time, TBT）**：页面加载过程中超过 50 毫秒的长任务时间总和。
 
 3. **可见性（Visibility）**：
 
@@ -37,8 +37,8 @@ description: 温故知新
 
 4. **资源加载（Resource Loading）**：
 
-   - **资源大小（Resource Size）**：所有加载资源（如CSS、JavaScript、图片等）的大小。
-   - **请求数量（Number of Requests）**：页面加载过程中发出的HTTP请求数量。
+   - **资源大小（Resource Size）**：所有加载资源（如 CSS、JavaScript、图片等）的大小。
+   - **请求数量（Number of Requests）**：页面加载过程中发出的 HTTP 请求数量。
 
 5. **网络效率（Network Efficiency）**：
 
@@ -54,7 +54,7 @@ description: 温故知新
    - **首屏渲染时间（Time to Interactive, TTI）**：页面完全可交互的时间。
    - **用户感知加载时间（Perceived Load Time）**：用户感知页面加载完成的时间。
 
-这些指标可以通过工具如Google Lighthouse、WebPageTest、GTmetrix等进行监测和评估。通过分析这些指标，开发者可以识别性能瓶颈并进行针对性的优化，例如优化资源加载、减少阻塞脚本、利用缓存等。
+这些指标可以通过工具如 Google Lighthouse、WebPageTest、GTmetrix 等进行监测和评估。通过分析这些指标，开发者可以识别性能瓶颈并进行针对性的优化，例如优化资源加载、减少阻塞脚本、利用缓存等。
 
 ## 214. performance 对象
 
@@ -125,13 +125,13 @@ resources.forEach(resource => {
 
 // 创建和测量自定义时间点
 performance.mark("start-task");
-// 执行一些任务...
+// 执行一些任务。..
 performance.mark("end-task");
 performance.measure("task-duration", "start-task", "end-task");
 
 // 获取高精度时间
 const start = performance.now();
-// 执行一些任务...
+// 执行一些任务。..
 const end = performance.now();
 console.log(`Task duration: ${end - start}ms`);
 ```
@@ -312,7 +312,7 @@ Webpack 是一个流行的 JavaScript 模块打包工具，它提供了许多功
     };
     ```
 
-## 216. 如何实现长缓存(Long-term caching)
+## 216. 如何实现长缓存 (Long-term caching)
 
 一种前端性能优化策略，旨在浏览器能够缓存应用程序的静态资源（如 js，css，图像等）更长时间，以减少不必要的网络请求，加速页面的加载速度。
 
@@ -386,7 +386,7 @@ Webpack 是一个流行的 JavaScript 模块打包工具，它提供了许多功
    worker.postMessage(array);
 
    worker.onmessage = function (e) {
-     console.log("结果:", e.data);
+     console.log("结果：", e.data);
    };
    ```
 
@@ -462,13 +462,269 @@ Webpack 是一个流行的 JavaScript 模块打包工具，它提供了许多功
 
 见上一问题
 
-## 219. 延迟加载的方式有哪些
+## 219. 延迟加载（Lazy Loading）的方式有哪些
+
+1. **图像延迟加载**：
+
+   - **占位符图片**：使用低分辨率或空白图片作为占位符，当图像进入视口时再加载真实图片。
+   - **Intersection Observer API**：通过 JavaScript 监测图像是否进入视口，当图像进入视口时加载图片。
+
+2. **滚动加载（Infinite Scroll）**：
+
+   - 通过 JavaScript 监听用户滚动事件，当用户接近页面底部时，自动加载更多内容。这种方式常用于社交媒体、商品列表等需要展示大量数据的页面。
+
+3. **组件延迟加载**：
+
+   - **React Suspense**：在 React 中，可以使用`React.Suspense`和动态导入（`import()`）来延迟加载组件。
+   - **Vue.js 异步组件**：Vue.js 支持通过异步函数定义组件，从而实现组件的延迟加载。
+
+4. **模块延迟加载**：
+
+   - **Webpack**：使用代码分割（Code Splitting）和动态导入（`import()`）来实现模块的延迟加载。只有在需要时才加载相关模块，从而减少初始加载时间。
+
+5. **脚本延迟加载**：
+
+   - **defer 和 async 属性**：在 HTML 中使用`<script>`标签的`defer`或`async`属性来延迟脚本的执行。`defer`会在 HTML 解析完成后执行脚本，而`async`会在脚本下载完成后立即执行，不会阻塞 HTML 解析。
+
+6. **数据延迟加载**：
+
+   - **按需加载数据**：通过 AJAX 或 Fetch API，当用户与页面交互时（如点击按钮或滚动到特定区域）再加载相关数据。
+
+7. **页面内容分块加载**：
+
+   - **Skeleton Screen**：在页面加载时显示骨架屏（Skeleton Screen），提供一种渐进加载的视觉反馈，提升用户体验。
+
+8. **Service Workers 和缓存**：
+   - 使用 Service Workers 缓存资源，通过网络请求失败时从缓存中读取资源，实现离线访问和快速加载。
 
 ## 220. 图片懒加载和预加载的区别
 
+图片懒加载和预加载是两种不同的优化策略，它们的目的和实现方式有显著差异。
+
+### 图片懒加载（Lazy Loading）
+
+**目的**：
+
+- 减少初始加载时间，提高页面性能。
+- 只有当用户需要查看图片时（如滚动到图片所在的区域）才加载图片，从而节省带宽。
+
+**实现方式**：
+
+1. **占位符图片**：使用低分辨率或空白图片作为占位符，当图像进入视口时再加载真实图片。
+2. **Intersection Observer API**：通过 JavaScript 监测图像是否进入视口，当图像进入视口时加载图片。
+3. **数据属性**：在 HTML 中使用`data-src`属性来存储图片的真实 URL，当需要加载图片时，再将`data-src`的值赋给`src`属性。
+
+**示例**：
+
+```html
+<img data-src="real-image.jpg" alt="Lazy Loaded Image" />
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const lazyImages = document.querySelectorAll("img[data-src]");
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.getAttribute("data-src");
+          img.removeAttribute("data-src");
+          observer.unobserve(img);
+        }
+      });
+    });
+    lazyImages.forEach(img => {
+      observer.observe(img);
+    });
+  });
+</script>
+```
+
+### 图片预加载（Preloading）
+
+**目的**：
+
+- 提前加载即将需要的资源，以减少用户等待时间。
+- 提高用户体验，例如在用户可能会立即访问的下一页或区域提前加载图片。
+
+**实现方式**：
+
+1. **`<link rel="preload">` 标签**：在 HTML 中使用`<link rel="preload">`标签指定需要预加载的资源。
+2. **JavaScript**：通过 JavaScript 在后台加载图片，将它们存储在浏览器缓存中，以便在实际需要时快速显示。
+
+**示例**：
+
+```html
+<!-- HTML 方式 -->
+<link rel="preload" href="image-to-preload.jpg" as="image" />
+
+<!-- JavaScript 方式 -->
+<script>
+  const preloadImage = new Image();
+  preloadImage.src = "image-to-preload.jpg";
+</script>
+```
+
+### 总结
+
+- **懒加载**：在用户需要查看图片时再加载图片，目的是减少初始加载时间和节省带宽。
+- **预加载**：提前加载将来可能需要的图片，以减少未来的等待时间，目的是提高用户体验。
+
 ## 221. 加载大量图片的优化方案
 
+1. 图片懒加载（Lazy Loading）
+
+   只有当用户滚动到图片所在区域时才加载图片，减少初始加载时间和带宽使用。
+
+   ```html
+   <img data-src="real-image.jpg" alt="Lazy Loaded Image" />
+   <script>
+     document.addEventListener("DOMContentLoaded", function () {
+       const lazyImages = document.querySelectorAll("img[data-src]");
+       const observer = new IntersectionObserver((entries, observer) => {
+         entries.forEach(entry => {
+           if (entry.isIntersecting) {
+             const img = entry.target;
+             img.src = img.getAttribute("data-src");
+             img.removeAttribute("data-src");
+             observer.unobserve(img);
+           }
+         });
+       });
+       lazyImages.forEach(img => {
+         observer.observe(img);
+       });
+     });
+   </script>
+   ```
+
+2. 图片压缩与格式优化
+
+   使用合适的图片格式和压缩技术，减少图片大小。
+
+   - **WebP**：相比 JPEG 和 PNG，WebP 格式具有更好的压缩率和图像质量。
+   - **工具**：使用工具如 ImageOptim、TinyPNG、JPEG-Optimizer 等进行图片压缩。
+
+3. 响应式图片（Responsive Images）
+
+   根据不同设备和屏幕大小加载合适尺寸的图片，避免加载过大的图片。
+
+   ```html
+   <img
+     srcset="image-320w.jpg 320w, image-480w.jpg 480w, image-800w.jpg 800w"
+     sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
+     src="image-800w.jpg"
+     alt="Responsive Image"
+   />
+   ```
+
+4. 图片预加载（Preloading）
+
+   提前加载将要展示的图片，减少用户等待时间。
+
+   ```html
+   <!-- HTML 方式 -->
+   <link rel="preload" href="image-to-preload.jpg" as="image" />
+
+   <!-- JavaScript 方式 -->
+   <script>
+     const preloadImage = new Image();
+     preloadImage.src = "image-to-preload.jpg";
+   </script>
+   ```
+
+5. 使用 CDN（内容分发网络）
+
+   将图片托管在 CDN 上，利用其全球分布的节点加速图片加载。
+
+   - **优势**：降低服务器负载，提升图片加载速度。
+
+6. 图像占位符（Placeholder）
+
+   在图片加载之前显示低分辨率或颜色块占位符，提供更好的用户体验。
+
+   ```html
+   <img
+     src="low-res-placeholder.jpg"
+     data-src="high-res-image.jpg"
+     alt="Placeholder Image"
+     class="lazyload"
+   />
+   ```
+
+7. 渐进式 JPEG（Progressive JPEG）
+
+   使用渐进式 JPEG 格式，图片会逐步加载，提高感知加载速度。
+
+8. 分片加载（Chunk Loading）
+
+   将图片列表分成多个部分，逐步加载，避免一次性加载大量图片。
+
+   ```javascript
+   const loadImagesInChunks = (images, chunkSize) => {
+     for (let i = 0; i < images.length; i += chunkSize) {
+       setTimeout(() => {
+         images.slice(i, i + chunkSize).forEach(img => {
+           const image = new Image();
+           image.src = img.dataset.src;
+           img.src = image.src;
+         });
+       }, i * 100);
+     }
+   };
+   ```
+
+9. 优化缓存策略
+
+   配置缓存头，确保浏览器能缓存图片，减少重复加载。
+
+   ```http
+   Cache-Control: public, max-age=31536000
+   ```
+
+10. 使用服务端渲染（SSR）
+
+    在服务端生成图片 HTML，减少客户端的渲染负担，提高首屏加载速度。
+
+11. 图像精灵（CSS Sprites）
+
+    将多个小图片合并成一张大图片，通过 CSS 定位显示，提高加载效率。
+
 ## 222. CDN 能加速访问资源的原因
+
+1. 靠近用户
+
+   当用户请求资源时，CDN 会根据用户的地理位置将请求路由到最近的节点，从而减少网络延迟和传输时间。
+
+2. 负载均衡
+
+   CDN 使用负载均衡技术将请求分散到多个服务器上，避免单一服务器过载。
+
+3. 缓存优化
+
+   CDN 会缓存资源并根据设定的缓存策略在用户请求时提供缓存内容。
+
+4. 减少网络拥塞
+
+   分布式的网络架构，用户的请求不需要穿越繁忙的骨干网，而是通过 CDN 节点的优化路径进行传输。
+
+5. 压缩和优化
+
+   CDN 提供的内容通常经过压缩和优化，例如，CDN 可以对静态文件进行 Gzip 压缩，或者将多个小文件合并成一个大文件，减少请求数量。
+
+6. 动态内容加速
+
+   尽管 CDN 主要用于加速静态内容的传输，但许多现代 CDN 还支持动态内容加速。
+
+7. 安全性增强
+
+   CDN 提供的 DDoS 防护、Web 应用防火墙（WAF）等安全功能，防止恶意流量的干扰，从而间接提高资源访问速度。
+
+8. 提高可用性和冗余性
+
+   CDN 的多节点结构提供了冗余，即使某个节点出现故障，流量可以自动切换到其他节点，确保资源始终可用
+
+**总结**
+
+CDN 通过地理分布的服务器网络、负载均衡、缓存优化、减少网络拥塞、压缩和优化、动态内容加速、安全性增强以及提高可用性和冗余性等多种方式，加速了资源的访问，从而显著提升用户体验。
 
 ## 223. 浏览器的渲染过程，DOM 树和 render 树的区别
 

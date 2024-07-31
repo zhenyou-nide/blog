@@ -775,7 +775,7 @@ function longestUniqueSubstring(s) {
 
 // 示例
 let s = "abcabcbb";
-console.log(longestUniqueSubstring(s)); // 输出: "abc"
+console.log(longestUniqueSubstring(s)); // 输出："abc"
 ```
 
 ### 136. 回文判断
@@ -1030,7 +1030,7 @@ function findMiddle(head) {
   return slow;
 }
 
-// 示例链表: 1 -> 2 -> 3 -> 4 -> 5
+// 示例链表：1 -> 2 -> 3 -> 4 -> 5
 let node5 = new ListNode(5);
 let node4 = new ListNode(4, node5);
 let node3 = new ListNode(3, node4);
@@ -1038,5 +1038,5 @@ let node2 = new ListNode(2, node3);
 let head = new ListNode(1, node2);
 
 let middle = findMiddle(head);
-console.log("Middle node value:", middle.val); // 输出: Middle node value: 3
+console.log("Middle node value:", middle.val); // 输出：Middle node value: 3
 ```
