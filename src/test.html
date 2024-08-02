@@ -1,3 +1,10 @@
+<!-- 
+M: model 数据层
+V: view 视图层
+VM: viewmodel 逻辑层 
+
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,23 +13,41 @@
   <title>Document</title>
 </head>
 <body>
-  <button id="test">测试</button>
-  <script type="text/javascript">
-    function wait(time) {
-      const start = Date.now()
-      while(Date.now()-start < time) {}
+
+  <!-- view -->
+   <input id="input" type="text">
+   <div id="content"></div>
+  
+</body>
+<script type="text/javascript">
+  window.onload = ()=> {
+    // model 层
+    const data = {
+      inputVal: ''
     }
-    
-    document.getElementById('test').addEventListener('click',()=>{
-      console.log('click')
+
+    // viewmodel 层
+    // 视图 =》数据
+    const input = document.getElementById('input')
+    input.addEventListener('input',e=> {
+      proxy.inputVal = input.value
     })
 
-    setTimeout(() => {
-      console.log('setTimeout')
-      
-    }, 0);
+    // 数据 =》视图
+    const proxy = new Proxy(data, {
+      set: (target,key,value)=> {
+        if(key === 'inputVal') {
+          const content = document.getElementById('content');
+          content.innerHTML = value
+        }
+      }
+    })
 
-    wait(5000) // 阻塞页面 5s
-  </script>
-</body>
+    // Object.defineProperty(data, 'inputVal', {
+    //   set: (value) => {
+    //     document.getElementById('content').innerHTML = value
+    //   }
+    // })
+  }
+</script>
 </html>

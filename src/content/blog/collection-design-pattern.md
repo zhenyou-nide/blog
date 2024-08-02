@@ -151,6 +151,65 @@ MVVM 模式扩展了 MVC 模式，特别是在支持数据绑定的前端框架�
 
 ## 234. 实现一个 MVVM 实例
 
+```html
+<!-- 
+M: model 数据层
+V: view 视图层
+VM: viewmodel 逻辑层 
+
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- view -->
+    <input id="input" type="text" />
+    <div id="content"></div>
+  </body>
+  <script type="text/javascript">
+    window.onload = () => {
+      // model 层
+      const data = {
+        inputVal: "",
+      };
+
+      // viewmodel 层
+      // 视图 =》数据
+      const input = document.getElementById("input");
+      input.addEventListener("input", e => {
+        proxy.inputVal = input.value;
+      });
+
+      // 数据 =》视图
+      const proxy = new Proxy(data, {
+        set: (target, key, value) => {
+          if (key === "inputVal") {
+            const content = document.getElementById("content");
+            content.innerHTML = value;
+          }
+        },
+      });
+
+      // Object.defineProperty(data, 'inputVal', {
+      //   set: (value) => {
+      //     document.getElementById('content').innerHTML = value
+      //   }
+      // })
+    };
+  </script>
+</html>
+```
+
+- 视图到数据的同步：
+  当用户在输入框中输入文本，`v-model` 将监听到输入事件并捕获用户的数据。将值自动反映到绑定的数据属性中，确保视图与数据保持同步
+- 数据到视图的同步：
+  如果在到马中更新了与 `v-model` 绑定的数据属性，Vue 会自动将这个新的值反映到视图中。确保数据与视图间的双向同步。Vue2 用的 `Object.defineProperty`, Vue3 用的 `new Proxy()`
+
 ## 235. 面向对象基本特性
 
 ## 236. 面向对象的设计原则
