@@ -7,8 +7,7 @@ slug: collection-vue
 featured: false
 draft: true
 tags:
-  - docs
-  - summary
+  - collections
 description: 温故知新
 ---
 

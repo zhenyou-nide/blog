@@ -5,49 +5,47 @@ VM: viewmodel 逻辑层
 
 -->
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- view -->
+    <input id="input" type="text" />
+    <div id="content"></div>
+  </body>
+  <script type="text/javascript">
+    window.onload = () => {
+      // model 层
+      const data = {
+        inputVal: "",
+      };
 
-  <!-- view -->
-   <input id="input" type="text">
-   <div id="content"></div>
-  
-</body>
-<script type="text/javascript">
-  window.onload = ()=> {
-    // model 层
-    const data = {
-      inputVal: ''
-    }
+      // viewmodel 层
+      // 视图 =》数据
+      const input = document.getElementById("input");
+      input.addEventListener("input", e => {
+        proxy.inputVal = input.value;
+      });
 
-    // viewmodel 层
-    // 视图 =》数据
-    const input = document.getElementById('input')
-    input.addEventListener('input',e=> {
-      proxy.inputVal = input.value
-    })
+      // 数据 =》视图
+      const proxy = new Proxy(data, {
+        set: (target, key, value) => {
+          if (key === "inputVal") {
+            const content = document.getElementById("content");
+            content.innerHTML = value;
+          }
+        },
+      });
 
-    // 数据 =》视图
-    const proxy = new Proxy(data, {
-      set: (target,key,value)=> {
-        if(key === 'inputVal') {
-          const content = document.getElementById('content');
-          content.innerHTML = value
-        }
-      }
-    })
-
-    // Object.defineProperty(data, 'inputVal', {
-    //   set: (value) => {
-    //     document.getElementById('content').innerHTML = value
-    //   }
-    // })
-  }
-</script>
+      // Object.defineProperty(data, 'inputVal', {
+      //   set: (value) => {
+      //     document.getElementById('content').innerHTML = value
+      //   }
+      // })
+    };
+  </script>
 </html>

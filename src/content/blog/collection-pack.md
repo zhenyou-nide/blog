@@ -7,8 +7,7 @@ slug: collection-pack
 featured: false
 draft: false
 tags:
-  - docs
-  - summary
+  - collections
 description: 温故知新
 ---
 
