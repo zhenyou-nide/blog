@@ -37,6 +37,10 @@ HTTPS（HyperText Transfer Protocol Secure）通过在 HTTP 之上添加 SSL/TLS
 3. **数据完整性**：通过加密和校验机制，防止数据被篡改。
 4. **隐私保护**：通过加密传输数据，保护用户隐私和敏感信息。
 
+## SSL/TLS 是啥
+
+SSL 指安全套接字协议（Secure Sockets Layer），首次发布与 1996 年。SSL 的首次发布其实已经是他的 3.0 版本，SSL 1.0 从未面世，SSL 2.0 则具有较大的缺陷（DROWN 缺陷——Decrypting RSA with Obsolete and Weakened eNcryption）。很快，在 1999 年，SSL 3.0 进一步升级，新版本被命名为 TLS 1.0。因此，TLS 是基于 SSL 之上的，但由于习惯叫法，通常把 HTTPS 中的核心加密协议混称为 SSL/TLS
+
 ## HTTPS 加密过程简化版
 
 回到正题：
