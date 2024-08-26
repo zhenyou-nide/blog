@@ -11,7 +11,7 @@ tags:
 description: A quick guide on how to add a comments section to your Astro blog
 ---
 
-在博客中添加评论功能是接收读者反馈的的一个很好的渠道。
+在博客中添加评论功能是接收读者反馈的一个很好的渠道。
 
 本站是通过 [Astro](https://astro.build/) 构建的，在 Astro 博客中添加评论功能可以通过多种方式实现，常见的方法包括使用第三方评论系统（如 [Disqus](https://disqus.com/)、[Giscus](https://giscus.app)、[Commento](https://commento.io/)）或者自己构建评论功能。
 

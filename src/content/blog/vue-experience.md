@@ -1,5 +1,5 @@
 ---
-title: 专注于 使用 react 的我来浅浅尝试下 vue 开发
+title: 专注于使用 react 的我来浅浅尝试下 vue 开发
 author: zhenyounide
 pubDatetime: 2022-06-14T04:06:31Z
 slug: vue-experience

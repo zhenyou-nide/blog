@@ -85,7 +85,7 @@ not finished Generating image thumbnails - 18.303s
       };
       ```
 
-   2. 另一种解决方案是 [loadable-components](https://github.com/gregberge/loadable-components). 尝试使用窗口的模块将仅在客户端动态加载（而不是在 SSR 期间加载).
+   2. 另一种解决方案是 [loadable-components](https://github.com/gregberge/loadable-components). 尝试使用窗口的模块将仅在客户端动态加载（而不是在 SSR 期间加载）.
 
 3. 总结
 
