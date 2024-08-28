@@ -54,4 +54,16 @@ html2canvas 生成海报
 
 技术选型：vite + chakra-ui + wagmi
 
+### pumpad telegram miniapp
+
+next.js tailwind.css shacdn-ui
+
 优化项：todo
+
+- 适合开发服务器的中间层（BFF）
+
+  后端角度：保证接口细粒度
+
+  前端角度：组织数据逻辑
+
+- 适合用于开发前端方向的各种工具
