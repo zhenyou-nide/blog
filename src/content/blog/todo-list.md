@@ -13,9 +13,11 @@ description: "一些杂七杂八的碎碎念"
 
 ## Table of contents
 
-# 计划
+# TODO
 
 - [ ] blog 还没接 cms
+- [ ] [vite source code](https://blog.shenzjd.com/pages/a094da54e65f/)
+- [ ] 整理网络基础
 - [ ] [redwood](https://redwoodjs.com/)
 - [ ] [sanity](https://www.sanity.io/learn/course) 好东西，考虑重构博客
 - [ ] LLM
@@ -57,6 +59,7 @@ description: "一些杂七杂八的碎碎念"
 - [ ] 命令式调用而非状态驱动 Modal
 - [ ] xbn 入选 Binance labs 孵化项目 （12/1500 国内 2 个）
 - [x] 判断元素是否在可视区域中 [ahooks/useInViewport](https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useInViewport/index.ts)
+- [ ] cocos 业务
 
 # 一些杂七杂八的记录
 
