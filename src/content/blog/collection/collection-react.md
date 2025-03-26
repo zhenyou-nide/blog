@@ -58,7 +58,7 @@ description: 温故知新
        console.log("Component did mount");
      }
 
-     render() {
+render() {
        return <div>{this.state.count}</div>;
      }
    }
