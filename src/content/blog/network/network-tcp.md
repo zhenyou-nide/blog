@@ -4,7 +4,7 @@ author: zhenyounide
 pubDatetime: 2025-02-24T04:06:31Z
 slug: network-tcp
 featured: false
-draft: false
+draft: true
 tags:
   - summary
   - pending
@@ -17,8 +17,6 @@ description: ""
 [link](https://javaguide.cn/cs-basics/network/osi-and-tcp-ip-model.html#osi-%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B)
 
 [tcp](https://xiaolincoding.com/network/3_tcp/tcp_interview.html)
-
-
 
 ## 基本
 
@@ -437,4 +435,3 @@ TIME_WAIT 等待 2 倍的 MSL，比较合理的解释是： 网络中可能存�
 ### 如果已经建立了连接，但是客户端突然出现故障了怎么办？
 
 ### 如果已经建立了连接，但是服务端的进程崩溃会发生什么？
-
