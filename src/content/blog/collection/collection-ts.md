@@ -5,7 +5,7 @@ modDatetime: 2024-06-22T11:13:47.400Z
 title: 大宝典-Typescript
 slug: collection-ts
 featured: false
-draft: false
+draft: true
 tags:
   - collections
 description: 温故知新

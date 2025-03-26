@@ -1,11 +1,11 @@
 ---
 author: zhenyounide
 pubDatetime: 2020-09-10T15:22:00Z
-modDatetime: 2024-06-22T11:13:47.400Z
+modDatetime: 2024-06-21T11:13:47.400Z
 title: 大宝典-Javascript
 slug: collection-js
 featured: false
-draft: false
+draft: true
 tags:
   - collections
 description: 温故知新

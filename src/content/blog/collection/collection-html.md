@@ -5,7 +5,7 @@ modDatetime: 2024-05-22T11:13:47.400Z
 title: 大宝典-Html
 slug: collection-html
 featured: false
-draft: false
+draft: true
 tags:
   - collections
 description: 温故知新
@@ -15,15 +15,15 @@ description: 温故知新
 
 ## 1. 回流？重绘？如何避免
 
-- 重绘；元素样式发生变化但不影响布局的情况下，浏览器重新绘制元素的过程，比如修改元素背景色等等
+- 重绘(repaint): 元素样式发生变化但**不影响布局**的情况下，浏览器重新绘制元素的过程，比如修改元素背景色等等
 
-- 回流：元素布局属性发生改变，需要重新计算元素在页面中的布局位置时，浏览器重新进行布局的过程，例如修改元素宽度，高度，位置等
+- 回流(reflow): 元素**布局属性发生改变**，需要重新计算元素在页面中的布局位置时，浏览器重新进行布局的过程，例如修改元素宽度，高度，位置等
 
 - 回流的成本比重绘高很多，因为它设计重新计算元素的几何属性和页面布局。
 
 - 如何减少回流：
   - 使用 css 动画代替 js 动画: css 动画利用 GPU 加速，在性能方面比 js 动画更高效。尽量使用 css 的 transform 和 opacity 属性来创建动效，而不是改变元素的布局属性，例如宽高
-  - 使用 translate3d 开启硬件加速？？：将元素的位移属性设置为 `translate3d(0,0,0)`, 以强制浏览器使用 GPU 来渲染这个元素，而不是 CPU。这有助于避免回流，并提高动画的流畅度，Tailwind CSS 的话，官方就有 GPU 加速的玩法，直接加一个 transform-gpu
+  - 使用 translate3d 开启硬件加速：将元素的位移属性设置为 `translate3d(0,0,0)`, 以强制浏览器使用 GPU 来渲染这个元素，而不是 CPU。这有助于避免回流，并提高动画的流畅度，Tailwind CSS 的话，官方就有 GPU 加速的玩法，直接加一个 transform-gpu
   - 避免频繁操作影响布局的样式属性
   - 使用 requestAnimationFrame 调度动画帧，可以确保动画在浏览器的重绘周期内执行，从而避免回流。确保动画在最佳时间点进行渲染
   - 使用文档片段（Document Fragment）: 当需向 DOM 中插入大量新元素的时候，可先将这这元素用 fragment 包裹，再一次性添加到 DOM 中（虚拟 dom vue 的方式）
@@ -55,7 +55,7 @@ description: 温故知新
 - auto 溢出时，显示滚动条，（不溢出不会显示，滚动无效
 - inherit 继承
 
-## 5. 圣杯模型
+## 5. 圣杯模型(三栏布局)
 
 左右固定宽度，中间自适应
 
@@ -207,7 +207,7 @@ description: 温故知新
 
 HTML 元素看作盒子，包括 内容 内边距 border 外边距
 
-- IE盒模型（怪异模式）：内容 + 内边距 + border，`box-sizing: border-box`
+- IE盒模型（怪异模式）：内容 + 内边距 + border，`box-sizing: border-box`，一般会在全局 css 中设置所有元素为 border-box。
 - 标准和模型：内容 ，`box-sizing: content-box`
 
 ## 11. html5 特性
