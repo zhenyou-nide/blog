@@ -886,13 +886,13 @@ console.log("Reversed list:", linkedListToArray(reversedList));
 ## 138. 遍历二叉树
 
 1. 前序遍历 **根 左 右**
-   ![img](../../assets/images/tree-root-left-right.gif)
+   ![img](../../../assets/images/tree-root-left-right.gif)
 
 2. 中序遍历 **左 根 右**
-   ![img](../../assets/images/tree-left-root-right.gif)
+   ![img](../../../assets/images/tree-left-root-right.gif)
 
 3. 后序遍历 **左 右 根**
-   ![img](../../assets/images/tree-left-right-root.gif)
+   ![img](../../../assets/images/tree-left-right-root.gif)
 
 ```javascript
 class TreeNode {
