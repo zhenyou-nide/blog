@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h2>My Promise</h2>
+  <script>
+
+    function runAsyncTask(callback) {
+      if(typeof queueMicrotask === 'function'){
+        queueMicrotask(callback)
+      }else if(typeof MutationObserver === 'function'){
+        const observer = new MutationObserver(callback)
+        const textNode = document.createTextNode('')
+        observer.observe(textNode, { characterData: true })
+        textNode.data = '1'
+      }else if(typeof setTimeout === 'function'){
+        setTimeout(callback, 0)
+      }else{
+        throw new Error('No async task available')
+      }
+    }
+    const PENDING = 'pending'
+    const FULFILLED = 'fulfilled'
+    const REJECTED = 'rejected'
+
+    function resolvePromise(p2, x, resolve, reject) {
+    if (x === p2) {
+      throw new TypeError('Chaining cycle detected for promise #&lt;Promise&gt;')
+    }
+    if (x instanceof HMPromise) {
+      x.then(res => resolve(res), err => reject(err))
+    } else {
+      resolve(x)
+    }
+  }
+    class MyPromise{
+      state = PENDING
+      result = undefined
+      #handlers = [];
+      constructor(func){
+        const resolve = (value) => {
+          if (this.state !== PENDING) return
+          this.state = FULFILLED
+          this.result = value
+          this.#handlers.forEach(h => {
+            h.onfulfilled(this.result)
+          })
+        }
+
+        const reject = (result) => {
+          if(this.state !== PENDING) return
+          this.state = REJECTED
+          this.result = result
+          this.#handlers.forEach(h => {
+            h.onrejected(this.result)
+          })
+        } 
+
+        try {
+          func(resolve, reject)
+        } catch (error) {
+          reject(error)
+        }
+      }
+
+      then(onfulfilled, onrejected){
+        onfulfilled = typeof onfulfilled === 'function' ? onfulfilled : (v) => v
+        onrejected = typeof onrejected === 'function' ? onrejected : (e) => {throw e}
+        const p2 = new MyPromise((resolve, reject) => {
+          if (this.state === FULFILLED) {
+            runAsyncTask(() => {
+              try{
+                const x = onfulfilled(this.result);
+                resolvePromise(p2, x, resolve, reject)
+              }catch(e){
+                reject(e)
+              }
+            })
+          } else if (this.state === REJECTED) {
+            runAsyncTask(() => {
+              try {
+                const x = onrejected(this.result);
+                resolvePromise(p2, x, resolve, reject)
+              } catch (error) {
+                reject(error)
+                
+              }
+            })
+          } else if (this.state === PENDING) {
+               this.#handlers.push({
+                 onfulfilled: () => {
+                   runAsyncTask(() => {
+                    try {
+                      const x = onfulfilled(this.result)
+                      resolvePromise(p2, x, resolve, reject)
+                    } catch (error) {
+                      reject(error)
+                    }
+                   })
+                 },
+                 onrejected: () => {
+                   runAsyncTask(() => {
+                    try {
+                      const x = onrejected(this.result)
+                      resolvePromise(p2, x, resolve, reject)
+                    } catch (error) {
+                      reject(error)
+                    }
+                   })
+                 }
+               })
+             }
+        })
+        return p2
+      }
+      catch(onrejected) {
+        return this.then(null, onrejected)
+      }
+      finally(onfinally) {
+        return this.then(onfinally, onfinally)
+      }
+
+      static resolve(value) {
+        if(value instanceof MyPromise) return value
+        return new MyPromise((resolve) => {
+          resolve(value)
+        })
+      }
+
+      static reject(value) {
+        return new MyPromise((_, reject) => {
+          reject(value)
+        })
+      }
+
+      static race(promises) {
+        return new MyPromise((resolve, reject)=> {
+          if(!Array.isArray(promises)) return reject(new TypeError('promises must be an array'))
+          promises.forEach(p => {
+            MyPromise.resolve(p).then(resolve, reject)
+          })
+        })
+      }
+
+      static all(promises) {
+        return new MyPromise((resolve, reject) => {
+          if(!Array.isArray(promises)) return reject(new TypeError('promises must be an array'))
+          promises.length === 0 && resolve([]);
+          const result = []
+          let count = 0
+          promises.forEach((p, index) => {
+            MyPromise.resolve(p).then(res => {
+              result[index] = res
+              count++
+              if(count === promises.length) resolve(result)
+            }, reject)
+          })
+        })
+      }
+
+      static allsettled(promises) {
+        return new MyPromise((resolve) => {
+          if(!Array.isArray(promises)) return resolve(new TypeError('promises must be an array'))
+          promises.length === 0 && resolve([])
+          const result = []
+          let count = 0
+          promises.forEach((p, index) => {
+            MyPromise.resolve(p).then(res => {
+              result[index] = {status: 'fulfilled', value: res}
+            }, err => {
+              result[index] = {status: 'rejected', reason: err}
+            }).finally(() => {
+              count++
+              if(count === promises.length) resolve(result)
+            })
+          })
+        })
+      }
+      static any(promises) {
+        return new MyPromise((resolve, reject) => {
+          if(!Array.isArray(promises)) return reject(new TypeError('promises must be an array'))
+          promises.length === 0 && reject(new AggregateError(promises, 'All promises were rejected'))
+          const errors = [];
+          let count = 0
+          promises.forEach((p, index) => {
+            MyPromise.resolve(p).then(resolve, err => {
+              errors[index] = err
+              count++
+              if(count === promises.length) reject(new AggregateError(errors, 'All promises were rejected'))
+            })
+          })
+        })
+      }
+
+    }
+
+    const p = new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('success')
+        }, 1000)
+      })
+
+      p.then((res) => {
+        console.log('then', res)
+      }, (err) => {
+        console.log('catch', err)
+      })
+      p.then((res) => {
+        console.log('then2', res)
+      }, (err) => {
+        console.log('catch2', err)
+      })
+
+      module.exports = {
+          deferred() {
+            const res = {}
+            res.promise = new MyPromise(((resolve,reject) => {
+              res.resolve = resolve;
+              res.reject = reject
+            }))
+            return res
+          }
+        }
+  </script>
+</body>
+</html>
