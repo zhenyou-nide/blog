@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h2>Design Patterns</h2>
+  <button class="on">on</button>
+  <button class="emit">emmi</button>
+  <button class="off">off</button>
+  <button class="once-on">once</button>
+  <button class="once-emit">once</button>
+  <script>
+    const obj = {
+      [Symbol.iterator]() {
+      const arr = [1, 2, 3, 4, 5];
+      let index = 0;
+      return {
+        next() {
+          if (index < arr.length) {
+            return { value: arr[index++], done: false }
+          } else {
+            return { done: true }
+          }
+        }
+      }
+        // --- generator function ---
+        // function* generator() {
+        //   yield 1
+        //   yield 2
+        //   yield 3
+        // }
+        // const res = generator()
+        // return res
+
+      }
+
+    }
+
+    for (const element of obj) {
+      console.log(element)
+    }
+    class MyEmmiter {
+      #handlers = {}
+
+      on(event, callback) {
+        if (!this.#handlers[event]) {
+          this.#handlers[event] = []
+        }
+        this.#handlers[event].push(callback)
+      }
+
+      emit(event, ...args) {
+        if (!this.#handlers[event]) return
+        this.#handlers[event].forEach((callback) => {
+          callback(...args)
+        })
+      }
+
+      off(event, callback) {
+        this.#handlers[event] = undefined
+      }
+
+      once(event, callback) {
+        this.on(event, (...args) => {
+          this.off(event)
+          callback(...args)
+        })
+      }
+
+
+    }
+
+    const emitter = new MyEmmiter()
+    function qs(selector) {
+      return document.getElementsByClassName(selector)[0]
+    }
+
+    qs('on').addEventListener('click', () => {
+      emitter.on('event', (arg1, arg2) => {
+        console.log('on event', arg1, arg2)
+      })
+      emitter.on('event', (arg1, arg2) => {
+        console.log('on event 2', arg1, arg2)
+      })
+    })
+
+    qs('emit').addEventListener('click', () => {
+      emitter.emit('event', 'arg1', 'arg2')
+    })
+    qs('off').addEventListener('click', () => {
+      emitter.off('event')
+    })
+    qs('once-on').addEventListener('click', () => {
+      emitter.once('once-event', (arg1, arg2) => {
+        console.log('once event', arg1, arg2)
+      })
+      emitter.once('once-event', (arg1, arg2) => {
+        console.log('once event 2', arg1, arg2)
+      })
+    })
+    qs('once-emit').addEventListener('click', () => {
+      emitter.emit('once-event', 'arg1', 'arg2')
+    })
+  </script>
+</body>
+</html>

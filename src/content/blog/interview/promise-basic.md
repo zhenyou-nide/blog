@@ -6,8 +6,7 @@ slug: promise-basic
 featured: false
 draft: false
 tags:
-  - summary
-  - nodejs
+  - interview
 description: ""
 ---
 
