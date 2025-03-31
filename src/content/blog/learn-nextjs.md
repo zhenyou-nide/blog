@@ -5,7 +5,7 @@ modDatetime: 2024-05-27T10:14:00Z
 title: learning the foundations of Next.js and building a fully functional demo website
 slug: learn-nextjs
 featured: false
-draft: false
+draft: true
 tags:
   - docs
 description: 16 chapters, 帮助你系统的学习 Next.js.（有 React 基础）
