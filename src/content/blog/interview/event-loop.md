@@ -14,6 +14,10 @@ W3C => event loop;
 
 chromium => message loop;
 
+单线程是异步产生的原因；
+
+事件循环是异步的实现方式
+
 ## Table of contents
 
 ## 浏览器的进程模型
