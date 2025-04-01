@@ -8,7 +8,7 @@
 <body>
   <h2>Design Patterns</h2>
   <button class="on">on</button>
-  <button class="emit">emmi</button>
+  <button class="emit">emit</button>
   <button class="off">off</button>
   <button class="once-on">once</button>
   <button class="once-emit">once</button>
@@ -42,7 +42,7 @@
     for (const element of obj) {
       console.log(element)
     }
-    class MyEmmiter {
+    class MyEmitter {
       #handlers = {}
 
       on(event, callback) {
@@ -73,7 +73,7 @@
 
     }
 
-    const emitter = new MyEmmiter()
+    const emitter = new MyEmitter()
     function qs(selector) {
       return document.getElementsByClassName(selector)[0]
     }
