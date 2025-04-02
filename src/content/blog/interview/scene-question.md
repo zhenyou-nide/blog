@@ -16,7 +16,7 @@ description: ""
 - 原型和原型链
 - 函数柯里化
 - BOM 和 DOM
-- for in 和 for of
+- [for in 和 for of](/posts/design-patterns#迭代器模式)
 - 哪些地方不能箭头函数
 - 创建一个对象的过程
 - 防抖节流
@@ -25,12 +25,10 @@ description: ""
 - requestAnimationFrame
 - flex: 1 是什么意思
 - BFC
-- js 事件循环 红任务 微任务
-- 设计模式了解过吗
+- [js 事件循环](/posts/event-loop)
+- [设计模式了解过吗 写一个发布订阅](/posts/design-patterns)
 - webwoker
-- 写一个发布订阅
-- 写一个 Promise.all
-- 介绍一下 Promise 以及用法，async/await
+- 写一个 [Promise.all](/posts/promise-basic) 介绍一下 Promise 以及用法，async/await
 - 闭包
 - 页面菜单切换
 - es module 和 commonjs

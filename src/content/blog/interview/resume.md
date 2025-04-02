@@ -10,6 +10,14 @@ tags:
 description: ""
 ---
 
+## TODO
+
+- react
+- webpack vite turbopack/nextjs rspack
+- npm/yarn/pnpm
+- babel
+- (eslint + husky + lint-staged + prettier)
+
 ## 专业技能
 
 - 熟练使用 **HTML5+CSS3**，并结合 **Scss/Less** 等预处理器进行设计稿还原
@@ -22,8 +30,6 @@ description: ""
 - 了解基于 **Docker** 的前端镜像化部署方案，基于 **Gitlab** 的 **CICD** 流程
 - 具备团队管理经验，并在项目架构设计与性能优化方面具有丰富经验
 - 喜欢思考问题，并进行知识输出，多次主导 **技术分享**
-
-webpack vite turbopack/nextjs
 
 ## 工作经验
 
@@ -50,11 +56,11 @@ webpack vite turbopack/nextjs
 用户量 170w+, 月活 20-30w
 
 主要功能：转盘抽奖，外部广告集成，ton 提币
-技术栈: next.js + tailwindcss
+技术栈: next.js + shacdn-ui(tailwindcss) + @telegram-apps/sdk-react + @ton
 
 #### launchpad/lending 负责人
 
-Dapp
+BNPL: Buy Multichain NFT Now Pay Later (BNPL) with as low as 0% down payment
 技术栈：react + vite + wagmi
 
 #### xBank app 负责人

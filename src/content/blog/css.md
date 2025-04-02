@@ -2,7 +2,7 @@
 title: 记录日常开发中使用频率较高的一些 css 小技巧
 author: zhenyounide
 pubDatetime: 2022-06-08T04:06:31Z
-slug: css
+slug: css-tec
 featured: false
 draft: false
 tags:
