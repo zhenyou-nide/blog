@@ -1,8 +1,8 @@
 ---
-title: privite-resume
+title: private-resume
 author: zhenyounide
 pubDatetime: 2025-03-30T05:06:31Z
-slug: privite-resume
+slug: private-resume
 featured: false
 draft: true
 tags:
@@ -15,18 +15,16 @@ description: ""
 - react
 - webpack vite turbopack/nextjs rspack
 - npm/yarn/pnpm
-- babel
-- (eslint + husky + lint-staged + prettier)
 
 ## 专业技能
 
-- 熟练使用 **HTML5+CSS3**，并结合 **Scss/Less** 等预处理器进行设计稿还原
+- 熟练使用 **HTML5+CSS3**，熟悉 CSS 解决方案
 - 熟练使用 **JavaScript**/**TypeScript**，并能运用 ES6 高级语法进行高效开发
-- 使用 **React** 进行项目开发，并初步了解过其 **源码**
+- 使用 **React** 进行项目开发，并了解其 **源码**
 - 会经常做一些 **提高代码效率** 的措施，推进团队业务组件库与基础库沉淀，完成 10+ 个业务组件沉淀，
-- 能独立搭建符合规范的 **脚手架**，熟悉 **webpack** vite 工程化，对 **前端工程化** 有一定程度的理解和实践
+- 能独立搭建符合规范的 **脚手架**，熟悉 **webpack**,**vite** 工程化，对 **前端工程化** 有一定程度的理解和实践
 - 在项目中对于 **代码优化，打包优化，请求优化** 等优化措施有一定实践
-- 在项目开发中熟练使用 **第三方组件库** 例如 ant design，material-ui 进行开发，了解其实现思想 --- taiwindcss
+- 在项目开发中熟练使用 **第三方组件库** 例如 shadcn-ui, ant design 进行开发，了解其实现思想
 - 了解基于 **Docker** 的前端镜像化部署方案，基于 **Gitlab** 的 **CICD** 流程
 - 具备团队管理经验，并在项目架构设计与性能优化方面具有丰富经验
 - 喜欢思考问题，并进行知识输出，多次主导 **技术分享**
