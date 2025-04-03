@@ -52,6 +52,7 @@ description: ""
 - XSS/CSRF/CSP 等
 - Google reCAPTCHA
 - 接口加密
+- websocket
 
 ## 测试
 
@@ -73,3 +74,6 @@ description: ""
 - 技术选型怎么做
 
 ## 项目相关
+
+- Wheel 自己实现
+- graphQl

@@ -22,10 +22,11 @@ description: ""
 - 防抖节流
 - 写一个自定义事件
 - 前端怎么获取页面上哪个元素是最多的
-- requestAnimationFrame
 - flex: 1 是什么意思
 - BFC
-- [js 事件循环](/posts/event-loop)
+- 聊一下 [js 事件循环](/posts/event-loop)
+- requestAnimationFrame 
+- requestIdleCallback
 - [设计模式了解过吗 写一个发布订阅](/posts/design-patterns)
 - webwoker
 - 写一个 [Promise.all](/posts/promise-basic) 介绍一下 Promise 以及用法，async/await
@@ -34,6 +35,7 @@ description: ""
 - es module 和 commonjs
 - 假设我的 promise 里面全部都是同步代码，promise 里面没有做任何异步，不写 pending 是不是也可以？
 - 在 setTimeout 里产生一个 promise，当前的 promise 会在当前次执行掉吗？还是在下一次循环里执行？
+- 解释一下 ES6 模块化的解析过程， 是怎么运作的
 - 在 ES6，let 和 const
 - promise(A).catch(f1).then(f2) ,f1 执行后 f2 会执行吗，为什么
 
@@ -114,3 +116,14 @@ description: ""
 
 - git 相关操作
 - 技术分享做过哪些
+
+## 场景
+- 生产环境下如何实现页面自动检测更新
+- 如何实现共享单车扫码解锁，分析一下过程
+- 如何实现 pc 扫码登陆
+- Hybrid 混合开发和 JSBridge 的原理
+- 如何监控页面卡顿
+- 如何排查内存泄露，一般由什么情况引起
+- 如何限制一个账号只能在一处登录
+- 如果后端一下子返回一万条数据，用虚拟列表怎么做，虚拟列表滑动很快怎么办，不用虚拟列表怎么做
+- 平时出现问题是如何排查错误的
