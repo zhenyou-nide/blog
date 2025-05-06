@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button >click</button>
+  <script>
+    const button = document.querySelector('button');
+    const datas = new Array(1000000).fill(0).map((_, i) => ({ id: i, name: `name${i}` }));
+    button.onclick = () => {
+      requestIdleCallback(processChunk);
+    };
+
+    function processChunk(deadline) {
+      while(deadline.timeRemaining() && datas.length) {
+        const element = datas.shift();
+        const div = document.createElement('div');
+        div.innerText = element.name;
+        document.body.appendChild(div);
+      }
+      if(datas.length > 0) {
+        requestIdleCallback(processChunk);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ author: zhenyounide
 pubDatetime: 2022-08-06T04:06:31Z
 slug: samesite-lax-cross-site-error
 featured: false
-draft: false
+draft: true
 tags:
   - problems
   - bug

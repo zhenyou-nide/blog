@@ -5,7 +5,7 @@ pubDatetime: 2020-07-16T02:16:31Z
 modDatetime: 2024-03-20T02:16:31Z
 slug: one-line-code
 featured: false
-draft: false
+draft: true
 tags:
   - summary
 description: 一行代码实现日常 code 使用频率较高的逻辑

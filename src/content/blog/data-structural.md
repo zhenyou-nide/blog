@@ -4,7 +4,7 @@ author: zhenyounide
 pubDatetime: 2023-01-02T04:06:31Z
 slug: data-structural
 featured: false
-draft: false
+draft: true
 tags:
   - summary
 description: 通过自己实现算法来回顾数据结构主要知识点
