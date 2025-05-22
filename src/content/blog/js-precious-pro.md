@@ -1,5 +1,5 @@
 ---
-title: 关于 0.1 + 0.2 !== 0.3 的问题, 迄今为止最满意的一次回答
+title: 关于 0.1 + 0.2 !== 0.3 的问题
 author: zhenyounide
 pubDatetime: 2024-04-11T09:25:23Z
 slug: js-precision-pro
