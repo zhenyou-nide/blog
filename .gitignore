@@ -33,3 +33,10 @@ pnpm-debug.log*
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+
+.cursor
+
+.claude
+
+.github
